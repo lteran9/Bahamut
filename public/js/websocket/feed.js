@@ -1,28 +1,20 @@
-const version = "v0.1.0";
-
-/**
- * Custom element to simplify base page.
- */
-class FeedElement extends HTMLElement {
-    connectedCallback() {
-        this.innerHTML = `
-            <div id="feed-header">
-                <div id="status"></div>
-                <div id="version">${version}</div>
-            </div>
-            <div id="items"></div>`;
-    }
-}
-customElements.define('feed-view', FeedElement);
-
+const version = "v1.0.0";
 
 /**
  * Handles the coinbase event stream over websocket.
  */
 class Feed {
 
-    constructor() {
+    constructor(product) {
+        this.product_id = product;
         this.events = [];
+        this.buys = 0;
+        this.sells = 0;
+
+        this.calculator = new EMA();
+        this.timer = new Timer(product);
+        this.secondsElapsed = 0;
+        this.pause = false;
     }
 
     /**
@@ -51,43 +43,36 @@ class Feed {
                 this.onStopped();
             }
         };
+
+        document.getElementById('version').innerHTML = version;
+        
+        
     }
 
     /**
      * Subscribes to the given trading pair. Unsubscribes to any pairs already subscribed to.
      *
-     * @param pair the pair to subscribe to.
      */
-    subscribe(pair) {
-        if (pair !== this.pair) {
-            if (this.pair) {
-                let unsubscribe = {
-                    "type": "unsubscribe",
-                    "product_ids": [
-                        this.pair
-                    ],
-                    "channels": ["ticker", "heartbeat"]
-                };
-                this.socket.send(JSON.stringify(unsubscribe));
-            }
-
-            this.pair = pair;
+    subscribe() {
+        if (this.product_id) {
             let subscribe = {
                 "type": "subscribe",
                 "product_ids": [
-                    this.pair
+                    this.product_id
                 ],
                 "channels": [
                     "heartbeat",
                     {
                         "name": "ticker",
                         "product_ids": [
-                            this.pair
+                            this.product_id
                         ]
                     }
                 ]
             };
-            console.log('sending subscribe request for pair ' + pair);
+
+            console.log('sending subscribe request for pair ' + this.product_id);
+
             this.socket.send(JSON.stringify(subscribe));
         }
     }
@@ -100,6 +85,7 @@ class Feed {
      */
     stop(stopped) {
         if (this.socket) {
+            this.pause = true;
             this.onStopped = stopped;
             this.socket.close();
         } else {
@@ -112,10 +98,11 @@ class Feed {
      * @param msg the update message from Coinbase.
      */
     onUpdate(msg) {
-        let messages = document.getElementById('items');
+        let messages = document.getElementById('items-' + this.product_id);
         let update = JSON.parse(msg);
 
         if (this.filter(update)) {
+            update.rawtime = update.time;
             update.time = new Date(Date.parse(update.time));
             this.events.unshift(update);
 
@@ -124,16 +111,17 @@ class Feed {
             }
 
             let element = document.createElement('div');
+            element.className = 'item';
 
             // render the element using a template literal.
             element.innerHTML = `
-                <div class="item">
+                    <span class="rawtime">${update.trade_id}</span>
                     <span class="date">${update.time.toLocaleDateString()}</span>
                     <span class="time">${update.time.toLocaleTimeString()}</span>
-                    <span class="product">${update.product_id}</span>
-                    <span class="size">${this.truncate(update.last_size)}</span> @
-                    <span class="${update.side === 'buy' ? 'up' : 'down'}">${parseFloat(update.price).toFixed(2)}</span>
-                </div>
+                    <span class="size">${this.truncate(update.last_size)}</span>
+                    <span>@</span>
+                    <span class="${update.side === 'buy' ? 'up' : 'down'}">$${parseFloat(update.price).toFixed(2)}</span>
+                    <span class="total">$${parseFloat(update.last_size * update.price).toFixed(2)}</span>
                 `;
 
             // perform DOM manipulation with insertBefore and removeChild - it's fast.
@@ -141,6 +129,26 @@ class Feed {
 
             if (messages.childNodes.length > this.maxEvents) {
                 messages.removeChild(messages.lastChild);
+            }
+
+            document.getElementById('price-' + update.product_id).innerHTML = '$' + update.price;
+            document.getElementById('volume-' + update.product_id).innerHTML = Math.round(update.volume_24h);
+
+
+            var ema12 = this.calculator.calculate12(this.events);
+            var ema26 = this.calculator.calculate26(this.events);
+
+            if (ema12)
+                document.getElementById('ema12-' + update.product_id).innerHTML = 'EMA12: ' + ema12.toFixed(4);
+            if (ema26)
+                document.getElementById('ema26-' + update.product_id).innerHTML = 'EMA26: ' + ema26.toFixed(4);
+
+            if (update.side === 'buy') {
+                this.buys += 1;
+                document.getElementById('buys-' + update.product_id).innerHTML = 'Buys: ' + this.buys;
+            } else {
+                this.sells += 1;
+                document.getElementById('sells-' + update.product_id).innerHTML = 'Sells: ' + this.sells;
             }
         }
     }
@@ -154,7 +162,7 @@ class Feed {
         update.time = update.time || new Date().toISOString();
         update.last_size = update.last_size || 0.0;
 
-        return update.type === 'ticker';
+        return update.type === 'ticker' && update.price > 0;
     }
 
     /**

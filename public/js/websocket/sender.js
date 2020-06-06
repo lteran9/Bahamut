@@ -9,42 +9,7 @@ class Sender {
         this.session = null;
         this.context = null;
     }
-
-    /**
-     * Initializes the cast API with some options and a listener for session changes.
-     */
-    initializeCastApi() {
-        this.context = cast.framework.CastContext.getInstance();
-
-        this.context.setOptions({
-            receiverApplicationId: this.applicationID,
-            autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED,
-            resumeSavedSession: true
-        });
-
-        // set up a heartbeat to avoid the receiver from shutting down.
-        setInterval(() => {
-            if (this.session) {
-                try {
-                    this.session.sendMessage(this.namespace, { "heartbeat": true });
-                } catch (e) {
-                    // invalid parameter is thrown sometimes, not sure why.
-                }
-            }
-        }, 6000);
-
-        // hook up a listener here so we can grab a session if one already exists
-        // or if one is started using the chromecast browser button.
-        this.context.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED,
-            (event) => {
-                if (event.sessionState === "SESSION_RESUMED" || event.sessionState === "SESSION_STARTED") {
-                    this.session = event.session;
-                    this.onFeedChanged(document.getElementById('ticker').value);
-                }
-            }
-        );
-    }
-
+    
     /**
      * @param ticker instructs the receiver application to change the ticker that is subscribed to.
      */
@@ -76,10 +41,3 @@ class Sender {
         }
     }
 }
-
-// see: https://developers.google.com/cast/docs/chrome_sender/integrate
-window['__onGCastApiAvailable'] = function (isAvailable) {
-    if (isAvailable) {
-        sender.initializeCastApi();
-    }
-};

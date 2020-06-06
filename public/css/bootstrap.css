@@ -11023,6 +11023,103 @@ legend {
   margin-bottom: 1.375rem;
 }
 
+feed-view {
+  display: block;
+  height: 350px;
+  padding: 1rem 0;
+  border: 1px solid #ccc;
+  overflow-y: scroll;
+  position: relative;
+}
+
+feed-view .feed-header {
+  border-bottom: 1px solid #ccc;
+}
+
+feed-view .feed-header .product-key {
+  font-weight: bold;
+  margin-bottom: 0.325rem;
+}
+
+feed-view #overview {
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-color: white;
+  position: absolute;
+}
+
+feed-view #overview:hover {
+  color: transparent;
+  background: transparent;
+  -webkit-animation: fade 1s forwards;
+          animation: fade 1s forwards;
+}
+
+feed-view [id^=items-] {
+  width: 100%;
+  height: 100%;
+}
+
+feed-view .item {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+feed-view .item span {
+  flex: 1 1 0;
+  flex-basis: 25%;
+  padding-bottom: 0.5rem;
+}
+
+feed-view .item span.rawtime {
+  flex-basis: 50%;
+}
+
+feed-view .item span.up {
+  color: #2eae34;
+}
+
+feed-view .item span.down {
+  color: #f9672d;
+}
+
+feed-view .item + .item {
+  padding-top: 0.5rem;
+  border-top: 1px solid #ccc;
+}
+
+feed-view [id^=price-] {
+  font-size: 150%;
+  font-weight: bold;
+}
+
+feed-view [id^=volume-] {
+  margin-top: 1rem;
+  font-size: 150%;
+  font-weight: bold;
+}
+
+@-webkit-keyframes fade {
+  from {
+    background-color: white;
+  }
+
+  to {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+@keyframes fade {
+  from {
+    background-color: white;
+  }
+
+  to {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
 /*
  * Shared
  */
@@ -11058,5 +11155,10 @@ legend {
 
 .bhm-list li + li {
   margin-top: 0.325rem;
+}
+
+.timer {
+  width: 12px;
+  height: 12px;
 }
 

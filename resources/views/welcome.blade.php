@@ -5,6 +5,7 @@
 </div>
 
 <div class="links">
+    <a href="{{route('exchange')}}">Exchange</a>
     <a href="#!">History</a>
     <a href="{{route('products')}}">Products</a>
     <a href="{{route('profiles')}}">Profiles</a>

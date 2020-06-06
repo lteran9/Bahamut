@@ -17,9 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/exchange', function() {
-    return view('exchange.feed.index');
-});
+Route::get('/exchange', 'ExchangeController@index')->name('exchange');
+
+Route::post('/exchange/tick', 'ExchangeController@tick')->name('exchange.tick');
 
 Route::get('/products', 'ProductController@list')->name('products');
 Route::get('/products/history/{id}', 'ProductController@history')->name('products.history');

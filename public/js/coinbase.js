@@ -1,47 +1,33 @@
-var Coinbase = (function() {
+var coinbase = (function() {
     // start the websocket feed.
-    const buffer = 12;
+    const buffer = 52;
     
-    var websocket = {
-        feed: null,
-        receiver: null,
-        sender: null
-    };
+    // handle multiple websockets
+    var websockets = [];
 
     function feedStart() {
-        let ticker = document.getElementById('ticker');
-        websocket.feed.start(buffer, () => {
-            websocket.feed.subscribe(ticker.value);
-        });
-    }
-
-    function setFeed() {
-        let ticker = document.getElementById('ticker');
-        websocket.feed.subscribe(ticker.value);
-        websocket.sender.onFeedChanged(ticker.value);
-    }
-
-    function cast() {
-        let ticker = document.getElementById('ticker');
-        websocket.sender.cast(ticker.value);
+        if (websockets.length > 0) {
+            websockets.forEach(function(item, index) {
+                item.feed.start(buffer, ()  => {
+                    item.feed.subscribe();
+                });
+            });
+        }
     }
 
     return {
         init: function() {
-            websocket.feed = new Feed();
-            websocket.receiver = new Receiver();
-            websocket.sender = new Sender();
+            $('feed-view').each(function() {
+                var product = $(this).attr('data-product-id');
 
+                // Initialize feed
+                var feed = new Feed(product);
+                websockets.push({
+                    feed: feed
+                });
+            });
+            
             feedStart();
-        }, 
-        feedStart: function() {
-           feedStart();
-        }, 
-        setFeed: function() {
-           setFeed();
-        },
-        cast: function() {
-           cast();
         }
     }
 })();
