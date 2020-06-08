@@ -91,12 +91,12 @@
 <script type="text/javascript" src="{{asset('js/jquery.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/feather-icons.min.js')}}"></script>
 
-@yield('scripts')
+@yield('js')
 
 <script type="text/javascript">
    if (feather) {
-            feather.replace();
-        }
+      feather.replace();
+   }
 </script>
 
 </html>

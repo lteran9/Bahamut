@@ -28,7 +28,8 @@
    </div>
 </div>
 @endsection
-@section('scripts')
+
+@section('js')
 
 <script type="text/javascript" src="{{asset('js/html/elements/feed-view.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/websocket/feed.js')}}"></script>
@@ -37,7 +38,7 @@
 <script type="text/javascript" src="{{asset('js/coinbase.js')}}"></script>
 <script>
    if (coinbase) {
-        coinbase.init();    
-    }
+      coinbase.init();    
+   }
 </script>
 @endsection

@@ -53,19 +53,6 @@ class ProductController extends Controller
    // [HttpGet, route('products.history')]
    public function history($id)
    {
-      // if (strlen($id) > 0) {
-      //     $coinbaseTradeHistory = new \Coinbase\Pro\MarketData\Products\History($this->coinbaseAPI);
-
-      //     $coinbaseTradeHistory->product_id = $id;
-      //     $coinbaseTradeHistory->start = '2020-05-31';
-      //     $coinbaseTradeHistory->end = '2020-06-01';
-      //     $coinbaseTradeHistory->granularity = '300';
-
-      //     $coinbaseTradeHistory = $coinbaseTradeHistory->get();
-
-      //     return compact('coinbaseTradeHistory');
-      // }
-
       return view('products.history', compact('id'));
    }
 
@@ -104,37 +91,16 @@ class ProductController extends Controller
       if (strlen($id) > 0) {
          $coinbaseTradeHistory = new \Coinbase\Pro\MarketData\Products\History($this->coinbaseAPI);
 
-         $granularity = is_int($request->input('time-period')) ? $request->input('time-period') * 60 : 3600;
+         $granularity = ctype_digit($request->input('time-period')) ? intval($request->input('time-period')) * 60 : 3600;
 
          $coinbaseTradeHistory->product_id = $id;
-         $coinbaseTradeHistory->start = $request->input('from-date');
-         $coinbaseTradeHistory->end = $request->input('to-date');
-         $coinbaseTradeHistory->granularity = '3600';
+         $coinbaseTradeHistory->start = $request->input('from-date') . 'T00:00:00';
+         $coinbaseTradeHistory->end = $request->input('to-date') . 'T23:59:59';
+         $coinbaseTradeHistory->granularity = $granularity;
 
-         $coinbaseTradeHistory = $coinbaseTradeHistory->get();
+         $history = $coinbaseTradeHistory->get();
 
-         return compact('coinbaseTradeHistory');
-         // foreach ($coinbaseTradeHistory as $trade) {
-         //     $time = $trade[0];
-         //     $low = $trade[1];
-         //     $high = $trade[2];
-         //     $open = $trade[3];
-         //     $close = $trade[4];
-         //     $volume = $trade[5];
-
-         //     $dbTrade = ProductHistory::where([['time', '=', $time], ['product_id', '=', $id]])->first();
-         //     if (!isset($dbTrade)) {
-         //         ProductHistory::create([
-         //             'product_id' => (string)$id,
-         //             'time' => $time,
-         //             'low' => $low,
-         //             'high' => $high,
-         //             'open' => $open,
-         //             'close' => $close,
-         //             'volume' => $volume
-         //         ]);
-         //     }
-         // }
+         return view('products.history', compact('history', 'id'));
       }
 
       return redirect()->route('products.history', ['id' => $id]);

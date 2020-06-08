@@ -4,10 +4,20 @@
    <h1>Products</h1>
    <hr>
 
+   <div class="container mb-4">
+      <div class="row">
+         <div class="col">
+            <div class="text-right">
+               <input id="search" type="form-control" placeholder="Filter..." autocomplete="off" />
+            </div>
+         </div>
+      </div>
+   </div>
+
    @if (isset($products) && count($products) > 0)
    <div class="container bhm-container">
       @foreach($products as $product)
-      <div class="card mb-4">
+      <div class="card mb-4" data-filter="{{$product->display_name}}">
          <div class="card-body">
             <h4 class="card-title">
                {{$product->display_name}}
@@ -63,4 +73,14 @@
       </div>
    </div>
 </div>
+@endsection
+
+@section('js')
+<script type="text/javascript" src="{{asset('js/html/page-specific/products.js')}}"></script>
+<script type="text/javascript">
+   $(document).ready(function() {
+      if (products)
+         products.init();
+   });
+</script>
 @endsection

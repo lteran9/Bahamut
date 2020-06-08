@@ -5,12 +5,12 @@ class EMA {
 
     constructor() {
         this.movingAverages = [];
-        this.periodCutoff = 15;
+        this.periodCutoff = 7;
     }
 
     getSampleData(dataset) {
 
-        if (this.movingAverages.length == 0 || (dataset[0].time.getTime() - this.movingAverages[0].time.getTime()) / 1000 > this.periodCutofff)
+        if (this.movingAverages.length == 0 || (dataset[0].time.getTime() - this.movingAverages[0].time.getTime()) / 1000 > this.periodCutoff)
             this.movingAverages.unshift(dataset[0]);
 
         if (this.movingAverages.length > 52)

@@ -7,7 +7,6 @@ class Timer {
         this.seconds = 0;
         this.active = true;
         this.product = product;
-        console.log(this.product);
 
         this.start();
     }
@@ -27,6 +26,6 @@ class Timer {
         }
 
         //console.log(this.product);
-        document.getElementById('time-elapsed-' + this.product).innerHTML = parseInt(this.seconds / 15);
+        document.getElementById('time-elapsed-' + this.product).innerHTML = parseInt(this.seconds / 7);
     }
 }
