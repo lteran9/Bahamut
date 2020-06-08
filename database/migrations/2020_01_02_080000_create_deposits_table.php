@@ -6,31 +6,32 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateDepositsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('deposits', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->decimal('amount');
-            $table->string('currency');
-            $table->dateTime('payout_at');
-            
-            $table->timestamps();
-            $table->primary('id');
-        });
-    }
+   /**
+    * Run the migrations.
+    *
+    * @return void
+    */
+   public function up()
+   {
+      Schema::create('deposits', function (Blueprint $table) {
+         $table->id();
+         $table->string('currency'); // BTC
+         $table->decimal('amount'); // 0.003456
+         $table->uuid('coinbase_id')->nullable();
+         $table->dateTime('payout_at')->nullable();
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('deposits');
-    }
+         $table->timestamps();
+         $table->foreign('currency')->references('id')->on('currencies');
+      });
+   }
+
+   /**
+    * Reverse the migrations.
+    *
+    * @return void
+    */
+   public function down()
+   {
+      Schema::dropIfExists('deposits');
+   }
 }

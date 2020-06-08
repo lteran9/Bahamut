@@ -23,6 +23,7 @@ Route::post('/exchange/tick', 'ExchangeController@tick')->name('exchange.tick');
 
 Route::get('/products', 'ProductController@list')->name('products');
 Route::get('/products/history/{id}', 'ProductController@history')->name('products.history');
+Route::get('/products/{id}/stats', 'ProductController@stats')->name('products.stats');
 
 Route::post('/products/history/search', 'ProductController@getHistory')->name('products.history.search');
 

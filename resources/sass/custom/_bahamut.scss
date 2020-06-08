@@ -4,104 +4,91 @@
  *
  */
 
-b {
-    font-weight: bold;
-}
-
-label {
-    width: 100%;
-    margin-bottom: 0.285rem;
-}
-
-legend {
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 1.375rem;
-}
+@import "elements";
 
 feed-view {
-    display: block;
-    height: 350px;
-    padding: 1rem 0;
-    border: 1px solid #ccc;
-    overflow-y: scroll;
-    position: relative;
+   display: block;
+   height: 350px;
+   padding: 1rem 0;
+   border: 1px solid #ccc;
+   overflow-y: scroll;
+   position: relative;
 
-    .feed-header {
-        border-bottom: 1px solid #ccc;
+   .feed-header {
+      border-bottom: 1px solid #ccc;
 
-        .product-key {
-            font-weight: bold;
-            margin-bottom: 0.325rem;
-        }
-    }
+      .product-key {
+         font-weight: bold;
+         margin-bottom: 0.325rem;
+      }
+   }
 
-    #overview {
-        width: 100%;
-        height: 100%;
-        z-index: 1000;
-        background-color: white;
-        position: absolute;
+   #overview {
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      background-color: white;
+      position: absolute;
 
-        &:hover {
-            color: transparent;
-            background: transparent;
-            animation: fade 1s forwards;
-        }
-    }
+      &:hover {
+         color: transparent;
+         background: transparent;
+         animation: fade 1s forwards;
+      }
+   }
 
+   [id^="items-"] {
+      width: 100%;
+      height: 100%;
+   }
 
-    [id^="items-"] {
-        width: 100%;
-        height: 100%;
-    }
+   .item {
+      display: flex;
+      flex-flow: row wrap;
 
-    .item {
-        display: flex;
-        flex-flow: row wrap;
+      span {
+         flex: 1 1 0;
+         flex-basis: 25%;
+         padding-bottom: 0.5rem;
 
-        span {
-            flex: 1 1 0;
-            flex-basis: 25%;
-            padding-bottom: 0.5rem;
+         &.rawtime {
+            flex-basis: 50%;
+         }
 
-            &.rawtime {
-                flex-basis: 50%;
-            }
+         &.up {
+            color: rgb(46, 174, 52);
+         }
 
-            &.up {
-                color: rgb(46, 174, 52);
-            }
+         &.down {
+            color: rgb(249, 103, 45);
+         }
+      }
+   }
 
-            &.down {
-                color: rgb(249, 103, 45);
-            }
-        }
-    }
+   .item + .item {
+      padding-top: 0.5rem;
+      border-top: 1px solid #ccc;
+   }
 
-    .item + .item {
-        padding-top: 0.5rem;
-        border-top: 1px solid #ccc;
-    }
+   [id^="price-"] {
+      font-size: 150%;
+      font-weight: bold;
+   }
 
-    [id^="price-"] {
-        font-size: 150%;
-        font-weight: bold;
-    }
-
-    [id^="volume-"] {
-        margin-top: 1rem;
-        font-size: 150%;
-        font-weight: bold;;
-    }
+   [id^="volume-"] {
+      margin-top: 1rem;
+      font-size: 150%;
+      font-weight: bold;
+   }
 }
 
 @keyframes fade {
-    from {
-        background-color: rgba(255, 255, 255, 1);
-    }
-    to {
-        background-color: rgba(255, 255, 255, 0.05);
-    }
+   from {
+      background-color: rgba(255, 255, 255, 1);
+   }
+   to {
+      background-color: rgba(255, 255, 255, 0.05);
+   }
 }
 
 /*
@@ -109,40 +96,36 @@ feed-view {
  */
 
 .content {
-    width: 75%;
-    max-height: 50%;
-}
-
-.bhm-container {
-    padding-bottom: 100px;
+   width: 75%;
+   max-height: 50%;
 }
 
 .history-form {
-    .form-group {
-        max-width: 320px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+   .form-group {
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+   }
 }
 
 .form-group {
-    margin-bottom: 1.125rem;
+   margin-bottom: 1.125rem;
 }
 
 /*
  * Custom
  */
 .bhm-list {
-    padding-left: 0;
-    list-style: none;
-    margin-bottom: 0;
+   padding-left: 0;
+   list-style: none;
+   margin-bottom: 0;
 
-    li + li {
-        margin-top: 0.325rem;
-    }
+   li + li {
+      margin-top: 0.325rem;
+   }
 }
 
 .timer {
-    width: 12px;
-    height: 12px;
+   width: 12px;
+   height: 12px;
 }

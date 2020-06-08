@@ -11023,6 +11023,10 @@ legend {
   margin-bottom: 1.375rem;
 }
 
+dl {
+  padding: 0.5rem;
+}
+
 feed-view {
   display: block;
   height: 350px;
@@ -11127,10 +11131,6 @@ feed-view [id^=volume-] {
 .content {
   width: 75%;
   max-height: 50%;
-}
-
-.bhm-container {
-  padding-bottom: 100px;
 }
 
 .history-form .form-group {
