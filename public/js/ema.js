@@ -3,56 +3,56 @@
  */
 class EMA {
 
-    constructor() {
-        this.movingAverages = [];
-        this.periodCutoff = 7;
-    }
+   constructor() {
+      this.movingAverages = [];
+   }
 
-    getSampleData(dataset) {
+   getSampleData(dataset, slicePeriod) {
+      if (this.movingAverages.length == 0 || (dataset[0].time.getTime() - this.movingAverages[0].time.getTime()) / 1000 > slicePeriod) {
+         this.movingAverages.unshift(dataset[0]);
+      }
+      
+      if (this.movingAverages.length > 52) {
+         this.movingAverages.pop();
+      }
+   }
 
-        if (this.movingAverages.length == 0 || (dataset[0].time.getTime() - this.movingAverages[0].time.getTime()) / 1000 > this.periodCutoff)
-            this.movingAverages.unshift(dataset[0]);
+   expMovingAvg2(mArray, mRange) {
+      var averages = [];
 
-        if (this.movingAverages.length > 52)
-            this.movingAverages.pop();
-    }
+      for (var i = mRange - 1; i >= 0; i--) {
+         var expAvg = 0;
 
-    expMovingAvg2(mArray, mRange) {
-        var averages = [];
+         if (i == 11) {
+            expAvg = parseFloat(mArray[i].price);
+         } else {
+            var previous = averages[0];
+            var smoothingFactor = 2 / (1 + mRange);
 
-        for (var i = mRange - 1; i >= 0; i--) {
-            var expAvg = 0;
+            expAvg = previous + (smoothingFactor * (parseFloat(mArray[i].price) - previous));
+         }
 
-            if (i == 11) {
-                expAvg = parseFloat(mArray[i].price);
-            } else {
-                var previous = averages[0];
-                var smoothingFactor = 2 / (1 + mRange);
+         averages.unshift(expAvg);
+      }
 
-                expAvg = previous + (smoothingFactor * (parseFloat(mArray[i].price) - previous));
-            }
+      return averages;
+   }
 
-            averages.unshift(expAvg);
-        }
+   calculate12(dataset, slicePeriod) {
+      this.getSampleData(dataset, slicePeriod);
 
-        return averages;
-    }
+      if (this.movingAverages.length >= 12) {
+         return this.expMovingAvg2(this.movingAverages, 12)[0];
+      }
+   }
 
-    calculate12(dataset) {
-        this.getSampleData(dataset);
+   calculate26(dataset, slicePeriod) {
+      this.getSampleData(dataset, slicePeriod);
 
-        if (this.movingAverages.length >= 12) {
-            return this.expMovingAvg2(this.movingAverages, 12)[0];
-        }
-    }
+      if (this.movingAverages.length >= 26) {
 
-    calculate26(dataset) {
-        this.getSampleData(dataset);
-
-        if (this.movingAverages.length >= 26) {
-
-            return this.expMovingAvg2(this.movingAverages, 26)[0]
-        }
-    }
+         return this.expMovingAvg2(this.movingAverages, 26)[0]
+      }
+   }
 
 }
