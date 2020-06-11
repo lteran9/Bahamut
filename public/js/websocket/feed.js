@@ -11,14 +11,10 @@ class Feed {
       this.buys = 0;
       this.sells = 0;
 
-      this.ema_5_period = new EMA();
-      this.ema_15_period = new EMA();
-      this.ema_30_period = new EMA();
-      this.ema_60_period = new EMA();
+      this.ema = new EMA(product);
 
       this.timer = new Timer(product);
       this.secondsElapsed = 0;
-      this.pause = false;
    }
 
    /**
@@ -75,8 +71,6 @@ class Feed {
             ]
          };
 
-         console.log('sending subscribe request for pair ' + this.product_id);
-
          this.socket.send(JSON.stringify(subscribe));
       }
    }
@@ -89,7 +83,6 @@ class Feed {
     */
    stop(stopped) {
       if (this.socket) {
-         this.pause = true;
          this.onStopped = stopped;
          this.socket.close();
       } else {
@@ -138,37 +131,7 @@ class Feed {
          document.getElementById('price-' + update.product_id).innerHTML = '$' + update.price;
          document.getElementById('volume-' + update.product_id).innerHTML = Math.round(update.volume_24h);
 
-         var ema12_5 = this.ema_5_period.calculate12(this.events, 5);
-         var ema26_5 = this.ema_5_period.calculate26(this.events, 5);
-
-         if (ema12_5)
-            document.getElementById('ema12-5-' + update.product_id).innerHTML = ema12_5.toFixed(6);
-         if (ema26_5)
-            document.getElementById('ema26-5-' + update.product_id).innerHTML = ema26_5.toFixed(6);
-
-         var ema12_15 = this.ema_15_period.calculate12(this.events, 15);
-         var ema26_15 = this.ema_15_period.calculate26(this.events, 15);
-
-         if (ema12_15)
-            document.getElementById('ema12-15-' + update.product_id).innerHTML = ema12_15.toFixed(6);
-         if (ema26_15)
-            document.getElementById('ema26-15-' + update.product_id).innerHTML = ema26_15.toFixed(6);
-
-         var ema12_30 = this.ema_30_period.calculate12(this.events, 30);
-         var ema26_30 = this.ema_30_period.calculate26(this.events, 30);
-
-         if (ema12_30)
-            document.getElementById('ema12-30-' + update.product_id).innerHTML = ema12_30.toFixed(6);
-         if (ema26_30)
-            document.getElementById('ema26-30-' + update.product_id).innerHTML = ema26_30.toFixed(6);
-
-         var ema12_60 = this.ema_60_period.calculate12(this.events, 60);
-         var ema26_60 = this.ema_60_period.calculate26(this.events, 60);
-
-         if (ema12_60)
-            document.getElementById('ema12-60-' + update.product_id).innerHTML = ema12_60.toFixed(6);
-         if (ema26_60)
-            document.getElementById('ema26-60-' + update.product_id).innerHTML = ema26_60.toFixed(6);
+         this.ema.update(this.events);
 
          if (update.side === 'buy') {
             this.buys += 1;
@@ -203,6 +166,7 @@ class Feed {
             </span>
             <span class="${text}">
                 ${text}
-            </span>`;
+            </span>
+         `;
    }
 }

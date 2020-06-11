@@ -21,8 +21,9 @@ class FeedElement extends HTMLElement {
         `;
 
       var timePeriods = `
+         <div class="p-3">
             <div class="row">
-               <div class="col-4">
+               <div class="col-4 text-left">
                   <b>P(05sec):</b>
                   <span id="time-period-5-${product}"></span>
                </div>
@@ -34,7 +35,7 @@ class FeedElement extends HTMLElement {
                </div>
             </div>
             <div class="row">
-               <div class="col-4">
+               <div class="col-4 text-left">
                   <b>P(15sec):</b>
                   <span id="time-period-15-${product}"></span>
                </div>
@@ -46,7 +47,7 @@ class FeedElement extends HTMLElement {
                </div>
             </div>
             <div class="row">
-              <div class="col-4">
+              <div class="col-4 text-left">
                   <b>P(30sec):</b>
                   <span id="time-period-30-${product}"></span>
                </div>
@@ -58,7 +59,7 @@ class FeedElement extends HTMLElement {
                </div>
             </div>
             <div class="row">
-               <div class="col-4">
+               <div class="col-4 text-left">
                   <b>P(60sec):</b>
                   <span id="time-period-60-${product}"></span>
                </div>
@@ -69,7 +70,8 @@ class FeedElement extends HTMLElement {
                   <div id="ema26-60-${product}"></div>
                </div>
             </div>
-        `;
+         </div>
+      `;
 
       this.innerHTML = `
             <div class="feed-header">

@@ -15,7 +15,13 @@ class CreateWithdrawalsTable extends Migration
    {
       Schema::create('withdrawals', function (Blueprint $table) {
          $table->id();
+         $table->string('currency'); // BTC
+         $table->decimal('amount'); // 0.003456
+         $table->uuid('coinbase_id')->nullable();
+         $table->dateTime('payout_at')->nullable();
+
          $table->timestamps();
+         $table->foreign('currency')->references('id')->on('currencies');
       });
    }
 

@@ -6,26 +6,31 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateFeesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('fees', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+   /**
+    * Run the migrations.
+    *
+    * @return void
+    */
+   public function up()
+   {
+      Schema::create('fees', function (Blueprint $table) {
+         $table->id();
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('fees');
-    }
+         $table->decimal('maker_rate');
+         $table->decimal('taker_rate');
+         $table->decimal('volume');
+
+         $table->timestamps();
+      });
+   }
+
+   /**
+    * Reverse the migrations.
+    *
+    * @return void
+    */
+   public function down()
+   {
+      Schema::dropIfExists('fees');
+   }
 }

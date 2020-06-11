@@ -15,10 +15,8 @@ class CreateProfilesTable extends Migration
    {
       Schema::create('profiles', function (Blueprint $table) {
          $table->uuid('id');
-         $table->string('user_id');
          $table->string('name');
          $table->boolean('active');
-         $table->boolean('is_default');
          $table->dateTime('coinbase_created_at');
 
          $table->timestamps();
