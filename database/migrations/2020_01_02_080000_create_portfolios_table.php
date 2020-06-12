@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProfilesTable extends Migration
+class CreatePortfoliosTable extends Migration
 {
    /**
     * Run the migrations.
@@ -13,8 +13,9 @@ class CreateProfilesTable extends Migration
     */
    public function up()
    {
-      Schema::create('profiles', function (Blueprint $table) {
+      Schema::create('portfolios', function (Blueprint $table) {
          $table->uuid('id');
+         $table->uuid('coinbase_id');
          $table->string('name');
          $table->boolean('active');
          $table->dateTime('coinbase_created_at');
@@ -31,6 +32,6 @@ class CreateProfilesTable extends Migration
     */
    public function down()
    {
-      Schema::dropIfExists('profiles');
+      Schema::dropIfExists('portfolios');
    }
 }

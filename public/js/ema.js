@@ -35,9 +35,14 @@ class EMA {
             product_id: product
          }
       ]
+
+      // Global messages list
+      this.messages = [];
    }
 
    update(dataset) {
+      this.messages = dataset;
+
       for (var i = 0; i < this.periods.length; i++) {
          this.getSampleData(dataset, this.periods[i].movingAverages, this.periods[i].seconds);
          this.calculate12(this.periods[i]);
@@ -95,6 +100,7 @@ class EMA {
       if (period.movingAverages.length >= 12) {
          var avg = this.expMovingAvg(period.movingAverages, 12)[0];
          period.shortAvg = avg;
+         // Update UI
          document.getElementById('ema12-' + period.seconds + '-' + period.product_id).innerHTML = avg.toFixed(6);
       }
    }
@@ -103,6 +109,7 @@ class EMA {
       if (period.movingAverages.length >= 26) {
          var avg = this.expMovingAvg(period.movingAverages, 26)[0];
          period.longAvg = avg;
+         // Update UI
          document.getElementById('ema26-' + period.seconds + '-' + period.product_id).innerHTML = avg.toFixed(6);
       }
    }

@@ -25,7 +25,7 @@ class CreateOrdersTable extends Migration
          $table->string('time_in_force')->nullable(); // GTC
          $table->boolean('post_only')->nullable(); // false
          $table->double('fill_fees')->nullable(); // 0.00000000000000
-         $table->double('filledz_size')->nullable(); // 0.000000
+         $table->double('filled_size')->nullable(); // 0.000000
          $table->double('executed_value')->nullable(); // 0.000000000000
          $table->string('status')->nullable(); // pending
          $table->boolean('settled')->default(false); // false
