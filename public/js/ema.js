@@ -85,7 +85,7 @@ class EMA {
          console.log(this.product_id + ' coin is bullish!');
       }
 
-      if (analysis == -this.period.length) {
+      if (analysis == -this.periods.length) {
          // Strong indication that the market is bearish
          console.log(this.product_id + ' coin is bearish');
       }

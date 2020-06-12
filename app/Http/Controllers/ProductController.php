@@ -96,7 +96,7 @@ class ProductController extends Controller
          $startDate = $coinbaseTradeHistory->adjustStartDate($granularity, $request->input('from-date') . 'T00:00:00');
 
          $coinbaseTradeHistory->product_id = $id;
-         $coinbaseTradeHistory->start = $startDate;
+         $coinbaseTradeHistory->start = $startDate->format('');;
          $coinbaseTradeHistory->end = $request->input('to-date') . 'T23:59:59';
          $coinbaseTradeHistory->granularity = $granularity;
 
