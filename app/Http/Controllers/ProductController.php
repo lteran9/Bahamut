@@ -100,9 +100,9 @@ class ProductController extends Controller
 
          $history = $coinbaseTradeHistory->get();
 
-         return view('products.history', compact('history', 'id'));
+         return view('products._result', compact('history'));
       }
 
-      return redirect()->route('products.history', ['id' => $id]);
+      return ['Error' => 'Missing a parameter'];
    }
 }

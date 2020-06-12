@@ -161,12 +161,12 @@ class Feed {
     */
    status(text) {
       document.getElementById('status').innerHTML = `
-            <span class="status">
-                status:
-            </span>
-            <span class="${text}">
-                ${text}
-            </span>
-         `;
+         <span class="status">
+               status:
+         </span>
+         <span class="${text}">
+               ${text}
+         </span>
+      `;
    }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container my-5">
-   <form action="{{route('products.history.search')}}" method="post">
+   <ajax-form action="{{route('products.history.search')}}" update-target="historyContainer">
       @csrf
 
       @include('shared._form-errors')
@@ -44,53 +44,17 @@
             </select>
          </div>
          <div class="form-group">
-            <button type="submit" class="btn btn-block btn-outline-primary">
+            <button type="submit" class="btn btn-block btn-primary">
                Search
             </button>
          </div>
       </fieldset>
 
       <input type="hidden" id="id" name="id" value="{{$id}}" />
-   </form>
+   </ajax-form>
 
-   @if (isset($history))
-   <div class="container">
-      <div class="row">
-         <div class="col">
-            <h5>Results</h5>
-            <hr />
-
-            <div class="table-responsive">
-               <table class="table table-hover">
-                  <thead>
-                     <tr>
-                        <th></th>
-                        <th>Time</th>
-                        <th>Low</th>
-                        <th>High</th>
-                        <th>Open</th>
-                        <th>Close</th>
-                        <th>Volume</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     @foreach($history as $index=>$entry)
-                     <tr>
-                        <td>{{$index + 1}}</td>
-                        <td>{{$entry[0]}}</td>
-                        <td>{{$entry[1]}}</td>
-                        <td>{{$entry[2]}}</td>
-                        <td>{{$entry[3]}}</td>
-                        <td>{{$entry[4]}}</td>
-                        <td>{{$entry[5]}}</td>
-                     </tr>
-                     @endforeach
-                  </tbody>
-               </table>
-            </div>
-         </div>
-      </div>
+   <div id="historyContainer" class="container">
+      @include('products._result')
    </div>
-   @endif
 </div>
 @endsection

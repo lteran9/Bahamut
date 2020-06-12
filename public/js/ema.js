@@ -94,7 +94,7 @@ class EMA {
    calculate12(period) {
       if (period.movingAverages.length >= 12) {
          var avg = this.expMovingAvg(period.movingAverages, 12)[0];
-
+         period.shortAvg = avg;
          document.getElementById('ema12-' + period.seconds + '-' + period.product_id).innerHTML = avg.toFixed(6);
       }
    }
@@ -102,13 +102,14 @@ class EMA {
    calculate26(period) {
       if (period.movingAverages.length >= 26) {
          var avg = this.expMovingAvg(period.movingAverages, 26)[0];
-
+         period.longAvg = avg;
          document.getElementById('ema26-' + period.seconds + '-' + period.product_id).innerHTML = avg.toFixed(6);
       }
    }
 
    expMovingAvg(mArray, mRange) {
       var averages = [];
+      var smoothingFactor = 2 / (1 + mRange);
 
       for (var i = mRange - 1; i >= 0; i--) {
          var expAvg = 0;
@@ -117,7 +118,6 @@ class EMA {
             expAvg = parseFloat(mArray[i].price);
          } else {
             var previous = averages[0];
-            var smoothingFactor = 2 / (1 + mRange);
 
             expAvg = previous + (smoothingFactor * (parseFloat(mArray[i].price) - previous));
          }
