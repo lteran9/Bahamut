@@ -12,6 +12,7 @@ var app = (function () {
          var method = $(this).attr('method');
          var updateTarget = $(this).attr('data-update-target');
          var target = document.getElementById(updateTarget);
+         var callback = $(this).attr('data-callback');
 
          $.ajax({
             url: url,
@@ -25,6 +26,9 @@ var app = (function () {
                }
 
                $('.collapse').collapse();
+
+               if (callback)
+                  (new Function('return ' + callback)())();
             },
             error: function () {
                console.log('an error occurred');

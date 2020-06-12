@@ -93,14 +93,23 @@ class ProductController extends Controller
 
          $granularity = ctype_digit($request->input('time-period')) ? intval($request->input('time-period')) * 60 : 3600;
 
+         $startDate = $coinbaseTradeHistory->adjustStartDate($granularity, $request->input('from-date') . 'T00:00:00');
+
          $coinbaseTradeHistory->product_id = $id;
-         $coinbaseTradeHistory->start = $request->input('from-date') . 'T00:00:00';
+         $coinbaseTradeHistory->start = $startDate;
          $coinbaseTradeHistory->end = $request->input('to-date') . 'T23:59:59';
          $coinbaseTradeHistory->granularity = $granularity;
 
          $history = $coinbaseTradeHistory->get();
 
-         return view('products._result', compact('history'));
+         $closingPrices = $history->map(function ($record) {
+            return (object) [
+               'time' => date('Y-m-d\TH:i:s\Z', $record[0]),
+               'price' => $record[4]
+            ];
+         });
+
+         return view('products._result', compact('history', 'closingPrices'));
       }
 
       return ['Error' => 'Missing a parameter'];

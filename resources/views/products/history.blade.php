@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container my-5">
-   <ajax-form action="{{route('products.history.search')}}" update-target="historyContainer">
+   <ajax-form action="{{route('products.history.search')}}" update-target="historyContainer" oncomplete="coinHistory.init">
       @csrf
 
       @include('shared._form-errors')
@@ -57,4 +57,15 @@
       @include('products._result')
    </div>
 </div>
+@endsection
+
+@section('js')
+<script type="text/javascript" src="{{asset('js/html/page-specific/history.js')}}"></script>
+<script type="text/javascript">
+   $(document).ready(function() {
+
+      if (coinHistory)
+         coinHistory.init();
+   });
+</script>
 @endsection
