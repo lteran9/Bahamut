@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Str;
 use \Coinbase\Pro\Client;
 
 class Bahamut
@@ -21,11 +22,11 @@ class Bahamut
 
       if (count($coinbaseProfiles) > 0) {
          foreach ($coinbaseProfiles as $profile) {
-            $dbProfile = Profile::find($profile->id);
+            $dbProfile = Portfolio::find($profile->id);
             if (!isset($dbProfile)) {
-               Profile::create([
-                  'id' => $profile->id,
-                  'user_id' => $profile->user_id,
+               Portfolio::create([
+                  'id' => (string) Str::uuid(),
+                  'coinbase_id' => $profile->id,
                   'name' => $profile->name,
                   'active' => $profile->active,
                   'is_default' => $profile->is_default,
@@ -36,6 +37,13 @@ class Bahamut
       }
 
       return $coinbaseProfiles;
+   }
+
+   function getAccounts()
+   {
+      $coinbaseAccounts = new \Coinbase\Pro\CoinbaseAccounts\CoinbaseAccounts($this->coinbaseAPI);
+      $coinbaseAccounts = $coinbaseAccounts->get();
+      return $coinbaseAccounts;
    }
 
    function getCoins()

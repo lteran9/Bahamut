@@ -27,4 +27,10 @@ Route::get('/products/{id}/stats', 'ProductController@stats')->name('products.st
 
 Route::post('/products/history/search', 'ProductController@getHistory')->name('products.history.search');
 
-Route::get('/profiles', 'ProfileController@list')->name('profiles');
+Route::get('/portfolios', 'PortfolioController@list')->name('portfolios');
+Route::get('/portfolios/add', 'PortfolioController@add')->name('portfolios.add');
+Route::get('/portfolios/edit/{id}', 'PortfolioController@edit')->name('portfolios.edit');
+Route::get('/portfolios/find/{id}', 'PortfolioController@find')->name('portfolios.find');
+Route::get('/portfolios/accounts', 'PortfolioController@accounts')->name('portfolios.accounts');
+
+Route::post('/portfolios/sync', 'PortfolioController@synchronize')->name('portfolios.sync');

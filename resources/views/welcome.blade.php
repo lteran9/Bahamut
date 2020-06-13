@@ -11,7 +11,7 @@
          <a href="{{route('exchange')}}">Exchange</a>
          <a href="{{route('products')}}">Products</a>
          <a href="#!">History</a>
-         <a href="{{route('profiles')}}">Portfolios</a>
+         <a href="{{route('portfolios')}}">Portfolios</a>
          <a href="https://github.com/lteran9/Bahamut">GitHub</a>
       </div>
 

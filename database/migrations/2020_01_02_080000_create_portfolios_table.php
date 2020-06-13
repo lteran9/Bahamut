@@ -18,6 +18,7 @@ class CreatePortfoliosTable extends Migration
          $table->uuid('coinbase_id');
          $table->string('name');
          $table->boolean('active');
+         $table->boolean('is_default');
          $table->dateTime('coinbase_created_at');
 
          $table->timestamps();

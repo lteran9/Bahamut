@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Profile;
+use App\Portfolio;
 use Faker\Generator as Faker;
 
-$factory->define(Profile::class, function (Faker $faker) {
+$factory->define(Portfolio::class, function (Faker $faker) {
     return [
         //
     ];
