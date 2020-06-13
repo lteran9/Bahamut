@@ -15,13 +15,14 @@ class CreatePortfoliosTable extends Migration
    {
       Schema::create('portfolios', function (Blueprint $table) {
          $table->uuid('id');
-         $table->uuid('coinbase_id');
+         
          $table->string('name');
-         $table->boolean('active');
+         $table->boolean('active')->active('true');
          $table->boolean('is_default');
          $table->dateTime('coinbase_created_at');
 
          $table->timestamps();
+         
          $table->primary('id');
       });
    }

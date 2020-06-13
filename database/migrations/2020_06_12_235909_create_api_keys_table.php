@@ -15,17 +15,17 @@ class CreateApiKeysTable extends Migration
     {
         Schema::create('api_keys', function (Blueprint $table) {
             $table->uuid('id');
-            $table->uuid('coinbase_id');
 
-            $table->string('nickname');
+            $table->uuid('portfolio_id');
             $table->string('secret');
             $table->string('public');
             $table->string('passphrase');
 
-            $table->boolean('active');
+            $table->boolean('active')->default(true);
             $table->timestamps();
 
             $table->primary('id');
+            $table->foreign('portfolio_id')->references('id')->on('portfolios');
         });
     }
 

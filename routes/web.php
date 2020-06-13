@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/currency', 'CurrencyController@currency')->name('currency');
+
 Route::get('/exchange', 'ExchangeController@index')->name('exchange');
 
 Route::post('/exchange/tick', 'ExchangeController@tick')->name('exchange.tick');
@@ -33,4 +35,6 @@ Route::get('/portfolios/edit/{id}', 'PortfolioController@edit')->name('portfolio
 Route::get('/portfolios/find/{id}', 'PortfolioController@find')->name('portfolios.find');
 Route::get('/portfolios/accounts', 'PortfolioController@accounts')->name('portfolios.accounts');
 
+Route::post('/portfolios/create', 'PortfolioController@create')->name('portfolios.create');
+Route::post('/portfolios/update', 'PortfolioController@update')->name('portfolios.update');
 Route::post('/portfolios/sync', 'PortfolioController@synchronize')->name('portfolios.sync');

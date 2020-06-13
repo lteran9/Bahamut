@@ -120,7 +120,7 @@ class EMA {
 
       for (var i = mRange - 1; i >= 0; i--) {
          var expAvg = 0;
-
+         
          if (i == 11) {
             expAvg = parseFloat(mArray[i].price);
          } else {

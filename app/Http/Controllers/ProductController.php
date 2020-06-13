@@ -25,6 +25,7 @@ class ProductController extends Controller
       $coins = $this->system->getCoins();
 
       $products = Product::all();
+      
       //return compact('coinbaseProducts');
       return view('products.list', compact('products'));
    }

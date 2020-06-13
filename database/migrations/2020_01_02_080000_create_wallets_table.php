@@ -15,14 +15,13 @@ class CreateWalletsTable extends Migration
     {
         Schema::create('wallets', function (Blueprint $table) {
             $table->uuid('id');
-            $table->uuid('coinbase_id');
             $table->string('name');
-            $table->decimal('balance');
-            $table->string('currency_id');
+            $table->decimal('balance')->default(0);
+            $table->string('currency');
+            $table->boolean('active')->default(true);
             $table->timestamps();
-            $table->primary('id');
 
-            $table->foreign('currency_id')->references('id')->on('currencies');
+            $table->primary('id');
         });
     }
 

@@ -29,6 +29,7 @@ class CreateProductsTable extends Migration
          $table->timestamps();
 
          $table->primary('id');
+         $table->index('base_currency');
       });
    }
 

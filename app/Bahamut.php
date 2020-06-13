@@ -2,12 +2,11 @@
 
 namespace App;
 
-use Illuminate\Support\Str;
 use \Coinbase\Pro\Client;
+use Coinbase\Pro\Requests\Headers;
 
 class Bahamut
 {
-
    private $coinbaseAPI;
 
    function __construct(Client $client)
@@ -20,21 +19,21 @@ class Bahamut
       $coinbaseProfiles = new \Coinbase\Pro\Profiles\Profiles($this->coinbaseAPI);
       $coinbaseProfiles = $coinbaseProfiles->get();
 
-      if (count($coinbaseProfiles) > 0) {
-         foreach ($coinbaseProfiles as $profile) {
-            $dbProfile = Portfolio::find($profile->id);
-            if (!isset($dbProfile)) {
-               Portfolio::create([
-                  'id' => (string) Str::uuid(),
-                  'coinbase_id' => $profile->id,
-                  'name' => $profile->name,
-                  'active' => $profile->active,
-                  'is_default' => $profile->is_default,
-                  'coinbase_created_at' => date('Y-m-d H:i:s', strtotime($profile->created_at))
-               ]);
-            }
-         }
-      }
+      // if (count($coinbaseProfiles) > 0) {
+      //    foreach ($coinbaseProfiles as $profile) {
+      //       $dbProfile = Portfolio::find($profile->id);
+      //       if (!isset($dbProfile)) {
+      //          Portfolio::create([
+      //             'id' => (string) Str::uuid(),
+      //             'coinbase_id' => $profile->id,
+      //             'name' => $profile->name,
+      //             'active' => $profile->active,
+      //             'is_default' => $profile->is_default,
+      //             'coinbase_created_at' => date('Y-m-d H:i:s', strtotime($profile->created_at))
+      //          ]);
+      //       }
+      //    }
+      // }
 
       return $coinbaseProfiles;
    }
@@ -75,6 +74,14 @@ class Bahamut
       return $coinbaseProducts;
    }
 
+   function getCurrency() 
+   {
+      $currency = new \Coinbase\Pro\MarketData\Currencies\Currencies($this->coinbaseAPI);
+      $currency = $currency->get();
+      
+      return $currency;
+   }
+
    function getStats($product)
    {
       if (strlen($product) > 0) {
@@ -103,5 +110,12 @@ class Bahamut
       }
 
       return null;
+   }
+
+   function updateAPIKeys(ApiKey $keys)
+   {
+      $newHeaders = new Headers($keys->public, $keys->secret, $keys->passphrase);
+
+      $this->coinbaseAPI->updateHeaders($newHeaders);
    }
 }

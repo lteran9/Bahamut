@@ -4695,6 +4695,12 @@ fieldset:disabled .btn {
   padding: 1rem 1rem;
 }
 
+.card-body > ul {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
 .card-title {
   margin-bottom: 0.5rem;
   min-width: 320px;

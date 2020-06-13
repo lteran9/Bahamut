@@ -17,7 +17,7 @@ class CreateHaveTable extends Migration
             $table->id();
             $table->uuid('portfolio_id');
             $table->uuid('wallet_id');
-            $table->string('ordinal', 64)->nullable();
+            $table->integer('ordinal')->nullable();
             $table->timestamps();
 
             $table->foreign('portfolio_id')->references('id')->on('portfolios');

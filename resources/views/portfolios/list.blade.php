@@ -7,8 +7,8 @@
    <hr />
    <div class="row">
       <div class="col-12">
-         <div class="text-right">
-            <a href="{{route('portfolios.add')}}" class="btn btn-link">
+         <div class="text-right mb-3">
+            <a href="{{route('portfolios.add')}}" class="btn btn-link m-0 p-0">
                <i data-feather="plus"></i>
             </a>
          </div>
@@ -19,15 +19,19 @@
       @foreach($portfolios as $portfolio)
       <a href="{{route('portfolios.find', ['id' => $portfolio->id])}}" class="card mb-4" style="color:inherit;text-decoration:none;">
          <div class="card-body">
-            <h4 class="card-title">
-               {{$portfolio->name}}
-            </h4>
-            <dl class="text-left">
-               <dt>Id</dt>
-               <dd>{{$portfolio->id}}</dd>
-               <dt>Created at</dt>
-               <dd>{{$portfolio->coinbase_created_at}}</dd>
-            </dl>
+            <div class="row">
+               <div class="col-md-6">
+                  <h4 class="card-title mb-0">
+                     {{$portfolio->name}}
+                  </h4>
+               </div>
+               <div class="col-md-6">
+                  <div class="text-right">
+                     <i data-feather="check" class="text-success"></i>
+                  </div>
+               </div>
+            </div>
+
          </div>
       </a>
       @endforeach
