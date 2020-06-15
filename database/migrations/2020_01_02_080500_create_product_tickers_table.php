@@ -24,6 +24,7 @@ class CreateProductTickersTable extends Migration
          $table->dateTime('time');
 
          $table->timestamps();
+         
          $table->primary('trade_id');
          $table->foreign('product_id')->references('id')->on('products');
       });

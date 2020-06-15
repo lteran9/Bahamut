@@ -15,6 +15,7 @@ class CreateWalletsTable extends Migration
     {
         Schema::create('wallets', function (Blueprint $table) {
             $table->uuid('id');
+            $table->string('coinbase_id');
             $table->string('name');
             $table->decimal('balance')->default(0);
             $table->string('currency');

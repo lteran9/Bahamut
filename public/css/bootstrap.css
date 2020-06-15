@@ -11168,3 +11168,24 @@ feed-view [id^=volume-] {
   height: 12px;
 }
 
+.over {
+  background-color: #2eae34;
+  font-weight: 800;
+  color: white;
+}
+
+.under {
+  background-color: #f9672d;
+  font-weight: 800;
+  color: white;
+}
+
+.history-graph .btn-group-toggle {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.history-graph .btn-group-toggle label {
+  flex-basis: 100px;
+}
+

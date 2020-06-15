@@ -6,5 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Wallet extends Model
 {
-    protected $guarded = [];
+   /**
+    * Indicates if the IDs are auto-incrementing.
+    *
+    * @var bool
+    */
+   public $incrementing = false;
+
+   protected $guarded = [];
+   protected $casts = [
+      'id' => 'string'
+   ];
+
+   public function have()
+   {
+      return $this->hasOne('App\Pivots\Have', 'wallet_id', 'id');
+   }
+
 }

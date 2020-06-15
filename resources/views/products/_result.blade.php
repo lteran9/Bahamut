@@ -1,24 +1,7 @@
 @if (isset($history))
 <div class="accordion coin-history" id="accordionHistory">
    <div class="card">
-      <div class="card-header">
-         <h5 class="mb-0">
-            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-               Charts
-            </button>
-         </h5>
-      </div>
-      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionHistory">
-         <div class="card-body">
-            <div class="row">
-               <div class="col-12">
-                  <canvas id="priceHistory"></canvas>
-
-                  <input type="hidden" id="priceHistoryData" name="" value="{{json_encode($closingPrices)}}" />
-               </div>
-            </div>
-         </div>
-      </div>
+      @include('products._chart')
    </div>
    <div class="card">
       <div class="card-header">

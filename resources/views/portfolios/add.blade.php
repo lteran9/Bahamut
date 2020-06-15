@@ -13,7 +13,7 @@
             <select id="id" name="id" class="form-control">
                <option selected disabled>-- Select --</option>
                @foreach($portfolios as $portfolio)
-               <option value="{{$portfolio->id}}">{{$portfolio->name}}</option>
+               <option value="{{$portfolio->id}}" {{old('id') == $portfolio->id ? 'selected' : ''}}>{{$portfolio->name}}</option>
                @endforeach
             </select>
          </label>
@@ -21,19 +21,19 @@
       <div class="form-group">
          <label>
             Secret Key
-            <input type="password" id="secret-key" name="secret-key" class="form-control" />
+            <input type="password" id="secret-key" name="secret-key" class="form-control" value="{{old('secret-key')}}" />
          </label>
       </div>
       <div class="form-group">
          <label>
             Public Key
-            <input type="text" id="public-key" name="public-key" class="form-control" />
+            <input type="text" id="public-key" name="public-key" class="form-control" value="{{old('public-key')}}" />
          </label>
       </div>
       <div class="form-group">
          <label>
             Passphrase
-            <input type="text" id="passphrase" name="passphrase" class="form-control" />
+            <input type="text" id="passphrase" name="passphrase" class="form-control" value="{{old('passphrase')}}" />
          </label>
       </div>
       <div class="form-group">

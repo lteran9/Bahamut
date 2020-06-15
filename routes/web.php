@@ -38,3 +38,5 @@ Route::get('/portfolios/accounts', 'PortfolioController@accounts')->name('portfo
 Route::post('/portfolios/create', 'PortfolioController@create')->name('portfolios.create');
 Route::post('/portfolios/update', 'PortfolioController@update')->name('portfolios.update');
 Route::post('/portfolios/sync', 'PortfolioController@synchronize')->name('portfolios.sync');
+
+Route::post('/wallets/deposit', 'WalletController@deposit')->name('wallets.deposit');

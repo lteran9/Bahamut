@@ -25,7 +25,7 @@ class ProductController extends Controller
       $coins = $this->system->getCoins();
 
       $products = Product::all();
-      
+
       //return compact('coinbaseProducts');
       return view('products.list', compact('products'));
    }
@@ -67,7 +67,13 @@ class ProductController extends Controller
       if (strlen($id) > 0) {
          $product = $id;
          $granularity = $request->input('time-period');
-         $start = $request->input('from-date') . 'T00:00:00';
+
+         $adjStart = \DateTime::createFromFormat('Y-m-d', $request->input('from-date'));
+         if (intval($granularity) != '1' || intval($granularity) != '5') {
+            $adjStart->sub(new \DateInterval('P1D'));
+         }
+
+         $start = $adjStart->format('Y-m-d') . 'T00:00:00';
          $end = $request->input('to-date') . 'T23:59:59';
          $history = $this->system->getTradeHistory($product, $start, $end, $granularity);
 

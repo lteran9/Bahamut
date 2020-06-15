@@ -74,11 +74,11 @@ class Bahamut
       return $coinbaseProducts;
    }
 
-   function getCurrency() 
+   function getCurrency()
    {
       $currency = new \Coinbase\Pro\MarketData\Currencies\Currencies($this->coinbaseAPI);
       $currency = $currency->get();
-      
+
       return $currency;
    }
 
@@ -117,5 +117,15 @@ class Bahamut
       $newHeaders = new Headers($keys->public, $keys->secret, $keys->passphrase);
 
       $this->coinbaseAPI->updateHeaders($newHeaders);
+   }
+
+   function getTicker($product)
+   {
+      $tickerRequest = new \Coinbase\Pro\MarketData\Products\Ticker($this->coinbaseAPI);
+      $tickerRequest->product_id = $product;
+      
+      $tickerResponse = $tickerRequest->get();
+      
+      return $tickerResponse;
    }
 }

@@ -129,3 +129,26 @@ feed-view {
    width: 12px;
    height: 12px;
 }
+
+.over {
+   background-color: $buy;
+   font-weight: 800;
+   color: white;
+}
+
+.under {
+   background-color: $sell;
+   font-weight: 800;
+   color: white;
+}
+
+.history-graph {
+   .btn-group-toggle {
+      display: flex;
+      flex-flow: row wrap;
+
+      label {
+         flex-basis: 100px;
+      }
+   }
+}

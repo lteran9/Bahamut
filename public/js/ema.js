@@ -3,6 +3,10 @@
  */
 class EMA {
 
+   /**
+    * 
+    * @param {*} product 
+    */
    constructor(product) {
       // Time in seconds
       this.periods = [
@@ -40,6 +44,10 @@ class EMA {
       this.messages = [];
    }
 
+   /**
+    * 
+    * @param {*} dataset 
+    */
    update(dataset) {
       this.messages = dataset;
 
@@ -52,6 +60,12 @@ class EMA {
       this.analyze();
    }
 
+   /**
+    * 
+    * @param {*} dataset 
+    * @param {*} movingAverages 
+    * @param {*} slicePeriod 
+    */
    getSampleData(dataset, movingAverages, slicePeriod) {
       if (movingAverages.length == 0 || (dataset[0].time.getTime() - movingAverages[0].time.getTime()) / 1000 > slicePeriod) {
          movingAverages.unshift(dataset[0]);
@@ -62,65 +76,103 @@ class EMA {
       }
    }
 
+   /**
+    * 
+    */
    analyze() {
-      // true = bullish, false = bearish
-      var analysis = 0;
+      function volatility(self) {
+         // true = bullish, false = bearish
+         var analysis = 0;
 
-      for (var i = 0; i < this.periods.length; i++) {
-         var period = this.periods[i];
+         for (var i = 0; i < self.periods.length; i++) {
+            var period = self.periods[i];
 
-         if (period.movingAverages.length >= 12 && period.movingAverages.length >= 26) {
-            var ema12 = period.shortAvg
-            var ema26 = period.longAvg;
+            // UI
+            if (period.shortAvg > 0 && period.longAvg > 0) {
+               if (period.shortAvg > period.longAvg) {
+                  document.getElementById('ema12-' + period.seconds + '-' + period.product_id).className = 'over';
+                  document.getElementById('ema26-' + period.seconds + '-' + period.product_id).className = 'under';
+               }
 
-            if (ema12 > ema26) {
-               // bullish
-               analysis += 1;
+               if (period.shortAvg < period.longAvg) {
+                  document.getElementById('ema12-' + period.seconds + '-' + period.product_id).className = 'under';
+                  document.getElementById('ema26-' + period.seconds + '-' + period.product_id).className = 'over';
+               }
             }
 
-            if (ema12 < ema26) {
-               // bearish
-               analysis -= 1;
+            // Volatility
+            if (period.movingAverages.length >= 12 && period.movingAverages.length >= 26) {
+               var ema12 = period.shortAvg
+               var ema26 = period.longAvg;
+
+               if (ema12 > ema26) {
+                  // bullish
+                  analysis += 1;
+               }
+
+               if (ema12 < ema26) {
+                  // bearish
+                  analysis -= 1;
+               }
             }
+         }
+
+         if (analysis == self.periods.length) {
+            // Strong indication that the market is bullish
+            console.log(self.product_id + ' coin is bullish!');
+         }
+
+         if (analysis == -self.periods.length) {
+            // Strong indication that the market is bearish
+            console.log(self.product_id + ' coin is bearish');
          }
       }
 
-      if (analysis == this.periods.length) {
-         // Strong indication that the market is bullish
-         console.log(this.product_id + ' coin is bullish!');
-      }
-
-      if (analysis == -this.periods.length) {
-         // Strong indication that the market is bearish
-         console.log(this.product_id + ' coin is bearish');
-      }
+      volatility(this);
    }
 
+   /**
+    * 
+    * @param {*} period 
+    */
    calculate12(period) {
       if (period.movingAverages.length >= 12) {
          var avg = this.expMovingAvg(period.movingAverages, 12)[0];
          period.shortAvg = avg;
+         
          // Update UI
-         document.getElementById('ema12-' + period.seconds + '-' + period.product_id).innerHTML = avg.toFixed(6);
+         //document.getElementById('ema12-' + period.seconds + '-' + period.product_id).innerHTML = avg.toFixed(6);
+         return avg;
       }
    }
 
+   /**
+    * 
+    * @param {*} period 
+    */
    calculate26(period) {
       if (period.movingAverages.length >= 26) {
          var avg = this.expMovingAvg(period.movingAverages, 26)[0];
          period.longAvg = avg;
+         
          // Update UI
-         document.getElementById('ema26-' + period.seconds + '-' + period.product_id).innerHTML = avg.toFixed(6);
+         //document.getElementById('ema26-' + period.seconds + '-' + period.product_id).innerHTML = avg.toFixed(6);
+         return avg;
       }
    }
 
+   /**
+    * 
+    * @param {*} mArray 
+    * @param {*} mRange 
+    */
    expMovingAvg(mArray, mRange) {
       var averages = [];
       var smoothingFactor = 2 / (1 + mRange);
 
       for (var i = mRange - 1; i >= 0; i--) {
          var expAvg = 0;
-         
+
          if (i == 11) {
             expAvg = parseFloat(mArray[i].price);
          } else {

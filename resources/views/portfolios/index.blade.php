@@ -10,17 +10,7 @@
          <div class="row">
             @foreach($wallets as $wallet)
             <div class="col-4">
-               <div class="card mb-4">
-                  <div class="card-body text-center">
-                     <h5>{{$wallet->name}}</h5>
-                     <ul>
-                        <li>{{$wallet->balance}}</li>
-                        <li><a href="#!" class="btn btn-link">Deposit</a></li>
-                        <li><a href="#!" class="btn btn-link">Transfer</a></li>
-                        <li><a href="#!" class="btn btn-link">Withdrawal</a></li>
-                     </ul>
-                  </div>
-               </div>
+               @include('wallets._card')
             </div>
             @endforeach
          </div>

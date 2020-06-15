@@ -23,19 +23,18 @@ class WalletController extends Controller
             return back()->withErrors($validator->errors())->withInput();
          }
 
-         $wallet = Wallet::find($request->input('id'));
-         $wallet = $wallet + $request->input('amount');
-         $wallet->save();
+         $wallet = Wallet::where('id', $request->input('id'))->first();
+         if (isset($wallet)) {
+            $wallet->balance = $wallet->balance + $request->input('amount');
+            $wallet->save();
+         } else {
+            return ['wallet' => 'not set'];
+         }
 
-         return [
-            'success' => 'success'
-         ];
       } catch (Exception $ex) {
          //
       }
-
-      return [
-         'error' => 'error'
-      ];
+      
+      return redirect()->route('portfolios.find', ['id' => $request->input('portfolio-id')]);
    }
 }

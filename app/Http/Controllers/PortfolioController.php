@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\ApiKey;
+use App\ProductTicker;
 use App\Bahamut;
+use App\Pivots\Have;
 use App\Portfolio;
+use App\Product;
 use App\Wallet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,6 +27,23 @@ class PortfolioController extends Controller
    // [HttpGet, route('porftolios')]
    public function list(Request $request)
    {
+      $product = 'BTC-USD';
+
+      $ticker = $this->system->getTicker($product);
+
+      if (isset($ticker)) {
+         ProductTicker::create([
+            'trade_id' => $ticker['trade_id'],
+            'product_id' => $product,
+            'price' => $ticker['price'],
+            'size' => $ticker['size'],
+            'bid' => $ticker['bid'],
+            'ask' => $ticker['ask'],
+            'volume' => $ticker['volume'],
+            'time' => date('Y-m-d H:i:s', strtotime($ticker['time']))
+         ]);
+      }
+      return compact('ticker');
       $portfolios = Portfolio::all();
 
       return view('portfolios.list', compact('portfolios'));
@@ -47,9 +68,13 @@ class PortfolioController extends Controller
    // [HttpGet, route('portfolios.find')]
    public function find($id)
    {
-      $wallets = Wallet::all();//$this->system->getAccounts();
+      $wallets = DB::table('wallets')
+         ->join('have', 'wallets.id', '=', 'have.wallet_id')
+         ->orderBy('have.ordinal')
+         ->get();
       $portfolio = Portfolio::find($id);
 
+      //return compact('portfolio', 'wallets');
       if (isset($portfolio)) {
          return view('portfolios.index', compact('portfolio', 'wallets'));
       }
@@ -77,7 +102,7 @@ class PortfolioController extends Controller
 
       $dbCheck = Portfolio::find($request->input('id'));
       if (!isset($dbCheck) && isset($selected)) {
-         Portfolio::create([
+         $portfolio = Portfolio::create([
             'id' => $selected->id,
             'name' => $selected->name,
             'active' => $selected->active,
@@ -96,15 +121,34 @@ class PortfolioController extends Controller
          $this->system->updateAPIKeys($api);
 
          $accounts = $this->system->getAccounts();
+         $ordinal = 1;
 
-         foreach($accounts as $account) {
+         foreach ($accounts as $account) {
             $dbCheck = Wallet::find($account->id);
             if (!isset($dbCheck)) {
-               Wallet::create([
-                  'id' => $account->id,
-                  'name' => $account->name,
-                  'currency' => $account->currency,
-               ]);
+               // Only concerned in USD wallets
+               $bhmWallet = Product::where([
+                  ['base_currency', '=', $account->currency],
+                  ['quote_currency', '=', 'USD']
+               ])->first();
+
+               if (isset($bhmWallet)) {
+                  $wallet = Wallet::create([
+                     'id' => Str::uuid(),
+                     'coinbase_id' => $account->id,
+                     'name' => $account->name,
+                     'currency' => $account->currency,
+                  ]);
+
+                  Have::create([
+                     'portfolio_id' => $portfolio->id,
+                     'wallet_id' => $wallet->id,
+                     'ordinal' => $ordinal
+                  ]);
+
+                  // Increment by one
+                  $ordinal = $ordinal + 1;
+               }
             }
          }
       } else {
