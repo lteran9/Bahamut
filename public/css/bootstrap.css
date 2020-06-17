@@ -11033,6 +11033,26 @@ dl {
   padding: 0.5rem;
 }
 
+@-webkit-keyframes fade {
+  from {
+    background-color: white;
+  }
+
+  to {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+@keyframes fade {
+  from {
+    background-color: white;
+  }
+
+  to {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
 feed-view {
   display: block;
   height: 350px;
@@ -11110,26 +11130,6 @@ feed-view [id^=volume-] {
   font-weight: bold;
 }
 
-@-webkit-keyframes fade {
-  from {
-    background-color: white;
-  }
-
-  to {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
-}
-
-@keyframes fade {
-  from {
-    background-color: white;
-  }
-
-  to {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
-}
-
 /*
  * Shared
  */
@@ -11187,5 +11187,9 @@ feed-view [id^=volume-] {
 
 .history-graph .btn-group-toggle label {
   flex-basis: 100px;
+}
+
+.coin-card .card-title {
+  text-align: center;
 }
 

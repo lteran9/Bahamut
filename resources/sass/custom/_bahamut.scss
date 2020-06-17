@@ -6,6 +6,15 @@
 
 @import "elements";
 
+@keyframes fade {
+   from {
+      background-color: rgba(255, 255, 255, 1);
+   }
+   to {
+      background-color: rgba(255, 255, 255, 0.05);
+   }
+}
+
 feed-view {
    display: block;
    height: 350px;
@@ -82,15 +91,6 @@ feed-view {
    }
 }
 
-@keyframes fade {
-   from {
-      background-color: rgba(255, 255, 255, 1);
-   }
-   to {
-      background-color: rgba(255, 255, 255, 0.05);
-   }
-}
-
 /*
  * Shared
  */
@@ -150,5 +150,11 @@ feed-view {
       label {
          flex-basis: 100px;
       }
+   }
+}
+
+.coin-card {
+   .card-title {
+      text-align: center;
    }
 }

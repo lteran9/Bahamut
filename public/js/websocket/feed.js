@@ -5,7 +5,7 @@ const version = "v1.0.0";
  */
 class Feed {
 
-   constructor(product) {
+   constructor(product, updateCallback) {
       this.product_id = product;
       this.events = [];
       this.buys = 0;
@@ -15,6 +15,7 @@ class Feed {
       this.timer = new Timer(product);
       
       this.secondsElapsed = 0;
+      this.updateCallback = updateCallback;
    }
 
    /**
@@ -34,7 +35,8 @@ class Feed {
       };
 
       this.socket.onmessage = (e) => {
-         this.onUpdate(e.data);
+         this.updateCallback(e.data);
+         //this.onUpdate(e.data);
       };
 
       this.socket.onclose = (e) => {
@@ -44,9 +46,7 @@ class Feed {
          }
       };
 
-      document.getElementById('version').innerHTML = version;
-
-
+      //document.getElementById('version').innerHTML = version;
    }
 
    /**
@@ -147,6 +147,12 @@ class Feed {
       return (size + "").substring(0, 7);
    }
 
+   /**
+    * Filters the message received; do not count messages that do not have a market size or 
+    * valid date time.
+    * 
+    * @param update JSON object 
+    */
    filter(update) {
       // decide if the update should be shown or not - we only handler ticker updates.
       update.time = update.time || new Date().toISOString();
@@ -160,13 +166,13 @@ class Feed {
     * @param text representing the current status.
     */
    status(text) {
-      document.getElementById('status').innerHTML = `
-         <span class="status">
-               status:
-         </span>
-         <span class="${text}">
-               ${text}
-         </span>
-      `;
+      // document.getElementById('status').innerHTML = `
+      //    <span class="status">
+      //          status:
+      //    </span>
+      //    <span class="${text}">
+      //          ${text}
+      //    </span>
+      // `;
    }
 }

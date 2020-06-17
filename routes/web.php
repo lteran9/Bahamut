@@ -20,6 +20,7 @@ Route::get('/', function () {
 Route::get('/currency', 'CurrencyController@currency')->name('currency');
 
 Route::get('/exchange', 'ExchangeController@index')->name('exchange');
+Route::get('/exchange/{coin}', 'ExchangeController@coin')->name('exchange.coin');
 
 Route::post('/exchange/tick', 'ExchangeController@tick')->name('exchange.tick');
 
