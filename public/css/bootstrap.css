@@ -4701,6 +4701,10 @@ fieldset:disabled .btn {
   list-style: none;
 }
 
+.card-body > ul li + li {
+  margin-top: 1.5rem;
+}
+
 .card-title {
   margin-bottom: 0.5rem;
   min-width: 320px;

@@ -13,6 +13,9 @@ var exchange = (function () {
          data: data,
          error: function () {
             console.log('error sending data');
+         },
+         complete: function () {
+            console.log('message sent');
          }
       });
    }
@@ -34,24 +37,23 @@ var exchange = (function () {
       //console.log(ticker);
       // Only get data we are intersted in
       if (filter(ticker)) {
-         if (curatedDataset.length == 0 || parseInt((ticker.time.getTime() - curatedDataset[0].datetime.getTime()) / 1000) >= 5) {
-            var data = {
-               trade_id: ticker.trade_id,
-               epoch: ticker.rawtime,
-               date: ticker.time.getFullYear() + '-' + ticker.time.getMonth() + '-' + ticker.time.getDate(),
-               time: ticker.time.getHours() + ':' + ticker.time.getMinutes() + ':' + ticker.time.getMinutes(),
-               datetime: ticker.time,
-               product_id: ticker.product_id,
-               size: ticker.last_size,
-               price: ticker.prize,
-               side: ticker.side,
-               sequence: ticker.sequence
-            }
+         var data = {
+            trade_id: ticker.trade_id,
+            epoch: ticker.rawtime,
+            datetime: ticker.time,
+            product_id: ticker.product_id,
+            size: ticker.last_size,
+            price: ticker.price,
+            side: ticker.side,
+            sequence: ticker.sequence
+         }
 
+         // Send data
+         ajaxSend(data);
+
+         if (curatedDataset.length == 0 || parseInt((ticker.time.getTime() - curatedDataset[0].datetime.getTime()) / 1000) >= 5) {
             // Store data
             curatedDataset.unshift(data);
-            // Send data
-            ajaxSend(data);
          }
 
          rawTransactions.unshift(ticker);
@@ -61,6 +63,9 @@ var exchange = (function () {
          rawTransactions.pop();
       }
 
+      if (curatedDataset.length > 52) {
+         curatedDataset.pop();
+      }
    }
 
    function initCoinViews() {

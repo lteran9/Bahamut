@@ -28,8 +28,6 @@ class ExchangeController extends Controller
          $validator = Validator::make($request->all(), [
             'trade_id' => 'required',
             'epoch' => 'required',
-            'date' => 'required',
-            'time' => 'required',
             'product_id' => 'required',
             'size' => 'required',
             'price' => 'required',
@@ -41,7 +39,7 @@ class ExchangeController extends Controller
             CoinbaseTicker::create([
                'trade_id' => $request->input('trade_id'),
                'epoch' => $request->input('epoch'),
-               'timestamp' => date('Y-m-d H:i:s', strtotime($request->input('date') . ' ' . $request->input('time'))),
+               'timestamp' => date('Y-m-d H:i:s', strtotime($request->input('epoch'))),
                'product_id' => $request->input('product_id'),
                'size' => $request->input('size'),
                'price' => $request->input('price'),
