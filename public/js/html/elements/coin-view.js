@@ -32,23 +32,6 @@ class CoinView extends HTMLElement {
          </div>
       `;
    }
-
-   getAnalysis(slice) {
-      return `
-         <div class="card">
-            <div class="card-body">
-               <ul class="">
-                  <li id=""></li>
-                  <li id=""></li>
-                  <li id=""></li>
-                  <li id=""></li>
-                  <li id=""></li>
-                  <li id=""></li>
-               </ul>
-            </div>
-         </div>
-      `;
-   }
 }
 
 window.customElements.define('coin-view', CoinView);

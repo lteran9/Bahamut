@@ -12,7 +12,6 @@ class Feed {
       this.sells = 0;
 
       this.ema = new EMA(product);
-      this.timer = new Timer(product);
       
       this.secondsElapsed = 0;
       this.updateCallback = updateCallback;

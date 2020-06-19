@@ -3,21 +3,55 @@ var exchange = (function () {
    const buffer = 52;
 
    var websockets = []
-   rawTransactions = []
-   curatedDataset = [];
+      rawTransactions = []
+      curatedDataset = [];
 
-   function ajaxSend(data) {
-      $.ajax({
-         url: '/exchange/tick',
-         method: 'post',
-         data: data,
-         error: function () {
-            console.log('error sending data');
-         },
-         complete: function () {
-            console.log('message sent');
+   var elements = {
+      container: document.getElementById('crypto-coin'),
+      averages: document.getElementById('averages'),
+      clock: document.getElementById('clock')
+   }
+
+   function updateUI(periods) {
+      for (var i = 0; i < periods.length; i++) {
+         var shortAvg = periods[i].shortAvg,
+            longAvg = periods[i].longAvg;
+
+         var container = $(elements.averages).find('#' + periods[i].period);
+         if (container) {
+            var shortElement = $(container).find('[data-id="ema12"]'),
+               longElement = $(container).find('[data-id="ema26"]');
+            if (shortAvg != '-') {
+               $(shortElement).html(shortAvg.toFixed(4));
+               if (shortAvg > longAvg) {
+                  $(shortElement).addClass('on');
+               } else {
+                  if ($(shortElement).hasClass('on'))
+                     $(shortElement).removeClass('on');
+               }
+            }
+
+            if (longAvg != '-') {
+               $(longElement).html(longAvg.toFixed(4));
+               if (shortAvg < longAvg) {
+                  $(longElement).addClass('on');
+               } else {
+                  if ($(longElement).hasClass('on'))
+                     $(longElement).removeClass('on');
+               }
+            }
          }
-      });
+      }
+   }
+
+   function updatePrice(price) {
+      var element = $(elements.container).find('[data-id="current-price"]');
+      if (element)
+         $(element).html('$' + price);
+   }
+
+   function updateTimer(seconds) {
+      $(elements.clock).html(seconds);
    }
 
    function messageReceived(msg) {
@@ -27,6 +61,20 @@ var exchange = (function () {
          update.last_size = update.last_size || 0.0;
 
          return update.type === 'ticker' && update.price > 0;
+      }
+
+      function ajaxSend(data) {
+         $.ajax({
+            url: '/exchange/tick',
+            method: 'post',
+            data: data,
+            error: function () {
+               console.log('error sending data');
+            },
+            complete: function () {
+               //console.log('message sent');
+            }
+         });
       }
 
       var ticker = JSON.parse(msg);
@@ -54,8 +102,12 @@ var exchange = (function () {
          if (curatedDataset.length == 0 || parseInt((ticker.time.getTime() - curatedDataset[0].datetime.getTime()) / 1000) >= 5) {
             // Store data
             curatedDataset.unshift(data);
+
+            this.ema.update(curatedDataset);
+            updateUI(this.ema.getPeriods());
          }
 
+         updatePrice(ticker.price);
          rawTransactions.unshift(ticker);
       }
 
@@ -87,6 +139,9 @@ var exchange = (function () {
       });
 
       feedStart();
+
+      this.ema = new EMA(product);
+      this.clock = new Timer(updateTimer);
    }
 
    return {

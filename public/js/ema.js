@@ -11,6 +11,7 @@ class EMA {
       // Time in seconds
       this.periods = [
          {
+            period: 'p05',
             seconds: 5,
             movingAverages: [],
             shortAvg: 0,
@@ -18,6 +19,7 @@ class EMA {
             product_id: product
          },
          {
+            period: 'p15',
             seconds: 15,
             movingAverages: [],
             shortAvg: 0,
@@ -25,6 +27,7 @@ class EMA {
             product_id: product
          },
          {
+            period: 'p30',
             seconds: 30,
             movingAverages: [],
             shortAvg: 0,
@@ -32,6 +35,7 @@ class EMA {
             product_id: product
          },
          {
+            period: 'p60',
             seconds: 60,
             movingAverages: [],
             shortAvg: 0,
@@ -53,11 +57,15 @@ class EMA {
 
       for (var i = 0; i < this.periods.length; i++) {
          this.getSampleData(dataset, this.periods[i].movingAverages, this.periods[i].seconds);
-         this.calculate12(this.periods[i]);
-         this.calculate26(this.periods[i]);
+         this.periods[i].shortAvg = this.calculate12(this.periods[i]);
+         this.periods[i].longAvg = this.calculate26(this.periods[i]);
       }
 
-      this.analyze();
+      //this.analyze();
+   }
+
+   getPeriods() {
+      return this.periods;
    }
 
    /**
@@ -67,7 +75,7 @@ class EMA {
     * @param {*} slicePeriod 
     */
    getSampleData(dataset, movingAverages, slicePeriod) {
-      if (movingAverages.length == 0 || (dataset[0].time.getTime() - movingAverages[0].time.getTime()) / 1000 > slicePeriod) {
+      if (movingAverages.length == 0 || (dataset[0].datetime.getTime() - movingAverages[0].datetime.getTime()) / 1000 > slicePeriod) {
          movingAverages.unshift(dataset[0]);
       }
 
@@ -144,6 +152,8 @@ class EMA {
          //document.getElementById('ema12-' + period.seconds + '-' + period.product_id).innerHTML = avg.toFixed(6);
          return avg;
       }
+
+      return '-';
    }
 
    /**
@@ -159,6 +169,8 @@ class EMA {
          //document.getElementById('ema26-' + period.seconds + '-' + period.product_id).innerHTML = avg.toFixed(6);
          return avg;
       }
+
+      return '-';
    }
 
    /**

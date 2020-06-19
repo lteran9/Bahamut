@@ -11037,6 +11037,23 @@ dl {
   padding: 0.5rem;
 }
 
+/**
+ *
+ */
+
+.card.coin-card .time-periods .period .title {
+  font-size: 100%;
+  font-weight: bolder;
+}
+
+.card.coin-card .time-periods .period .ema12 .on {
+  border-bottom: 3px solid #2eae34;
+}
+
+.card.coin-card .time-periods .period .ema26 .on {
+  border-bottom: 3px solid #f9672d;
+}
+
 @-webkit-keyframes fade {
   from {
     background-color: white;

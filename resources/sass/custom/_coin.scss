@@ -1,0 +1,28 @@
+/**
+ *
+ */
+
+.card {
+   &.coin-card {
+      .time-periods {
+         .period {
+            .title {
+               font-size: 100%;
+               font-weight: bolder;
+            }
+
+            .ema12 {
+               .on {
+                  border-bottom: 3px solid rgb(46, 174, 52);
+               }
+            }
+
+            .ema26 {
+               .on {
+                  border-bottom: 3px solid rgb(249, 103, 45);
+               }
+            }
+         }
+      }
+   }
+}

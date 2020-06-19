@@ -1,195 +1,222 @@
 @extends('layouts.app')
 @section('content')
 <div class="container my-5">
-   <h2>Bahamut</h2>
+   <div class="row align-items-center">
+      <div class="col-md-6">
+         <h2 class="mb-0">Bahamut</h2>
+      </div>
+      <div class="col-md-6">
+         <span class="float-right"><i data-feather="clock"></i>&nbsp;<span id="clock">0</span></span>
+      </div>
+   </div>
    <hr />
-   <div class="card coin-card">
+   <div id="crypto-coin" class="card coin-card">
       <div class="card-body">
          <div class="card-title">
-            <div class="mb-4">
+            <div class="mb-2">
                <span>BTC-USD</span>
-               <span class="float-right"><i data-feather="clock"></i>&nbsp;0</span>
+            </div>
+            <div class="mb-2">
+               <span data-id="current-price">$0</span>
             </div>
          </div>
-         <ul class="time-periods">
-            <li class="period">
+         <ul id="averages" class="time-periods">
+            <li id="p05" class="period">
                <div class="row">
-                  <div class="col-6">
-                     <div class="">
+                  <div class="col-md-6">
+                     <div class="title">
                         P(05)
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-right">
-                        <span id="p05-balance">$500</span>
+                  <div class="col-md-6">
+                     <div class="balance text-right">
+                        <span data-id="balance">$0</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
+                  <div class="col-md-6">
+                     <div class="ema12 text-center">
                         <small class="d-block"><b>EMA12</b></small>
-                        <span id="p05-ema12">-</span>
+                        <span data-id="ema12">-</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
+                  <div class="col-md-6">
+                     <div class="ema26 text-center">
                         <small class="d-block"><b>EMA26</b></small>
-                        <span id="p05-ema26">-</span>
+                        <span data-id="ema26">-</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
+                  <div class="col-md-6">
+                     <div class="i-buys text-center">
                         <small class="d-block"><b>Buy Indicators</b></small>
-                        <span id="buyIndicators">-</span>
+                        <span data-id="buyIndicators">-</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
+                  <div class="col-md-6">
+                     <div class="i-sells text-center">
                         <small class="d-block"><b>Sell Indicators</b></small>
-                        <span id="sellIndicators">-</span>
+                        <span data-id="sellIndicators">-</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
+                  <div class="col-md-6">
+                     <div class="o-buys text-center">
                         <small class="d-block"><b>Buys</b></small>
-                        <span id="ourBuys">0</span>
+                        <span data-id="ourBuys">0</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
+                  <div class="col-md-6">
+                     <div class="o-sells text-center">
                         <small class="d-block"><b>Sells</b></small>
-                        <span id="ourSells">0</span>
+                        <span data-id="ourSells">0</span>
                      </div>
                   </div>
                </div>
             </li>
-            <li class="period">
+            <li id="p15" class="period">
                <div class="row">
-                  <div class="col-6">
-                     <div class="">
+                  <div class="col-md-6">
+                     <div class="title">
                         P(15)
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-right">
-                        <span id="balance">$500</span>
+                  <div class="col-md-6">
+                     <div class="balance text-right">
+                        <span data-id="balance">$0</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="ema12"></span>
+                  <div class="col-md-6">
+                     <div class="ema12 text-center">
+                        <small class="d-block"><b>EMA12</b></small>
+                        <span data-id="ema12">-</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="ema26"></span>
+                  <div class="col-md-6">
+                     <div class="ema26 text-center">
+                        <small class="d-block"><b>EMA26</b></small>
+                        <span data-id="ema26">-</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="buyIndicators"></span>
+                  <div class="col-md-6">
+                     <div class="i-buys text-center">
+                        <small class="d-block"><b>Buy Indicators</b></small>
+                        <span data-id="buyIndicators">-</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="sellIndicators"></span>
+                  <div class="col-md-6">
+                     <div class="i-sells text-center">
+                        <small class="d-block"><b>Sell Indicators</b></small>
+                        <span data-id="sellIndicators">-</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="ourBuyds"></span>
+                  <div class="col-md-6">
+                     <div class="o-buys text-center">
+                        <small class="d-block"><b>Buys</b></small>
+                        <span data-id="ourBuys">0</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="ourSells"></span>
+                  <div class="col-md-6">
+                     <div class="o-sells text-center">
+                        <small class="d-block"><b>Sells</b></small>
+                        <span data-id="ourSells">0</span>
                      </div>
                   </div>
                </div>
             </li>
-            <li class="period">
+            <li id="p30" class="period">
                <div class="row">
-                  <div class="col-6">
-                     <div class="">
+                  <div class="col-md-6">
+                     <div class="title">
                         P(30)
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-right">
-                        <span id="balance">$500</span>
+                  <div class="col-md-6">
+                     <div class="balance text-right">
+                        <span data-id="balance">$0</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="ema12"></span>
+                  <div class="col-md-6">
+                     <div class="ema12 text-center">
+                        <small class="d-block"><b>EMA12</b></small>
+                        <span data-id="ema12">-</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="ema26"></span>
+                  <div class="col-md-6">
+                     <div class="ema26 text-center">
+                        <small class="d-block"><b>EMA26</b></small>
+                        <span data-id="ema26">-</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="buyIndicators"></span>
+                  <div class="col-md-6">
+                     <div class="i-buys text-center">
+                        <small class="d-block"><b>Buy Indicators</b></small>
+                        <span data-id="buyIndicators">-</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="sellIndicators"></span>
+                  <div class="col-md-6">
+                     <div class="i-sells text-center">
+                        <small class="d-block"><b>Sell Indicators</b></small>
+                        <span data-id="sellIndicators">-</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="ourBuyds"></span>
+                  <div class="col-md-6">
+                     <div class="o-buys text-center">
+                        <small class="d-block"><b>Buys</b></small>
+                        <span data-id="ourBuys">0</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="ourSells"></span>
+                  <div class="col-md-6">
+                     <div class="o-sells text-center">
+                        <small class="d-block"><b>Sells</b></small>
+                        <span data-id="ourSells">0</span>
                      </div>
                   </div>
                </div>
             </li>
-            <li class="period">
+            <li id="p60" class="period">
                <div class="row">
-                  <div class="col-6">
-                     <div class="">
+                  <div class="col-md-6">
+                     <div class="title">
                         P(60)
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-right">
-                        <span id="balance">$500</span>
+                  <div class="col-md-6">
+                     <div class="balance text-right">
+                        <span data-id="balance">$0</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="ema12"></span>
+                  <div class="col-md-6">
+                     <div class="ema12 text-center">
+                        <small class="d-block"><b>EMA12</b></small>
+                        <span data-id="ema12">-</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="ema26"></span>
+                  <div class="col-md-6">
+                     <div class="ema26 text-center">
+                        <small class="d-block"><b>EMA26</b></small>
+                        <span data-id="ema26">-</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="buyIndicators"></span>
+                  <div class="col-md-6">
+                     <div class="i-buys text-center">
+                        <small class="d-block"><b>Buy Indicators</b></small>
+                        <span data-id="buyIndicators">-</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="sellIndicators"></span>
+                  <div class="col-md-6">
+                     <div class="i-sells text-center">
+                        <small class="d-block"><b>Sell Indicators</b></small>
+                        <span data-id="sellIndicators">-</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="ourBuyds"></span>
+                  <div class="col-md-6">
+                     <div class="o-buys text-center">
+                        <small class="d-block"><b>Buys</b></small>
+                        <span data-id="ourBuys">0</span>
                      </div>
                   </div>
-                  <div class="col-6">
-                     <div class="text-center">
-                        <span id="ourSells"></span>
+                  <div class="col-md-6">
+                     <div class="o-sells text-center">
+                        <small class="d-block"><b>Sells</b></small>
+                        <span data-id="ourSells">0</span>
                      </div>
                   </div>
                </div>
