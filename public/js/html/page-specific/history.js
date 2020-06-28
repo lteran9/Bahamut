@@ -8,7 +8,7 @@ var coinHistory = (function () {
       display: false,
       dataPoints: [],
       ema: new EMA('BTC-USD')
-   }, jsChart = {}
+   }, jsChart = {};
 
    function getData() {
       var priceData = document.getElementById('priceHistoryData'),
@@ -20,6 +20,7 @@ var coinHistory = (function () {
       if (priceData) {
          var history = JSON.parse(priceData.value);
          console.log(history);
+
          var start = new Date(dates.start.value);
          var end = new Date(dates.end.value + ' 23:59:59');
 
@@ -134,7 +135,7 @@ var coinHistory = (function () {
          });
          jsChart.update();
 
-         console.log(movingAverages);
+         //console.log(movingAverages);
       },
       ema26: function () {
          longAverage.display = true;
@@ -174,7 +175,7 @@ var coinHistory = (function () {
          });
          jsChart.update();
 
-         console.log(movingAverages);
+         //console.log(movingAverages);
       }
    }
 

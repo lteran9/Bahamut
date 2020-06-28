@@ -31,9 +31,12 @@ class ProductController extends Controller
    }
 
    // [HttpGet, route('products.history')]
-   public function history($id)
+   public function history($id, Request $request)
    {
-      return view('products.history', compact('id'));
+      $fromdate = $request->session()->get('from_date');
+      $todate = $request->session()->get('to_date');
+
+      return view('products.history', compact('id', 'fromdate', 'todate'));
    }
 
    // [HttpGet, route('products.stats')]
@@ -83,6 +86,9 @@ class ProductController extends Controller
                'price' => $record[4]
             ];
          });
+
+         $request->session()->put('from_date', $request->input('from-date'));
+         $request->session()->put('to_date', $request->input('to-date'));
 
          return view('products._result', compact('history', 'closingPrices'));
       }

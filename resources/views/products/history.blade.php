@@ -11,7 +11,7 @@
          <div class="form-group">
             <label for="from-date">From Date</label>
             <div class="input-group">
-               <input type="date" id="from-date" name="from-date" class="form-control" aria-label="From Date">
+               <input type="date" id="from-date" name="from-date" class="form-control" aria-label="From Date" value="{{$fromdate ?? old('from-date')}}" />
                <div class="input-group-append">
                   <label for="from-date" class="m-0">
                      <span class="input-group-text">
@@ -24,7 +24,7 @@
          <div class="form-group">
             <label for="to-date">To Date</label>
             <div class="input-group">
-               <input type="date" id="to-date" name="to-date" class="form-control" aria-label="From Date">
+               <input type="date" id="to-date" name="to-date" class="form-control" aria-label="To Date" value="{{$todate ?? old('to-date')}}" />
                <div class="input-group-append">
                   <label for="to-date" class="m-0">
                      <span class="input-group-text">
