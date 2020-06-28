@@ -21,7 +21,7 @@
                </div>
             </div>
          </div>
-         <div class="form-group">
+         <div class="form-group" style="display:none;">
             <label for="to-date">To Date</label>
             <div class="input-group">
                <input type="date" id="to-date" name="to-date" class="form-control" aria-label="To Date" value="{{$todate ?? old('to-date')}}" />
@@ -34,12 +34,12 @@
                </div>
             </div>
          </div>
-         <div class="form-group">
+         <div class="form-group" style="display:none;">
             <label for="time-period">Time Period</label>
             <select id="time-period" name="time-period" class="form-control">
                <option value="1">01m</option>
                <option value="5">05m</option>
-               <option value="15">15m</option>
+               <option value="15" selected>15m</option>
                <option value="60">60m</option>
             </select>
          </div>

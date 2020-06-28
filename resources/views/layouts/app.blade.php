@@ -93,6 +93,7 @@
 <script type="text/javascript" src="{{asset('js/feather-icons.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/moment.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/chart.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/chart-financial.js')}}"></script>
 
 <script type="text/javascript" src="{{asset('js/html/elements/ajax-form.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/app.js')}}"></script>

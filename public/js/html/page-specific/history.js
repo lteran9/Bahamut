@@ -8,7 +8,7 @@ var coinHistory = (function () {
       display: false,
       dataPoints: [],
       ema: new EMA('BTC-USD')
-   }, jsChart = {};
+   }, lineChart = {}, candlestickChart = {};
 
    function getData() {
       var priceData = document.getElementById('priceHistoryData'),
@@ -19,10 +19,33 @@ var coinHistory = (function () {
 
       if (priceData) {
          var history = JSON.parse(priceData.value);
-         console.log(history);
 
          var start = new Date(dates.start.value);
-         var end = new Date(dates.end.value + ' 23:59:59');
+         var end = new Date(dates.start.value + ' 23:59:59');
+
+         for (var i = 0; i < history.length; i++) {
+            var priceDate = new Date(history[i].time);
+
+            if (priceDate >= start && priceDate <= end) {
+               data.push(history[i]);
+            }
+         }
+      }
+
+      return data;
+   }
+
+   function getCandlestickData() {
+      var priceData = document.getElementById('candlestick'),
+         dates = {
+            start: document.getElementById('from-date')
+         }, data = [];
+
+      if (priceData) {
+         var history = JSON.parse(priceData.value);
+
+         var start = new Date(dates.start.value);
+         var end = new Date(dates.start.value + ' 23:59:59');
 
          for (var i = 0; i < history.length; i++) {
             var priceDate = new Date(history[i].time);
@@ -37,7 +60,7 @@ var coinHistory = (function () {
    }
 
    function loadCharts() {
-      function priceChart() {
+      function line() {
          var data = getData();
 
          if (data.length) {
@@ -52,10 +75,10 @@ var coinHistory = (function () {
                })
             }
 
-            var ctx = document.getElementById('priceHistory').getContext('2d');
+            var ctx = document.getElementById('lineChart').getContext('2d');
             ctx.height = 600;
 
-            jsChart = new Chart(ctx, {
+            lineChart = new Chart(ctx, {
                type: 'line',
                data: {
                   datasets: [{
@@ -85,7 +108,25 @@ var coinHistory = (function () {
          }
       }
 
-      priceChart();
+      function candlestick() {
+         var data = getData();
+
+         if (data.length) {
+            var labels = [],
+               dataPoints = [];
+
+            for (var i = 0; i < data.length; i++) {
+               labels.push(data[i].time);
+               dataPoints.push({
+                  x: new Date(data[i].time),
+                  y: data[i].price
+               })
+            }
+         }
+      }
+
+      line();
+      candlestick();
    }
 
    function init() {
@@ -97,85 +138,89 @@ var coinHistory = (function () {
          init();
       },
       ema12: function () {
-         shortAverage.display = true;
+         if (shortAverage.display == false) {
+            shortAverage.display = true;
 
-         var movingAverages = []
+            var movingAverages = []
 
-         var priceHistory = JSON.parse(document.getElementById('priceHistoryData').value);
+            var priceHistory = JSON.parse(document.getElementById('priceHistoryData').value);
 
-         if (priceHistory.length > 0) {
-            for (var i = 0; i < getData().length; i++) {
-               var dataset = [];
+            if (priceHistory.length > 0) {
+               for (var i = 0; i < priceHistory.length; i++) {
+                  var dataset = [];
 
-               // Get dataset
-               for (var j = i; j < (i + 12); j++) {
-                  dataset.push({ price: priceHistory[j].price });
+                  // Get dataset
+                  for (var j = i; j < (i + 12); j++) {
+                     dataset.push({ price: priceHistory[j].price });
+                  }
+
+                  // Apply formula
+                  var avg = shortAverage.ema.calculate12({
+                     movingAverages: dataset
+                  });
+
+                  // Save answer
+                  movingAverages.push({
+                     x: new Date(priceHistory[i].time),
+                     y: avg
+                  });
                }
-
-               // Apply formula
-               var avg = shortAverage.ema.calculate12({
-                  movingAverages: dataset
-               });
-
-               // Save answer
-               movingAverages.push({
-                  x: new Date(priceHistory[i].time),
-                  y: avg
-               });
             }
+
+            lineChart.data.datasets.push({
+               label: 'EMA12',
+               data: movingAverages,
+               borderColor: [
+                  'rgb(124, 252, 0)',
+               ],
+               borderWidth: 1
+            });
+            lineChart.update();
+
+            //console.log(movingAverages);
          }
-
-         jsChart.data.datasets.push({
-            label: 'EMA12',
-            data: movingAverages,
-            borderColor: [
-               'rgb(124, 252, 0)',
-            ],
-            borderWidth: 1
-         });
-         jsChart.update();
-
-         //console.log(movingAverages);
       },
       ema26: function () {
-         longAverage.display = true;
+         if (longAverage.display == false) {
+            longAverage.display = true;
 
-         var movingAverages = [];
-         var priceHistory = JSON.parse(document.getElementById('priceHistoryData').value);
+            var movingAverages = [];
+            var priceHistory = JSON.parse(document.getElementById('priceHistoryData').value);
 
-         if (priceHistory.length > 0) {
-            for (var i = 0; i < getData().length; i++) {
-               var dataset = [];
+            if (priceHistory.length > 0) {
+               for (var i = 0; i < priceHistory.length; i++) {
+                  var dataset = [];
 
-               // Get dataset
-               for (var j = i; j < (i + 26); j++) {
-                  dataset.push({ price: priceHistory[j].price });
+                  // Get dataset
+                  for (var j = i; j < (i + 26); j++) {
+                     dataset.push({ price: priceHistory[j].price });
+                  }
+
+                  // Apply formula
+                  var avg = shortAverage.ema.calculate26({
+                     movingAverages: dataset
+                  });
+
+                  // Save answer
+                  movingAverages.push({
+                     x: new Date(priceHistory[i].time),
+                     y: avg
+                  });
                }
-
-               // Apply formula
-               var avg = shortAverage.ema.calculate26({
-                  movingAverages: dataset
-               });
-
-               // Save answer
-               movingAverages.push({
-                  x: new Date(priceHistory[i].time),
-                  y: avg
-               });
             }
+
+            lineChart.data.datasets.push({
+               label: 'EMA26',
+               data: movingAverages,
+               borderColor: [
+                  'rgb(233,150,122)',
+               ],
+               borderWidth: 1
+            });
+            lineChart.update();
+
+            //console.log(movingAverages);
          }
-
-         jsChart.data.datasets.push({
-            label: 'EMA26',
-            data: movingAverages,
-            borderColor: [
-               'rgb(233,150,122)',
-            ],
-            borderWidth: 1
-         });
-         jsChart.update();
-
-         //console.log(movingAverages);
       }
    }
 

@@ -34,9 +34,9 @@ class ProductController extends Controller
    public function history($id, Request $request)
    {
       $fromdate = $request->session()->get('from_date');
-      $todate = $request->session()->get('to_date');
+      // $todate = $request->session()->get('to_date');
 
-      return view('products.history', compact('id', 'fromdate', 'todate'));
+      return view('products.history', compact('id', 'fromdate'));
    }
 
    // [HttpGet, route('products.stats')]
@@ -58,7 +58,6 @@ class ProductController extends Controller
       $validator = Validator::make($request->all(), [
          'id' => 'required',
          'from-date' => 'required',
-         'to-date' => 'required',
          'time-period' => 'required'
       ]);
 
@@ -77,7 +76,7 @@ class ProductController extends Controller
          }
 
          $start = $adjStart->format('Y-m-d') . 'T00:00:00';
-         $end = $request->input('to-date') . 'T23:59:59';
+         $end = $request->input('from-date') . 'T23:59:59';
          $history = $this->system->getTradeHistory($product, $start, $end, $granularity);
 
          $closingPrices = $history->map(function ($record) {
@@ -87,10 +86,21 @@ class ProductController extends Controller
             ];
          });
 
-         $request->session()->put('from_date', $request->input('from-date'));
-         $request->session()->put('to_date', $request->input('to-date'));
+         $candles = $history->map(function ($record) {
+            return (object) [
+               'time' => date('Y-m-d\TH:i:s\Z', $record[0]),
+               'low' => $record[1],
+               'high' => $record[2],
+               'open' => $record[3],
+               'close' => $record[4],
+               'volume' => $record[5]
+            ];
+         });
 
-         return view('products._result', compact('history', 'closingPrices'));
+         $request->session()->put('from_date', $request->input('from-date'));
+         // $request->session()->put('to_date', $request->input('to-date'));
+
+         return view('products._result', compact('history', 'closingPrices', 'candles'));
       }
 
       return ['Error' => 'Missing a parameter'];

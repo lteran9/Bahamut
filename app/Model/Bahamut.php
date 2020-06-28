@@ -2,6 +2,7 @@
 
 use App\Model\Candlestick;
 
+/// Need to find another name
 class Bahamut
 {
 
