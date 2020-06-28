@@ -3,43 +3,107 @@ var exchange = (function () {
    const buffer = 52;
 
    var websockets = []
-      rawTransactions = []
-      curatedDataset = [];
+   rawTransactions = []
+   curatedDataset = [];
 
    var elements = {
       container: document.getElementById('crypto-coin'),
       averages: document.getElementById('averages'),
-      clock: document.getElementById('clock')
+      clock: document.getElementById('clock'),
+      progressBars: [
+         {
+            id: 'p05-ema12',
+            progress: 0
+         },
+         {
+            id: 'p05-ema26',
+            progress: 0
+         },
+         {
+            id: 'p15-ema12',
+            progress: 0
+         },
+         {
+            id: 'p15-ema26',
+            progress: 0
+         },
+         {
+            id: 'p30-ema12',
+            progress: 0
+         },
+         {
+            id: 'p30-ema26',
+            progress: 0
+         },
+         {
+            id: 'p60-ema12',
+            progress: 0
+         },
+         {
+            id: 'p60-ema26',
+            progress: 0
+         }
+      ]
    }
 
    function updateUI(periods) {
+      function updateEMAs(shortAvg, longAvg, container) {
+         var shortElement = $(container).find('[data-id="ema12"]'),
+            longElement = $(container).find('[data-id="ema26"]');
+
+         if (shortAvg != '-') {
+            $(shortElement).html(shortAvg.toFixed(4));
+
+            if (shortAvg > longAvg) {
+               $(shortElement).addClass('on');
+            } else {
+               if ($(shortElement).hasClass('on'))
+                  $(shortElement).removeClass('on');
+            }
+         }
+
+         if (longAvg != '-') {
+            $(longElement).html(longAvg.toFixed(4));
+
+            if (shortAvg < longAvg) {
+               $(longElement).addClass('on');
+            } else {
+               if ($(longElement).hasClass('on'))
+                  $(longElement).removeClass('on');
+            }
+         }
+      }
+
+      function updateProgressBars(period, container) {
+         if (period.movingAverages.length <= 12) {
+            var progressBar = $(container).find('#' + period.period + '-ema12');
+            if (progressBar) {
+               var width = (period.movingAverages.length / 12) * 100;
+               $(progressBar).css('width', width + '%');
+            }
+         } else {
+            $(container).find('#' + period.period + '-ema12').parent().remove();
+         }
+
+         if (period.movingAverages.length <= 26) {
+            var progressBar = $(container).find('#' + period.period + '-ema26');
+            if (progressBar) {
+               var width = (period.movingAverages.length / 26) * 100;
+               $(progressBar).css('width', width + '%');
+            }
+         } else {
+            $(container).find('#' + period.period + '-ema26').parent().remove();
+         }
+      }
+
       for (var i = 0; i < periods.length; i++) {
          var shortAvg = periods[i].shortAvg,
             longAvg = periods[i].longAvg;
 
          var container = $(elements.averages).find('#' + periods[i].period);
          if (container) {
-            var shortElement = $(container).find('[data-id="ema12"]'),
-               longElement = $(container).find('[data-id="ema26"]');
-            if (shortAvg != '-') {
-               $(shortElement).html(shortAvg.toFixed(4));
-               if (shortAvg > longAvg) {
-                  $(shortElement).addClass('on');
-               } else {
-                  if ($(shortElement).hasClass('on'))
-                     $(shortElement).removeClass('on');
-               }
-            }
-
-            if (longAvg != '-') {
-               $(longElement).html(longAvg.toFixed(4));
-               if (shortAvg < longAvg) {
-                  $(longElement).addClass('on');
-               } else {
-                  if ($(longElement).hasClass('on'))
-                     $(longElement).removeClass('on');
-               }
-            }
+            updateEMAs(shortAvg, longAvg, container);
+            updateProgressBars(periods[i], container);
          }
       }
    }

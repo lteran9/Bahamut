@@ -11019,6 +11019,10 @@ button.close {
  *
  */
 
+a {
+  text-decoration: none;
+}
+
 b {
   font-weight: bold;
 }
@@ -11046,12 +11050,24 @@ dl {
   font-weight: bolder;
 }
 
+.card.coin-card .time-periods .period .ema12 {
+  margin-bottom: 0.525rem;
+}
+
 .card.coin-card .time-periods .period .ema12 .on {
   border-bottom: 3px solid #2eae34;
 }
 
+.card.coin-card .time-periods .period .ema26 {
+  margin-bottom: 0.525rem;
+}
+
 .card.coin-card .time-periods .period .ema26 .on {
   border-bottom: 3px solid #f9672d;
+}
+
+.card.coin-card .time-periods .period .progress {
+  height: 0.5rem;
 }
 
 @-webkit-keyframes fade {
@@ -11212,5 +11228,12 @@ feed-view [id^=volume-] {
 
 .coin-card .card-title {
   text-align: center;
+}
+
+.bhm-exchange .product-link {
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 

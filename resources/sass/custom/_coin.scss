@@ -12,15 +12,23 @@
             }
 
             .ema12 {
+               margin-bottom: 0.525rem;
+
                .on {
                   border-bottom: 3px solid rgb(46, 174, 52);
                }
             }
 
             .ema26 {
+               margin-bottom: 0.525rem;
+
                .on {
                   border-bottom: 3px solid rgb(249, 103, 45);
                }
+            }
+
+            .progress {
+               height: 0.5rem;
             }
          }
       }

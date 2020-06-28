@@ -12,7 +12,7 @@ class ExchangeController extends Controller
    // [HttpGet, route('exchange')]
    public function index()
    {
-      return view('exchange.feed.index');
+      return view('exchange.index');
    }
 
    // [HttpGet, route('exchange.coin')]

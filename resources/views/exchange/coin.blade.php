@@ -3,7 +3,7 @@
 <div class="container my-5">
    <div class="row align-items-center">
       <div class="col-md-6">
-         <h2 class="mb-0">Bahamut</h2>
+         <h1 class="mb-0">Bahamut</h1>
       </div>
       <div class="col-md-6">
          <span class="float-right"><i data-feather="clock"></i>&nbsp;<span id="clock">0</span></span>
@@ -38,11 +38,17 @@
                         <small class="d-block"><b>EMA12</b></small>
                         <span data-id="ema12">-</span>
                      </div>
+                     <div class="progress">
+                        <div id="p05-ema12" class="progress-bar bg-info" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                     </div>
                   </div>
                   <div class="col-md-6">
                      <div class="ema26 text-center">
                         <small class="d-block"><b>EMA26</b></small>
                         <span data-id="ema26">-</span>
+                     </div>
+                     <div class="progress">
+                        <div id="p05-ema26" class="progress-bar bg-info" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                      </div>
                   </div>
                   <div class="col-md-6">
@@ -88,11 +94,17 @@
                         <small class="d-block"><b>EMA12</b></small>
                         <span data-id="ema12">-</span>
                      </div>
+                     <div class="progress">
+                        <div id="p15-ema12" class="progress-bar bg-info" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                     </div>
                   </div>
                   <div class="col-md-6">
                      <div class="ema26 text-center">
                         <small class="d-block"><b>EMA26</b></small>
                         <span data-id="ema26">-</span>
+                     </div>
+                     <div class="progress">
+                        <div id="p15-ema26" class="progress-bar bg-info" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                      </div>
                   </div>
                   <div class="col-md-6">
@@ -138,11 +150,17 @@
                         <small class="d-block"><b>EMA12</b></small>
                         <span data-id="ema12">-</span>
                      </div>
+                     <div class="progress">
+                        <div id="p30-ema12" class="progress-bar bg-info" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                     </div>
                   </div>
                   <div class="col-md-6">
                      <div class="ema26 text-center">
                         <small class="d-block"><b>EMA26</b></small>
                         <span data-id="ema26">-</span>
+                     </div>
+                     <div class="progress">
+                        <div id="p30-ema26" class="progress-bar bg-info" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                      </div>
                   </div>
                   <div class="col-md-6">
@@ -188,11 +206,17 @@
                         <small class="d-block"><b>EMA12</b></small>
                         <span data-id="ema12">-</span>
                      </div>
+                     <div class="progress">
+                        <div id="p60-ema12" class="progress-bar bg-info" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                     </div>
                   </div>
                   <div class="col-md-6">
                      <div class="ema26 text-center">
                         <small class="d-block"><b>EMA26</b></small>
                         <span data-id="ema26">-</span>
+                     </div>
+                     <div class="progress">
+                        <div id="p60-ema26" class="progress-bar bg-info" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                      </div>
                   </div>
                   <div class="col-md-6">
