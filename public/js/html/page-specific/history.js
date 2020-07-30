@@ -36,7 +36,7 @@ var coinHistory = (function () {
    }
 
    function getCandlestickData() {
-      var priceData = document.getElementById('candlestick'),
+      var priceData = document.getElementById('candles'),
          dates = {
             start: document.getElementById('from-date')
          }, data = [];
@@ -64,64 +64,101 @@ var coinHistory = (function () {
          var data = getData();
 
          if (data.length) {
-            var labels = [],
-               dataPoints = [];
+            var dataPoints = [];
 
             for (var i = 0; i < data.length; i++) {
-               labels.push(data[i].time);
                dataPoints.push({
                   x: new Date(data[i].time),
                   y: data[i].price
-               })
+               });
             }
 
-            var ctx = document.getElementById('lineChart').getContext('2d');
-            ctx.height = 600;
-
-            lineChart = new Chart(ctx, {
-               type: 'line',
-               data: {
-                  datasets: [{
-                     label: 'Price History',
-                     data: dataPoints,
-                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                     borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                     ],
-                     borderWidth: 1
-                  }]
+            lineChart = new CanvasJS.Chart('lineChart', {
+               title: {
+                  text: 'Line Chart'
                },
-               options: {
-                  scales: {
-                     xAxes: [{
-                        type: 'time'
-                     }],
-                     yAxes: [{
-                        type: 'linear',
-                        ticks: {
-                           beginAtZero: false
-                        }
-                     }]
+               axisX: {
+                  valueFormatString: 'h tt',
+                  interval: 1,
+                  intervalType: 'hour'
+               },
+               axisY2: {
+                  prefix: '$',
+                  suffix: 'K',
+                  includeZero: false
+               },
+               toolTip: {
+                  shared: true,
+                  content: '{x}<br/>{y}'
+               },
+               legend: {
+                  cursor: 'pointer',
+                  verticalAlign: 'top',
+                  horizontalAlign: 'center',
+                  dockInsidePlotArea: true
+               },
+               data: [
+                  {
+                     type: 'line',
+                     axisYType: 'secondary',
+                     name: 'Price History',
+                     showInLegend: true,
+                     markerSize: 0,
+                     xValueFormatString: 'hh:mm tt',
+                     yValueFormatString: '$#,###.##',
+                     dataPoints: dataPoints
                   }
-               }
+               ]
             });
+            lineChart.render();
          }
       }
 
       function candlestick() {
-         var data = getData();
+         var data = getCandlestickData();
 
          if (data.length) {
-            var labels = [],
-               dataPoints = [];
+            var dataPoints = [];
 
             for (var i = 0; i < data.length; i++) {
-               labels.push(data[i].time);
                dataPoints.push({
                   x: new Date(data[i].time),
-                  y: data[i].price
+                  y: [
+                     data[i].open,
+                     data[i].high,
+                     data[i].low,
+                     data[i].close
+                  ]
                })
             }
+
+            candlestickChart = new CanvasJS.Chart('candlestickChart', {
+               title: {
+                  text: 'Candlestick Chart'
+               },
+               axisX: {
+                  valueFormatString: 'h tt',
+                  interval: 1,
+                  intervalType: 'hour'
+               },
+               axisY2: {
+                  includeZero: false,
+                  prefix: "$",
+                  title: "Price"
+               },
+               toolTip: {
+                  content: "Date: {x}<br /><strong>Open:</strong> {y[0]}, <strong>Close:</strong> {y[3]}<br /><strong>High:</strong> {y[1]}, <strong>Low:</strong> {y[2]}"
+               },
+               data: [{
+                  type: 'candlestick',
+                  axisYType: 'secondary',
+                  dataPoints: dataPoints,
+                  markerSize: 0,
+                  xValueFormatString: 'hh:mm tt',
+                  yValueFormatString: '$#,###.##',
+               }]
+            });
+            candlestickChart.render();
          }
       }
 

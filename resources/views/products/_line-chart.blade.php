@@ -11,19 +11,7 @@
    <div class="card-body history-graph">
       <div class="row">
          <div class="col-12">
-            <div class="btn-group-toggle" data-toggle="buttons">
-               <label class="btn btn-secondary">
-                  <input type="checkbox" onchange="window.coinHistory.ema12();" /> EMA 12
-               </label>
-               <label class="btn btn-secondary">
-                  <input type="checkbox" onchange="window.coinHistory.ema26();" /> EMA 26
-               </label>
-            </div>
-         </div>
-      </div>
-      <div class="row">
-         <div class="col-12">
-            <canvas id="lineChart"></canvas>
+            <div id="lineChart" style="width: 100%;height: 600px;"></div>
          </div>
       </div>
    </div>

@@ -11,7 +11,7 @@
    <div class="card-body">
       <div class="row">
          <div class="col-12">
-            <canvas id="candlestickChart"></canvas>
+            <div id="candlestickChart" style="width: 100%; height: 600px;"></div>
          </div>
       </div>
    </div>
