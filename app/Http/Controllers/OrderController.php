@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
+   // localhost/orders/place
    // [HttpPost, route('order.place')]
    public function place(Request $request)
    {
@@ -33,5 +34,10 @@ class OrderController extends Controller
       return [
          'success' => 'Order placed successfully.'
       ];
+   }
+
+   public function example()
+   {
+      return view('example');
    }
 }

@@ -19,6 +19,8 @@ Route::get('/', function () {
 
 Route::get('/currency', 'CurrencyController@currency')->name('currency');
 
+Route::get('/examples', 'OrderController@example');
+
 Route::get('/exchange', 'ExchangeController@index')->name('exchange');
 Route::get('/exchange/{coin}', 'ExchangeController@coin')->name('exchange.coin');
 
