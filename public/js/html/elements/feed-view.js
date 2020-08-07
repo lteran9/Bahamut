@@ -24,50 +24,50 @@ class FeedElement extends HTMLElement {
          <div class="p-3">
             <div class="row">
                <div class="col-4 text-left">
-                  <b>P(05sec):</b>
-                  <span id="time-period-5-${product}"></span>
+                  <b>P(12sec):</b>
+                  <span id="time-period-12-${product}"></span>
                </div>
                <div class="col-4">
-                  <div id="ema12-5-${product}"></div>
+                  <div id="ema12-12-${product}"></div>
                </div>
                 <div class="col-4">
-                  <div id="ema26-5-${product}"></div>
+                  <div id="ema26-12-${product}"></div>
                </div>
             </div>
             <div class="row">
                <div class="col-4 text-left">
-                  <b>P(15sec):</b>
-                  <span id="time-period-15-${product}"></span>
+                  <b>P(24sec):</b>
+                  <span id="time-period-24-${product}"></span>
                </div>
                <div class="col-4">
-                  <div id="ema12-15-${product}"></div>
+                  <div id="ema12-24-${product}"></div>
                </div>
                 <div class="col-4">
-                  <div id="ema26-15-${product}"></div>
+                  <div id="ema26-24-${product}"></div>
                </div>
             </div>
             <div class="row">
               <div class="col-4 text-left">
-                  <b>P(30sec):</b>
-                  <span id="time-period-30-${product}"></span>
+                  <b>P(36sec):</b>
+                  <span id="time-period-36-${product}"></span>
                </div>
                <div class="col-4">
-                  <div id="ema12-30-${product}"></div>
+                  <div id="ema12-36-${product}"></div>
                </div>
                 <div class="col-4">
-                  <div id="ema26-30-${product}"></div>
+                  <div id="ema26-36-${product}"></div>
                </div>
             </div>
             <div class="row">
                <div class="col-4 text-left">
-                  <b>P(60sec):</b>
-                  <span id="time-period-60-${product}"></span>
+                  <b>P(48sec):</b>
+                  <span id="time-period-48-${product}"></span>
                </div>
                <div class="col-4">
-                  <div id="ema12-60-${product}"></div>
+                  <div id="ema12-48-${product}"></div>
                </div>
                 <div class="col-4">
-                  <div id="ema26-60-${product}"></div>
+                  <div id="ema26-48-${product}"></div>
                </div>
             </div>
          </div>

@@ -11,24 +11,24 @@ class EMA {
       // Time in seconds
       this.periods = [
          {
-            period: 'p05',
-            seconds: 5,
+            period: 'p12',
+            seconds: 12,
             movingAverages: [],
             shortAvg: 0,
             longAvg: 0,
             product_id: product
          },
          {
-            period: 'p15',
-            seconds: 15,
+            period: 'p24',
+            seconds: 24,
             movingAverages: [],
             shortAvg: 0,
             longAvg: 0,
             product_id: product
          },
          {
-            period: 'p30',
-            seconds: 30,
+            period: 'p48',
+            seconds: 48,
             movingAverages: [],
             shortAvg: 0,
             longAvg: 0,
