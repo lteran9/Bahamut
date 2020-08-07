@@ -9,40 +9,58 @@ class EMA {
     */
    constructor(product) {
       // Time in seconds
+
+      /**
+      var i;
+      for (i = 0; i < 48; i+=12) {
+         this.periods += {
+            period: 'p'+str(i),
+            seconds: i,
+            movingAverages: [],
+            shortAvg: 0,
+            longAvg: 0,
+            product_id: product
+         }
+      }
+      */
+
       this.periods = [
          {
-            period: 'p05',
-            seconds: 5,
+            period: 'p12',
+            seconds: 12,
             movingAverages: [],
             shortAvg: 0,
             longAvg: 0,
             product_id: product
          },
          {
-            period: 'p15',
-            seconds: 15,
+            period: 'p24',
+            seconds: 24,
             movingAverages: [],
             shortAvg: 0,
             longAvg: 0,
             product_id: product
          },
          {
-            period: 'p30',
-            seconds: 30,
+            period: 'p36',
+            seconds: 36,
             movingAverages: [],
             shortAvg: 0,
             longAvg: 0,
             product_id: product
          },
          {
-            period: 'p60',
-            seconds: 60,
+            period: 'p48',
+            seconds: 48,
             movingAverages: [],
             shortAvg: 0,
             longAvg: 0,
             product_id: product
          }
       ]
+
+
+      
 
       // Global messages list
       this.messages = [];
