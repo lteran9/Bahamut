@@ -8,10 +8,10 @@ class Candlestick {
      * @param {*} 
      */
     constructor() {
-        var high = 0;
-        var opening = 0;
-        var low = 0;
-        var closing = 0;
+        this.high = 0;
+        this.opening = 0;
+        this.low = 0;
+        this.closing = 0;
       
     }
  
