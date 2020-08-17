@@ -9,7 +9,9 @@
          <span class="float-right"><i data-feather="clock"></i>&nbsp;<span id="clock">0</span></span>
       </div>
    </div>
-   <hr />
+
+   <hr/>
+
    <div id="crypto-coin" class="card coin-card">
       <div class="card-body">
          <div class="card-title">
@@ -19,6 +21,9 @@
             <div class="mb-2">
                <span data-id="current-price">$0</span>
             </div>
+         </div>
+         <div class="col-md-6 offset-md-3">
+            <canvas id="visualizer" aria-label="visualizer" role="img"></canvas>
          </div>
          <ul id="averages" class="time-periods">
             <li id="p05" class="period">
@@ -252,11 +257,14 @@
 @endsection
 
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script type="text/javascript" src="{{asset('js/ema.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/timer.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/websocket/feed.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/html/elements/coin-view.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/html/page-specific/exchange.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/visualizer.js')}}"></script>
+
 <script type="text/javascript">
    $(document).ready(function() {
       if (exchange) {

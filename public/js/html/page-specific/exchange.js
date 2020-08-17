@@ -10,6 +10,7 @@ var exchange = (function () {
       container: document.getElementById('crypto-coin'),
       averages: document.getElementById('averages'),
       clock: document.getElementById('clock'),
+      chart: document.getElementById('visualizer'),
       progressBars: [
          {
             id: 'p05-ema12',
@@ -114,6 +115,40 @@ var exchange = (function () {
          $(element).html('$' + price);
    }
 
+
+   function updateChart(price, seconds) {
+      // Update chart in real time
+      
+      //if( window.chart.data.labels.length < 10){
+      //   window.chart.data.labels = data.labels.push(seconds);
+      //}
+      //if ( window.chart.data.dataset[0].length >= 10){
+      //   window.chart.data.dataset[0].data.shift;
+      //    window.chart.data.labels.shift;
+      //}
+      window.chart.data.labels.push(window.chart.labels.length);
+      window.chart.data.datasets[0].data.push(price);
+      window.chart.update();
+  
+      // pop = remove last
+      // shift = remove first
+      // unshift = add first
+      // push = add last
+  }
+
+  /* function updateChart(price, seconds) {
+      // Update chart in real time
+      window.chart.data.labels.push(seconds);
+      window.chart.data.datasets[0].data.push(price);
+      window.chart.update();
+  
+      // pop = remove last
+      // shift = remove first
+      // unshift = add first
+      // push = add last
+  }
+   */
+
    function updateTimer(seconds) {
       $(elements.clock).html(seconds);
    }
@@ -172,6 +207,7 @@ var exchange = (function () {
          }
 
          updatePrice(ticker.price);
+         updateChart(ticker.price, ticker.time);
          rawTransactions.unshift(ticker);
       }
 
