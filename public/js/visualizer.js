@@ -1,44 +1,68 @@
-var ctx = document.getElementById('visualizer').getContext('2d');
-window.chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'line',
+/**
+ * Handles the code necessary to display and update a Trade Visualizer.
+ */
+class Visualizer {
 
-    // The data for our dataset
-    data: {
-        labels: [],
-        datasets: [{
-            label: 'Price',
-            //backgroundColor: 'rgb(0, 99, 132)',
-            borderColor: 'rgb(0, 99, 132)',
-            data: []
-        }]
-    },
+    /**
+     *  Defaults to display price at current value and updates every second.
+     * 
+     */
+    constructor() {
+        this.ctx = document.getElementById('visualizer').getContext('2d');
+        this.chart = new Chart(this.ctx, {
+            // The type of chart we want to create
+            type: 'line',
 
-    // Configuration options go here
-    options: {
+            // The data for our dataset
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Price',
+                    //backgroundColor: 'rgb(0, 99, 132)',
+                    borderColor: 'rgb(0, 99, 132)',
+                    data: []
+                }]
+            },
+
+            // Configuration options go here
+            options: {}
+        });
     }
-});
 
-function updateChart(price) {
-    // Update chart in real time
-    
-    if(chart.data.labels.length < 10){
-        chart.data.labels = data.labels.push(((chart.data.labels.length)+1));
+    getVisualizer(){
+        return this.chart;
     }
-    if (chart.data.dataset[0].data.length >= 10){
-        chart.data.dataset[0].data.shift;
-        chart.data.labels.shift;
-    }
-    chart.data.datasets[0].data.push(price);
-    chart.update();
 
-    // pop = remove last
-    // shift = remove first
-    // unshift = add first
-    // push = add last
+    /**
+    * Update chart in real time (with just price for now)
+    * 
+    * @param {*} price
+    */
+    updateChart(price) {
+
+        this.chart.data.datasets[0].data.push(price);
+        this.chart.update();
+        // pop = remove last
+        // shift = remove first
+        // unshift = add first
+        // push = add last
+    }
+
+    makeLowChart(){
+        this.chart.data.datasets[0].label.pop();
+        this.chart.data.datasets[0].label.push("Low");
+        this.chart.update();
+    }
+
+    makeHighChart(){
+        
+    }
+
+    makeOpeningChart(){
+        
+    }
+
+    makeClosingChart(){
+        
+    }
 }
-
-updateChart();
-setInterval(() => {
-  updateChart();
-}, 1000);

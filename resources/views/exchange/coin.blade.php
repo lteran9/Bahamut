@@ -23,7 +23,11 @@
             </div>
          </div>
          <div class="col-md-6 offset-md-3">
-            <canvas id="visualizer" aria-label="visualizer" role="img"></canvas>
+            <canvas id="visualizer" aria-label="visualizer"></canvas>
+            <button class="btn btn-info" onclick="makeHighChart()">High</button>
+            <button class="btn btn-info" onclick="makeLowChart()">Low</button>
+            <button class="btn btn-info" onclick="makeOpeningChart()">Opening</button>
+            <button class="btn btn-info" onclick="makeClosingChart()">Closing</button>
          </div>
          <ul id="averages" class="time-periods">
             <li id="p05" class="period">
