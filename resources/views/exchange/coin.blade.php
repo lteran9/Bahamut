@@ -22,13 +22,16 @@
                <span data-id="current-price">$0</span>
             </div>
          </div>
-         <div class="col-md-6 offset-md-3">
-            <canvas id="visualizer" aria-label="visualizer"></canvas>
-            <button class="btn btn-info" onclick="makeHighChart()">High</button>
-            <button class="btn btn-info" onclick="makeLowChart()">Low</button>
-            <button class="btn btn-info" onclick="makeOpeningChart()">Opening</button>
-            <button class="btn btn-info" onclick="makeClosingChart()">Closing</button>
+         <div>
+            <div id="visualizer" style="width:100%;"></div>
+            <div>
+               <button class="btn btn-info" onclick="makeHighChart()">High</button>
+               <button class="btn btn-info" onclick="makeLowChart()">Low</button>
+               <button class="btn btn-info" onclick="makeOpeningChart()">Opening</button>
+               <button class="btn btn-info" onclick="makeClosingChart()">Closing</button>
+            </div>
          </div>
+      
          <ul id="averages" class="time-periods">
             <li id="p05" class="period">
                <div class="row">
@@ -261,7 +264,7 @@
 @endsection
 
 @section('js')
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script type="text/javascript" src="{{asset('js/ema.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/timer.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/websocket/feed.js')}}"></script>

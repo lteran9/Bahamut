@@ -8,25 +8,39 @@ class Visualizer {
      * 
      */
     constructor() {
-        this.ctx = document.getElementById('visualizer').getContext('2d');
-        this.chart = new Chart(this.ctx, {
-            // The type of chart we want to create
-            type: 'line',
+        this.data = []
+        this.counter = 0;
 
-            // The data for our dataset
-            data: {
-                labels: [],
-                datasets: [{
-                    label: 'Price',
-                    //backgroundColor: 'rgb(0, 99, 132)',
-                    borderColor: 'rgb(0, 99, 132)',
-                    data: []
+        this.maxlength = 20;
+        this.chart = new CanvasJS.Chart("visualizer", {
+            exportEnabled: true,
+            animationEnabled: true,
+            zoomEnabled: false,
+            axisY: {
+                title: "Dollars",
+                //valueFormatString: "#0,,.",
+                prefix: "$",
+                minimum: 11400,
+                maximum: 11410,
+                stripLines: [{
+                    value: 11000,
+                    label: "Average"
                 }]
             },
-
-            // Configuration options go here
-            options: {}
+            axisX: {
+                title: "Seconds",
+                gridThickness: 1,
+                labelWrap: true,
+            },
+            theme: "light2",
+            data: [{    
+                //yValueFormatString: "##,### Units",    
+                type: "line",
+                  indexLabelFontSize: 16,
+                dataPoints: this.data
+            }]
         });
+        this.chart.render();
     }
 
     getVisualizer(){
@@ -38,10 +52,20 @@ class Visualizer {
     * 
     * @param {*} price
     */
-    updateChart(price) {
+    updateChartPrice(price) {
+        this.data.push({
+			x: this.counter,
+			y: price
+        });
+        
+        this.counter++;
 
-        this.chart.data.datasets[0].data.push(price);
-        this.chart.update();
+        if (this.data.length > this.maxlength) {
+            this.data.shift();
+        }
+        this.chart.render();
+        console.log(this.data);
+
         // pop = remove last
         // shift = remove first
         // unshift = add first

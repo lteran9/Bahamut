@@ -10,7 +10,6 @@ var exchange = (function () {
       container: document.getElementById('crypto-coin'),
       averages: document.getElementById('averages'),
       clock: document.getElementById('clock'),
-      chart: document.getElementById('visualizer'),
       progressBars: [
          {
             id: 'p05-ema12',
@@ -113,7 +112,7 @@ var exchange = (function () {
       var element = $(elements.container).find('[data-id="current-price"]');
       if (element)
          $(element).html('$' + price);
-      this.chart.updateChart(price);
+      this.visualizer.updateChartPrice(price);
    }
 
    function updateTimer(seconds) {
