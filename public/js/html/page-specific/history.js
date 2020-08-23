@@ -232,7 +232,6 @@ var coinHistory = (function () {
                   for (var j = i; j < (i + 26); j++) {
                      dataset.push({ price: priceHistory[j].price });
                   }
-
                   // Apply formula
                   var avg = shortAverage.ema.calculate26({
                      movingAverages: dataset

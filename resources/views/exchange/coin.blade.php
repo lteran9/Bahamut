@@ -23,12 +23,16 @@
             </div>
          </div>
          <div>
-            <div id="visualizer" style="width:100%;"></div>
-            <div>
-               <button class="btn btn-info" onclick="makeHighChart()">High</button>
-               <button class="btn btn-info" onclick="makeLowChart()">Low</button>
-               <button class="btn btn-info" onclick="makeOpeningChart()">Opening</button>
-               <button class="btn btn-info" onclick="makeClosingChart()">Closing</button>
+            <div class="card chart-card" style="height:350px;">
+               <div class="card-body">
+                  <div id="visualizer" style="height:90%; width:100%;"></div>
+                  <div>
+                     <button class="btn btn-info" onclick="makeHighChart()">High</button>
+                     <button class="btn btn-info" onclick="makeLowChart()">Low</button>
+                     <button class="btn btn-info" onclick="makeOpeningChart()">Opening</button>
+                     <button class="btn btn-info" onclick="makeClosingChart()">Closing</button>
+                  </div>
+               </div>
             </div>
          </div>
       

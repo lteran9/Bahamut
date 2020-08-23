@@ -112,11 +112,14 @@ var exchange = (function () {
       var element = $(elements.container).find('[data-id="current-price"]');
       if (element)
          $(element).html('$' + price);
-      this.visualizer.updateChartPrice(price);
    }
 
    function updateTimer(seconds) {
       $(elements.clock).html(seconds);
+   }
+
+   function updateChart(price){
+      this.visualizer.updateChartPrice(price);
    }
 
    function messageReceived(msg) {
@@ -173,6 +176,13 @@ var exchange = (function () {
          }
 
          updatePrice(ticker.price);
+         
+         console.log(ticker.time +" is different from " + ticker.time.getTime());
+
+         if (ticker.time.getTime()%3 == 0){
+            updateChart(ticker.price);
+         }
+
          rawTransactions.unshift(ticker);
       }
 

@@ -8,34 +8,36 @@ class Visualizer {
      * 
      */
     constructor() {
-        this.data = []
+        this.data = [];
         this.counter = 0;
 
         this.maxlength = 20;
         this.chart = new CanvasJS.Chart("visualizer", {
-            exportEnabled: true,
+            exportEnabled: false,
             animationEnabled: true,
             zoomEnabled: false,
+            toolTip: {
+                shared: true
+            },
             axisY: {
-                title: "Dollars",
+                //title: "Dollars",
+                gridThickness: 1,
                 //valueFormatString: "#0,,.",
                 prefix: "$",
-                minimum: 11400,
-                maximum: 11410,
-                stripLines: [{
-                    value: 11000,
-                    label: "Average"
-                }]
+                minimum: 11600,
+                //maximum: 11410,
             },
             axisX: {
-                title: "Seconds",
+                title: "Trades (updates every three seconds)",
                 gridThickness: 1,
                 labelWrap: true,
+                interlacedColor: "rgb(255,250,250)",
+                gridColor: "#FFBFD5"
             },
             theme: "light2",
             data: [{    
                 //yValueFormatString: "##,### Units",    
-                type: "line",
+                type: "spline",
                   indexLabelFontSize: 16,
                 dataPoints: this.data
             }]
@@ -53,19 +55,22 @@ class Visualizer {
     * @param {*} price
     */
     updateChartPrice(price) {
+
         this.data.push({
-			x: this.counter,
-			y: price
+            x: this.counter,
+            y: price
         });
-        
+
         this.counter++;
 
         if (this.data.length > this.maxlength) {
             this.data.shift();
         }
+
         this.chart.render();
         console.log(this.data);
 
+        
         // pop = remove last
         // shift = remove first
         // unshift = add first
@@ -73,9 +78,7 @@ class Visualizer {
     }
 
     makeLowChart(){
-        this.chart.data.datasets[0].label.pop();
-        this.chart.data.datasets[0].label.push("Low");
-        this.chart.update();
+
     }
 
     makeHighChart(){
