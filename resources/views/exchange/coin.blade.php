@@ -14,10 +14,13 @@
       <div class="card-body">
          <div class="card-title">
             <div class="mb-2">
-               <span>BTC-USD</span>
+               <span id="product">{{$coin}}</span>
             </div>
             <div class="mb-2">
                <span data-id="current-price">$0</span>
+            </div>
+            <div class="mb-2">
+                <small id="status"></small>
             </div>
          </div>
          <ul id="averages" class="time-periods">
@@ -255,7 +258,6 @@
 <script type="text/javascript" src="{{asset('js/ema.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/timer.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/websocket/feed.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/html/elements/coin-view.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/html/page-specific/exchange.js')}}"></script>
 <script type="text/javascript">
    $(document).ready(function() {
