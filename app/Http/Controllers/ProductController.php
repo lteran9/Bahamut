@@ -4,104 +4,109 @@ namespace App\Http\Controllers;
 
 use App\Bahamut;
 use App\Product;
-use App\ProductHistory;
-use App\ProductTrades;
 use Illuminate\Http\Request;
-use Coinbase\Pro\Client as HttpClient;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-   private $system;
+    private $system;
 
-   function __construct(Bahamut $bhm)
-   {
-      $this->system = $bhm;
-   }
+    function __construct(Bahamut $bhm)
+    {
+        $this->system = $bhm;
+    }
 
-   // [HttpGet, route('products')]
-   public function list()
-   {
-      $coins = $this->system->getCoins();
+    // [HttpGet, route('products')]
+    public function list()
+    {
+        $coins = $this->system->getCoins();
 
-      $products = Product::all();
+        $products = Product::all();
 
-      //return compact('coinbaseProducts');
-      return view('products.list', compact('products'));
-   }
+        //return compact('coinbaseProducts');
+        return view('products.list', compact('products'));
+    }
 
-   // [HttpGet, route('products.history')]
-   public function history($id, Request $request)
-   {
-      $fromdate = $request->session()->get('from_date');
+    // [HttpGet, route('products.history')]
+    public function history($id, Request $request)
+    {
+        $fromdate = $request->session()->get('from_date');
 
-      return view('products.history', compact('id', 'fromdate'));
-   }
+        return view('products.history', compact('id', 'fromdate'));
+    }
 
-   // [HttpGet, route('products.stats')]
-   public function stats($id)
-   {
-      if (strlen($id) > 0) {
-         $product = $id;
-         $stats = $this->system->getStats($id);
+    // [HttpGet, route('products.order-book')]
+    public function orderBook($id)
+    {
+        $product = $id;
+        $orders = $this->system->getProductBook($id);
+        //return compact('orders');
+        return view('products.order-book', compact('product', 'orders'));
+    }
 
-         return view('products.stats', compact('stats', 'product'));
-      }
+    // [HttpGet, route('products.stats')]
+    public function stats($id)
+    {
+        if (strlen($id) > 0) {
+            $product = $id;
+            $stats = $this->system->getStats($id);
 
-      return redirect()->route('products');
-   }
+            return view('products.stats', compact('stats', 'product'));
+        }
 
-   // [HttpPost, route('products.history.search')]
-   public function getHistory(Request $request)
-   {
-      $validator = Validator::make($request->all(), [
-         'id' => 'required',
-         'from-date' => 'required',
-         'time-period' => 'required'
-      ]);
+        return redirect()->route('products');
+    }
 
-      if ($validator->fails()) {
-         return back()->withErrors($validator->errors())->withInput();
-      }
+    // [HttpPost, route('products.history.search')]
+    public function getHistory(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'from-date' => 'required',
+            'time-period' => 'required'
+        ]);
 
-      $id = $request->input('id');
-      if (strlen($id) > 0) {
-         $product = $id;
-         $granularity = $request->input('time-period');
+        if ($validator->fails()) {
+            return back()->withErrors($validator->errors())->withInput();
+        }
 
-         $adjStart = \DateTime::createFromFormat('Y-m-d', $request->input('from-date'));
-         if (intval($granularity) != '1' || intval($granularity) != '5') {
-            $adjStart->sub(new \DateInterval('P1D'));
-         }
+        $id = $request->input('id');
+        if (strlen($id) > 0) {
+            $product = $id;
+            $granularity = $request->input('time-period');
 
-         $start = $adjStart->format('Y-m-d') . 'T00:00:00';
-         $end = $request->input('from-date') . 'T23:59:59';
-         $history = $this->system->getTradeHistory($product, $start, $end, $granularity);
+            $adjStart = \DateTime::createFromFormat('Y-m-d', $request->input('from-date'));
+            if (intval($granularity) != '1' || intval($granularity) != '5') {
+                $adjStart->sub(new \DateInterval('P1D'));
+            }
 
-         $closingPrices = $history->map(function ($record) {
-            return (object) [
-               'time' => date('Y-m-d\TH:i:s\Z', $record[0]),
-               'price' => $record[4]
-            ];
-         });
+            $start = $adjStart->format('Y-m-d') . 'T00:00:00';
+            $end = $request->input('from-date') . 'T23:59:59';
+            $history = $this->system->getTradeHistory($product, $start, $end, $granularity);
 
-         $candles = $history->map(function ($record) {
-            return (object) [
-               'time' => date('Y-m-d\TH:i:s\Z', $record[0]),
-               'low' => $record[1],
-               'high' => $record[2],
-               'open' => $record[3],
-               'close' => $record[4],
-               'volume' => $record[5]
-            ];
-         });
+            $closingPrices = $history->map(function ($record) {
+                return (object) [
+                    'time' => date('Y-m-d\TH:i:s\Z', $record[0]),
+                    'price' => $record[4]
+                ];
+            });
 
-         $request->session()->put('from_date', $request->input('from-date'));
-         // $request->session()->put('to_date', $request->input('to-date'));
+            $candles = $history->map(function ($record) {
+                return (object) [
+                    'time' => date('Y-m-d\TH:i:s\Z', $record[0]),
+                    'low' => $record[1],
+                    'high' => $record[2],
+                    'open' => $record[3],
+                    'close' => $record[4],
+                    'volume' => $record[5]
+                ];
+            });
 
-         return view('products._result', compact('history', 'closingPrices', 'candles'));
-      }
+            $request->session()->put('from_date', $request->input('from-date'));
 
-      return ['Error' => 'Missing a parameter'];
-   }
+            return view('products._result', compact('history', 'closingPrices', 'candles'));
+        }
+
+        return ['Error' => 'Missing a parameter'];
+    }
 }

@@ -7,125 +7,137 @@ use Coinbase\Pro\Requests\Headers;
 
 class Bahamut
 {
-   private $coinbaseAPI;
+    private $coinbaseAPI;
 
-   function __construct(Client $client)
-   {
-      $this->coinbaseAPI = $client;
-   }
+    function __construct(Client $client)
+    {
+        $this->coinbaseAPI = $client;
+    }
 
-   function getProfiles()
-   {
-      $coinbaseProfiles = new \Coinbase\Pro\Profiles\Profiles($this->coinbaseAPI);
-      $coinbaseProfiles = $coinbaseProfiles->get();
+    function getProfiles()
+    {
+        $coinbaseProfiles = new \Coinbase\Pro\Profiles\Profiles($this->coinbaseAPI);
+        $coinbaseProfiles = $coinbaseProfiles->get();
 
-      // if (count($coinbaseProfiles) > 0) {
-      //    foreach ($coinbaseProfiles as $profile) {
-      //       $dbProfile = Portfolio::find($profile->id);
-      //       if (!isset($dbProfile)) {
-      //          Portfolio::create([
-      //             'id' => (string) Str::uuid(),
-      //             'coinbase_id' => $profile->id,
-      //             'name' => $profile->name,
-      //             'active' => $profile->active,
-      //             'is_default' => $profile->is_default,
-      //             'coinbase_created_at' => date('Y-m-d H:i:s', strtotime($profile->created_at))
-      //          ]);
-      //       }
-      //    }
-      // }
+        // if (count($coinbaseProfiles) > 0) {
+        //    foreach ($coinbaseProfiles as $profile) {
+        //       $dbProfile = Portfolio::find($profile->id);
+        //       if (!isset($dbProfile)) {
+        //          Portfolio::create([
+        //             'id' => (string) Str::uuid(),
+        //             'coinbase_id' => $profile->id,
+        //             'name' => $profile->name,
+        //             'active' => $profile->active,
+        //             'is_default' => $profile->is_default,
+        //             'coinbase_created_at' => date('Y-m-d H:i:s', strtotime($profile->created_at))
+        //          ]);
+        //       }
+        //    }
+        // }
 
-      return $coinbaseProfiles;
-   }
+        return $coinbaseProfiles;
+    }
 
-   function getAccounts()
-   {
-      $coinbaseAccounts = new \Coinbase\Pro\CoinbaseAccounts\CoinbaseAccounts($this->coinbaseAPI);
-      $coinbaseAccounts = $coinbaseAccounts->get();
-      return $coinbaseAccounts;
-   }
+    function getAccounts()
+    {
+        $coinbaseAccounts = new \Coinbase\Pro\CoinbaseAccounts\CoinbaseAccounts($this->coinbaseAPI);
+        $coinbaseAccounts = $coinbaseAccounts->get();
+        return $coinbaseAccounts;
+    }
 
-   function getCoins()
-   {
-      $coinbaseProducts = new \Coinbase\Pro\MarketData\Products\Products($this->coinbaseAPI);
-      $coinbaseProducts = $coinbaseProducts->get();
+    function getCoins()
+    {
+        $coinbaseProducts = new \Coinbase\Pro\MarketData\Products\Products($this->coinbaseAPI);
+        $coinbaseProducts = $coinbaseProducts->get();
 
-      if (isset($coinbaseProducts) && count($coinbaseProducts) > 0) {
-         foreach ($coinbaseProducts as $product) {
-            $dbProduct = Product::find($product->id);
+        if (isset($coinbaseProducts) && count($coinbaseProducts) > 0) {
+            foreach ($coinbaseProducts as $product) {
+                $dbProduct = Product::find($product->id);
 
-            if (!isset($dbProduct)) {
-               Product::create([
-                  'id' => $product->id,
-                  'base_currency' => $product->base_currency,
-                  'quote_currency' => $product->quote_currency,
-                  'base_min_size' => $product->base_min_size,
-                  'base_max_size' => $product->base_max_size,
-                  'quote_increment' => $product->quote_increment,
-                  'base_increment' => $product->base_increment,
-                  'display_name' => $product->display_name,
-                  'min_market_funds' => $product->min_market_funds,
-                  'max_market_funds' => $product->max_market_funds
-               ]);
+                if (!isset($dbProduct)) {
+                    Product::create([
+                        'id' => $product->id,
+                        'base_currency' => $product->base_currency,
+                        'quote_currency' => $product->quote_currency,
+                        'base_min_size' => $product->base_min_size,
+                        'base_max_size' => $product->base_max_size,
+                        'quote_increment' => $product->quote_increment,
+                        'base_increment' => $product->base_increment,
+                        'display_name' => $product->display_name,
+                        'min_market_funds' => $product->min_market_funds,
+                        'max_market_funds' => $product->max_market_funds
+                    ]);
+                }
             }
-         }
-      }
+        }
 
-      return $coinbaseProducts;
-   }
+        return $coinbaseProducts;
+    }
 
-   function getCurrency()
-   {
-      $currency = new \Coinbase\Pro\MarketData\Currencies\Currencies($this->coinbaseAPI);
-      $currency = $currency->get();
+    function getCurrency()
+    {
+        $currency = new \Coinbase\Pro\MarketData\Currencies\Currencies($this->coinbaseAPI);
+        $currency = $currency->get();
 
-      return $currency;
-   }
+        return $currency;
+    }
 
-   function getStats($product)
-   {
-      if (strlen($product) > 0) {
-         $stats24hour = new \Coinbase\Pro\MarketData\Products\Stats($this->coinbaseAPI);
-         $stats24hour->product_id = $product;
+    function getStats($product)
+    {
+        if (strlen($product) > 0) {
+            $stats24hour = new \Coinbase\Pro\MarketData\Products\Stats($this->coinbaseAPI);
+            $stats24hour->product_id = $product;
 
-         return $stats24hour->get();
-      }
+            return $stats24hour->get();
+        }
 
-      return null;
-   }
+        return null;
+    }
 
-   function getTradeHistory($product, $start, $end, $granularity)
-   {
-      if (isset($product) && isset($start) && isset($end) && isset($granularity)) {
-         $coinbaseTradeHistory = new \Coinbase\Pro\MarketData\Products\History($this->coinbaseAPI);
+    function getTradeHistory($product, $start, $end, $granularity)
+    {
+        if (isset($product) && isset($start) && isset($end) && isset($granularity)) {
+            $coinbaseTradeHistory = new \Coinbase\Pro\MarketData\Products\History($this->coinbaseAPI);
 
-         $granularity = ctype_digit($granularity) ? intval($granularity) * 60 : 3600;
+            $granularity = ctype_digit($granularity) ? intval($granularity) * 60 : 3600;
 
-         $coinbaseTradeHistory->product_id = $product;
-         $coinbaseTradeHistory->start = $start;
-         $coinbaseTradeHistory->end = $end;
-         $coinbaseTradeHistory->granularity = $granularity;
+            $coinbaseTradeHistory->product_id = $product;
+            $coinbaseTradeHistory->start = $start;
+            $coinbaseTradeHistory->end = $end;
+            $coinbaseTradeHistory->granularity = $granularity;
 
-         return $coinbaseTradeHistory->get();
-      }
+            return $coinbaseTradeHistory->get();
+        }
 
-      return null;
-   }
+        return null;
+    }
 
-   function updateAPIKeys(ApiKey $keys)
-   {
-      $newHeaders = new Headers($keys->public, $keys->secret, $keys->passphrase);
+    function getProductBook($product)
+    {
+        if (isset($product)) {
+            $productBook = new \Coinbase\Pro\MarketData\Products\Book($this->coinbaseAPI);
+            $productBook->product_id = $product;
 
-      $this->coinbaseAPI->updateHeaders($newHeaders);
-   }
+            return $productBook->get();
+        }
 
-   function getTicker($product)
-   {
-      $tickerRequest = new \Coinbase\Pro\MarketData\Products\Ticker($this->coinbaseAPI);
-      $tickerRequest->product_id = $product;
-      
-      $tickerResponse = $tickerRequest->get();
-      
-      return $tickerResponse;
-   }
+        return null;
+    }
+
+    function updateAPIKeys(ApiKey $keys)
+    {
+        $newHeaders = new Headers($keys->public, $keys->secret, $keys->passphrase);
+
+        $this->coinbaseAPI->updateHeaders($newHeaders);
+    }
+
+    function getTicker($product)
+    {
+        $tickerRequest = new \Coinbase\Pro\MarketData\Products\Ticker($this->coinbaseAPI);
+        $tickerRequest->product_id = $product;
+
+        $tickerResponse = $tickerRequest->get();
+
+        return $tickerResponse;
+    }
 }

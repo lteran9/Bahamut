@@ -34,7 +34,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#!">
+                                <a href="{{route('products.order-book', ['id' => $product->id])}}">
                                     Order Book
                                 </a>
                             </li>
