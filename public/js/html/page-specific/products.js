@@ -8,7 +8,7 @@ var products = (function() {
 
       if (elements.cards.length) {
          $(elements.search).on('input', function() {
-            var keywords = $(this).val();
+            var keywords = $(this).val().toLowerCase();
 
             if (keywords.length > 0) {
                $(elements.cards).each(function () {
@@ -25,7 +25,7 @@ var products = (function() {
                   $(this).removeClass('d-none');
                });
             }
-           
+
          });
       }
    }

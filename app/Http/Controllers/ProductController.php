@@ -34,7 +34,6 @@ class ProductController extends Controller
    public function history($id, Request $request)
    {
       $fromdate = $request->session()->get('from_date');
-      // $todate = $request->session()->get('to_date');
 
       return view('products.history', compact('id', 'fromdate'));
    }
