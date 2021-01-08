@@ -15,7 +15,7 @@
    </div>
    <div class="row">
       <div class="col-md-6 mb-4">
-         <feed-view data-product-id="XRP-USD"></feed-view>
+         <feed-view data-product-id="LTC-USD"></feed-view>
       </div>
       <div class="col-md-6 mb-4">
          <feed-view data-product-id="XLM-USD"></feed-view>
@@ -38,7 +38,7 @@
 <script type="text/javascript" src="{{asset('js/coinbase.js')}}"></script>
 <script>
    if (coinbase) {
-      coinbase.init();    
+      coinbase.init();
    }
 </script>
 @endsection

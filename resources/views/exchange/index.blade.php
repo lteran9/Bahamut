@@ -26,8 +26,8 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <a href="{{route('exchange.coin', ['coin' => 'XRP-USD'])}}" class="product-link">
-                            <h2 class="text-center">XRP-USD</h2>
+                        <a href="{{route('exchange.coin', ['coin' => 'LTC-USD'])}}" class="product-link">
+                            <h2 class="text-center">LTC-USD</h2>
                         </a>
                     </div>
                 </div>
