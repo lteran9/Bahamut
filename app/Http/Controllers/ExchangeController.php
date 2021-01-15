@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\CoinbaseTicker;
+use App\Models\CoinbaseTicker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

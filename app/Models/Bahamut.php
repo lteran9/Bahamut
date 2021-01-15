@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use \Coinbase\Pro\Client;
 use Coinbase\Pro\Requests\Headers;

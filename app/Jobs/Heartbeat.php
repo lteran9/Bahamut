@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Bahamut;
-use App\ProductTicker;
+use App\Models\Bahamut;
+use App\Models\ProductTicker;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

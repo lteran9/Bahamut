@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProductTrades extends Model
+class ProductHistory extends Model
 {
     protected $guarded = [];
     protected $casts = [
-        
+
     ];
 }

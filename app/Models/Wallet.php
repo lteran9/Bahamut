@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Portfolio extends Model
+class Wallet extends Model
 {
    /**
     * Indicates if the IDs are auto-incrementing.
@@ -17,4 +17,10 @@ class Portfolio extends Model
    protected $casts = [
       'id' => 'string'
    ];
+
+   public function have()
+   {
+      return $this->hasOne('App\Pivots\Have', 'wallet_id', 'id');
+   }
+
 }

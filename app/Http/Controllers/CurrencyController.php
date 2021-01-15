@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Bahamut;
+use App\Models\Bahamut;
 use Illuminate\Http\Request;
 
 class CurrencyController extends Controller

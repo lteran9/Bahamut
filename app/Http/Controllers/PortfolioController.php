@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\ApiKey;
-use App\ProductTicker;
-use App\Bahamut;
 use App\Pivots\Have;
-use App\Portfolio;
-use App\Product;
-use App\Wallet;
+use App\Models\ApiKey;
+use App\Models\Bahamut;
+use App\Models\ProductTicker;
+use App\Models\Portfolio;
+use App\Models\Product;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;

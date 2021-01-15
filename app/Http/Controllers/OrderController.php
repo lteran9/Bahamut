@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Order;
 use Exception;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,7 +19,7 @@ class OrderController extends Controller
             'size' => 'required',
             'side' => 'required',
             'product' => 'required',
-            '' => ''  
+            '' => ''
          ]);
 
          Order::create([

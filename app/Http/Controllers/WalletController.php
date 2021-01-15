@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Wallet;
 use Exception;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class WalletController extends Controller
 {
-   
+
    // [HttpPost, route('wallet.deposit')]
    public function deposit(Request $request)
    {
@@ -34,7 +34,7 @@ class WalletController extends Controller
       } catch (Exception $ex) {
          //
       }
-      
+
       return redirect()->route('portfolios.find', ['id' => $request->input('portfolio-id')]);
    }
 }
