@@ -15,7 +15,7 @@
                             <th>Orders</th>
                         </thead>
                         <tbody>
-                            @foreach($orders["bids"] as $bid)
+                            @foreach(array_reverse($orders["bids"]) as $bid)
                             <tr>
                                 <td>${{number_format($bid[0], 2)}}</td>
                                 <td>{{$bid[1]}}</td>

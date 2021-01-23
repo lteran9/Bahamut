@@ -168,8 +168,8 @@ var exchange = (function () {
                 // Store data
                 curatedDataset.unshift(data);
 
-                this.ema.update(curatedDataset);
-                updateUI(this.ema.getPeriods());
+                // this.ema.update(curatedDataset);
+                // updateUI(this.ema.getPeriods());
             }
 
             updatePrice(ticker.price);
@@ -202,7 +202,7 @@ var exchange = (function () {
 
         feedStart();
 
-        this.ema = new EMA(product);
+        // this.ema = new EMA(product);
         this.clock = new Timer(updateTimer);
     }
 
