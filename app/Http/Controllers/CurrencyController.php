@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\Bahamut;
+use App\Bahamut;
 use Illuminate\Http\Request;
+use Shared\Log\Error;
 
 class CurrencyController extends Controller
 {
@@ -16,14 +17,14 @@ class CurrencyController extends Controller
     }
 
     // [HttpGet, route('currency')]
-    public function currency()
+    public function currency(Request $request)
     {
         try {
             $currencies = $this->system->getCurrency();
 
             return view('currency.index', compact('currencies'));
         } catch (Exception $ex) {
-            // Log Error
+            Error::Log($request->ip(), 'CurrencyController@currency', $ex);
         }
 
         return abort(500);

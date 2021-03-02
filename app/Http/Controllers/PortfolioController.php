@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Bahamut;
 use App\Pivots\Have;
-use App\Models\ApiKey;
-use App\Models\Bahamut;
-use App\Models\ProductTicker;
-use App\Models\Portfolio;
-use App\Models\Product;
+use Shared\Log\Error;
 use App\Models\Wallet;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\ApiKey;
+use App\Models\Product;
+use App\Models\Portfolio;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\ProductTicker;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class PortfolioController extends Controller
@@ -49,42 +50,42 @@ class PortfolioController extends Controller
 
             return view('portfolios.list', compact('portfolios'));
         } catch (Exception $ex) {
-            //
+            Error::Log($request->ip(), 'PortfolioController@list', $ex);
         }
 
         return abort(500);
     }
 
     // [HttpGet, route('porfolios.add')]
-    public function add()
+    public function add(Request $request)
     {
         try {
             $portfolios = $this->system->getProfiles();
 
             return view('portfolios.add', compact('portfolios'));
         } catch (Exception $ex) {
-            //
+            Error::Log($request->ip(), 'PortfolioController@add', $ex);
         }
 
         return abort(500);
     }
 
     // [HttpGet, route('porfolios.edit')]
-    public function edit($id)
+    public function edit($id, Request $request)
     {
         try {
             $portfolio = Portfolio::find($id);
 
             return view('portfolios.edit', compact('portfolio'));
         } catch (Exception $ex) {
-            //
+            Error::Log($request->ip(), 'PortfolioController@edit', $ex);
         }
 
         return abort(500);
     }
 
     // [HttpGet, route('portfolios.find')]
-    public function find($id)
+    public function find($id, Request $request)
     {
         try {
             $wallets = DB::table('wallets')
@@ -97,7 +98,7 @@ class PortfolioController extends Controller
                 return view('portfolios.index', compact('portfolio', 'wallets'));
             }
         } catch (Exception $ex) {
-            //
+            Error::Log($request->ip(), 'PortfolioController@find', $ex);
         }
 
         return view('portfolios.index');
@@ -176,7 +177,7 @@ class PortfolioController extends Controller
                 // Add Error
             }
         } catch (Exception $ex) {
-            // Add Error
+            Error::Log($request->ip(), 'PortfolioController@create', $ex);
         }
 
         return redirect()->route('portfolios');

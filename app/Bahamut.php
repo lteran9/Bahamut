@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
-use \Coinbase\Pro\Client;
+use App\Models\ApiKey;
+use App\Models\Product;
+use Coinbase\Pro\Client;
 use Coinbase\Pro\Requests\Headers;
 
 class Bahamut

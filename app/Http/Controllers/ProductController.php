@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\Bahamut;
+use App\Bahamut;
+use Shared\Log\Error;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +19,7 @@ class ProductController extends Controller
     }
 
     // [HttpGet, route('products')]
-    public function list()
+    public function list(Request $request)
     {
         try {
             $coins = $this->system->getCoins();
@@ -28,7 +29,7 @@ class ProductController extends Controller
             //return compact('coinbaseProducts');
             return view('products.list', compact('products'));
         } catch (Exception $ex) {
-            //
+            Error::Log($request->ip(), 'ProductController@list', $ex);
         }
 
         return abort(500);
@@ -43,7 +44,7 @@ class ProductController extends Controller
     }
 
     // [HttpGet, route('products.order-book')]
-    public function orderBook($id)
+    public function orderBook($id, Request $request)
     {
         try {
             $product = $id;
@@ -51,14 +52,14 @@ class ProductController extends Controller
 
             return view('products.order-book', compact('product', 'orders'));
         } catch (Exception $ex) {
-            //
+            Error::Log($request->ip(), 'ProductController@orderBook', $ex);
         }
 
         return abort(500);
     }
 
     // [HttpGet, route('products.stats')]
-    public function stats($id)
+    public function stats($id, Request $request)
     {
         try {
             if (strlen($id) > 0) {
@@ -70,7 +71,7 @@ class ProductController extends Controller
 
             return redirect()->route('products');
         } catch (Exception $ex) {
-            //
+            Error::Log($request->ip(), 'ProductController@stats', $ex);
         }
 
         return abort(500);
@@ -127,7 +128,7 @@ class ProductController extends Controller
                 return view('products._result', compact('history', 'closingPrices', 'candles'));
             }
         } catch (Exception $ex) {
-            //
+            Error::Log($request->ip(), 'ProductController@getHistory', $ex);
         }
 
         return ['Error' => 'Missing a parameter'];
