@@ -38,8 +38,8 @@
             <label for="time-period">Time Period</label>
             <select id="time-period" name="time-period" class="form-control">
                <option value="1">01m</option>
-               <option value="5">05m</option>
-               <option value="15" selected>15m</option>
+               <option value="5" selected>05m</option>
+               <option value="15">15m</option>
                <option value="60">60m</option>
             </select>
          </div>

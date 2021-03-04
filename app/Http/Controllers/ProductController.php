@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Bahamut;
+use App\Mail\CoinReport;
 use Shared\Log\Error;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -96,12 +97,7 @@ class ProductController extends Controller
                 $product = $id;
                 $granularity = $request->input('time-period');
 
-                $adjStart = \DateTime::createFromFormat('Y-m-d', $request->input('from-date'));
-                if (intval($granularity) != '1' || intval($granularity) != '5') {
-                    $adjStart->sub(new \DateInterval('P1D'));
-                }
-
-                $start = $adjStart->format('Y-m-d') . 'T00:00:00';
+                $start = $request->input('from-date') . 'T00:00:00';
                 $end = $request->input('from-date') . 'T23:59:59';
                 $history = $this->system->getTradeHistory($product, $start, $end, $granularity);
 
@@ -132,5 +128,11 @@ class ProductController extends Controller
         }
 
         return ['Error' => 'Missing a parameter'];
+    }
+
+    // [HttpGet, route('products.mail')]
+    public function email()
+    {
+        return (new CoinReport($this->system))->render();
     }
 }

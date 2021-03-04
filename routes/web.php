@@ -30,6 +30,7 @@ Route::get('/products', 'ProductController@list')->name('products');
 Route::get('/products/history/{id}', 'ProductController@history')->name('products.history');
 Route::get('/products/book/{id}', 'ProductController@orderBook')->name('products.order-book');
 Route::get('/products/{id}/stats', 'ProductController@stats')->name('products.stats');
+Route::get('/products/email', 'ProductController@email')->name('products.mail');
 
 Route::post('/products/history/search', 'ProductController@getHistory')->name('products.history.search');
 

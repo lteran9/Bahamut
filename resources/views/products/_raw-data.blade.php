@@ -28,12 +28,12 @@
                      @foreach($history as $index=>$entry)
                      <tr>
                         <td>{{$index + 1}}</td>
-                        <td>{{date('m/d/Y H:i:s', $entry[0])}}</td>
-                        <td>{{$entry[1]}}</td>
-                        <td>{{$entry[2]}}</td>
-                        <td>{{$entry[3]}}</td>
-                        <td>{{$entry[4]}}</td>
-                        <td>{{$entry[5]}}</td>
+                        <td>{{date('m/d/Y h:i A', $entry[0])}}</td>
+                        <td>${{number_format($entry[1], 2)}}</td>
+                        <td>${{number_format($entry[2], 2)}}</td>
+                        <td>${{number_format($entry[3], 2)}}</td>
+                        <td>${{number_format($entry[4], 2)}}</td>
+                        <td>{{number_format($entry[5], 4)}}</td>
                      </tr>
                      @endforeach
                   </tbody>

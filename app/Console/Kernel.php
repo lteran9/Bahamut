@@ -25,8 +25,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
-        $schedule->job(new Heartbeat)->everyMinute();
+        //$schedule->job(new Heartbeat)->everyMinute();
+        $schedule->job(function() {
+
+        })->dailyAt('07:00')->emailOutputOnFailure(['support@teran.tech']);
     }
 
     /**

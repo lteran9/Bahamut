@@ -84,7 +84,7 @@ class Bahamut
         return $currency;
     }
 
-    function getStats($product)
+    function getStats(string $product)
     {
         if (strlen($product) > 0) {
             $stats24hour = new \Coinbase\Pro\MarketData\Products\Stats($this->coinbaseAPI);
@@ -114,7 +114,7 @@ class Bahamut
         return null;
     }
 
-    function getProductBook($product)
+    function getProductBook(string $product)
     {
         if (isset($product)) {
             $productBook = new \Coinbase\Pro\MarketData\Products\Book($this->coinbaseAPI);
