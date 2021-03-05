@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     {
         //$schedule->job(new Heartbeat)->everyMinute();
         $schedule->job(function() {
-
+            //Mail::to('support@teran.tech')->send(new )
         })->dailyAt('07:00')->emailOutputOnFailure(['support@teran.tech']);
     }
 
