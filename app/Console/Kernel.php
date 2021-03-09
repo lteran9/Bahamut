@@ -2,9 +2,11 @@
 
 namespace App\Console;
 
-use App\Jobs\Heartbeat;
+use Exception;
+use App\Jobs\DailyReports;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Shared\Log\Error;
 
 class Kernel extends ConsoleKernel
 {
@@ -25,10 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //$schedule->job(new Heartbeat)->everyMinute();
-        $schedule->job(function() {
-            //Mail::to('support@teran.tech')->send(new )
-        })->dailyAt('07:00')->emailOutputOnFailure(['support@teran.tech']);
+        $schedule->job(new DailyReports);
     }
 
     /**

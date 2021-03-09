@@ -20,16 +20,11 @@ class CurrencyController extends Controller
     public function currency(Request $request)
     {
         try {
-            throw new Exception('Trigger an Error to be Logged');
             $currencies = $this->system->getCurrency();
 
             return view('currency.index', compact('currencies'));
         } catch (Exception $ex) {
-            if (Error::Log($request->ip(), 'CurrencyController@currency', $ex)) {
-                return ['success' => 'true'];
-            } else {
-                return ['success' => 'false'];
-            }
+            Error::Log($request->ip(), 'CurrencyController@currency', $ex);
         }
     }
 }
