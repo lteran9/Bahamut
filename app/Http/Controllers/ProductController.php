@@ -7,7 +7,9 @@ use App\Bahamut;
 use App\Mail\CoinReport;
 use Shared\Log\Error;
 use App\Models\Product;
+use Coinbase\Pro\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -133,6 +135,7 @@ class ProductController extends Controller
     // [HttpGet, route('products.mail')]
     public function email()
     {
-        return (new CoinReport($this->system))->render();
+
+        Mail::to('support@teran.tech')->send(new CoinReport(new Bahamut(new Client)));
     }
 }
