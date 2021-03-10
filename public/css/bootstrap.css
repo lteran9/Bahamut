@@ -11230,10 +11230,27 @@ feed-view [id^=volume-] {
   text-align: center;
 }
 
+.bhm-exchange .card {
+  margin-bottom: 1.5rem;
+}
+
 .bhm-exchange .product-link {
   height: 250px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  color: inherit;
+}
+
+.bhm-exchange .product-link h2,
+.bhm-exchange .product-link .h2 {
+  border-bottom: 2px solid black;
+}
+
+.bhm-exchange .product-link .coin-stats {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.bhm-exchange .product-link:hover {
+  color: #111;
 }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExchangeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,7 @@ Route::get('/exchange', 'ExchangeController@index')->name('exchange');
 Route::get('/exchange/{coin}', 'ExchangeController@coin')->name('exchange.coin');
 
 Route::post('/exchange/tick', 'ExchangeController@tick')->name('exchange.tick');
+Route::post('/exchange/orders', 'ExchangeController@orders')->name('exchange.orders');
 
 Route::get('/products', 'ProductController@list')->name('products');
 Route::get('/products/history/{id}', 'ProductController@history')->name('products.history');

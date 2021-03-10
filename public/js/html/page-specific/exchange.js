@@ -111,9 +111,18 @@ var exchange = (function () {
     }
 
     function updatePrice(price) {
+        // Update Main Element
         var element = $(elements.container).find('[data-id="current-price"]');
-        if (element)
+        if (element) {
             $(element).html('$' + price);
+        }
+
+        // Update Totals
+        var balance = document.querySelector('[data-realtime]');
+        if (balance) {
+            var size = balance.getAttribute('data-size');
+            balance.innerHTML = '$' + (price * size).toFixed(2);
+        }
     }
 
     function updateTimer(seconds) {
@@ -196,14 +205,16 @@ var exchange = (function () {
 
         // Add websocket to elements
         var product = document.getElementById('product');
-        websockets.push({
-            feed: new Feed(product.innerText, messageReceived)
-        });
+        if (product) {
+            websockets.push({
+                feed: new Feed(product.innerText, messageReceived)
+            });
 
-        feedStart();
+            feedStart();
 
-        // this.ema = new EMA(product);
-        this.clock = new Timer(updateTimer);
+            // this.ema = new EMA(product);
+            this.clock = new Timer(updateTimer);
+        }
     }
 
     return {

@@ -1,9 +1,8 @@
-
-<!-- /resources/views/shared/_form-errors.blade.php -->
+<!-- /resources/views/shared/_form-errors -->
 
 @if ($errors->any())
 <div class="alert alert-danger">
-    <ul>
+    <ul class="mb-0">
         @foreach ($errors->all() as $message)
         <li>
             {{$message}}
