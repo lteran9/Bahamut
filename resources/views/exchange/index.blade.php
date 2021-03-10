@@ -1,7 +1,15 @@
 @extends('layouts.app')
 @section('content')
 <div class="container my-5">
-    <h1>Exchange</h1>
+    <h1>
+        Exchange
+
+        <span class="float-right">
+            <a href="{{ route('exchange') }}" class="btn btn-sm btn-primary">
+                @include('shared.svg.refresh', ['width' => 16, 'height' => 16])
+            </a>
+        </span>
+    </h1>
     <hr />
     <div class="bhm-exchange">
         @if (isset($favorites))
