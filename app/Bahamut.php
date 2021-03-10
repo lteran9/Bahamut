@@ -2,9 +2,13 @@
 
 namespace App;
 
+use Exception;
+use Shared\Log\Error;
 use App\Models\ApiKey;
+use App\Models\Order;
 use App\Models\Product;
 use Coinbase\Pro\Client;
+use Illuminate\Support\Str;
 use Coinbase\Pro\Requests\Headers;
 
 class Bahamut
@@ -141,5 +145,45 @@ class Bahamut
         $tickerResponse = $tickerRequest->get();
 
         return $tickerResponse;
+    }
+
+    /**
+     * @return float
+     */
+    function getPrice($product): float
+    {
+        $ticker = $this->getTicker($product);
+        if (isset($ticker)) {
+            return $ticker['price'];
+        }
+
+        return 0;
+    }
+
+    /**
+     * @return float
+     */
+    public function getHoldingSize($product): float
+    {
+        $orders = Order::where('product_id', '=', $product)->get();
+
+        $bought = $orders->where('side', '=', 'buy')->sum('size') ?? 0;
+        $sold = $orders->where('side', '=', 'sell')->sum('size') ?? 0;
+
+        return $bought - $sold;
+    }
+
+    /**
+     * @return App\Models\Order
+     */
+    public function placeOrder(string $product, string $side, float $size, float $price)
+    {
+        Order::create([
+            'coinbase_id' => Str::uuid(),
+            'price' => $price,
+            'size' => $size,
+            'side' => $side,
+            'product_id' => $product,
+        ]);
     }
 }

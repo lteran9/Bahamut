@@ -161,10 +161,26 @@ feed-view {
 }
 
 .bhm-exchange {
+    .card {
+        margin-bottom: 1.5rem;
+    }
+
    .product-link {
       height: 250px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: block;
+      color: inherit;
+
+      h2 {
+          border-bottom: 2px solid black;
+      }
+
+      .coin-stats {
+          padding: 0;
+          margin-bottom: 0;
+      }
+
+      &:hover {
+          color: #111;
+      }
    }
 }

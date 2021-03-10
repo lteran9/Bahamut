@@ -4,62 +4,34 @@
     <h1>Exchange</h1>
     <hr />
     <div class="bhm-exchange">
+        @if (isset($favorites))
         <div class="row">
-            <div class="col-md-4">
-                <div class="card mb-4">
+
+            @foreach($favorites as $coin)
+            <div class="col-12 col-md-4">
+                <div class="card">
                     <div class="card-body">
-                        <a href="{{route('exchange.coin', ['coin' => 'BTC-USD'])}}" class="product-link">
-                            <h2 class="text-center">BTC-USD</h2>
+                        <a href="{{route('exchange.coin', ['coin' => $coin->id])}}" class="product-link">
+                            <h2>{{$coin->id}}</h2>
+                            <dl class="coin-stats">
+                                <dt>Latest Price</dt>
+                                <dd>${{number_format($coin->price, 2)}}</dd>
+                                <dt>Holding Size</dt>
+                                <dd>{{$coin->size}}</dd>
+                                <dt>Total (USD)</dt>
+                                <dd>${{number_format($coin->price * $coin->size, 2)}}</dd>
+                            </dl>
                         </a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <a href="{{route('exchange.coin', ['coin' => 'ETH-USD'])}}" class="product-link">
-                            <h2 class="text-center">ETH-USD</h2>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <a href="{{route('exchange.coin', ['coin' => 'LTC-USD'])}}" class="product-link">
-                            <h2 class="text-center">LTC-USD</h2>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <a href="{{route('exchange.coin', ['coin' => 'LINK-USD'])}}" class="product-link">
-                            <h2 class="text-center">LINK-USD</h2>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <a href="{{route('exchange.coin', ['coin' => 'OMG-USD'])}}" class="product-link">
-                            <h2 class="text-center">OMG-USD</h2>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <a href="{{route('exchange.coin', ['coin' => 'GRT-USD'])}}" class="product-link">
-                            <h2 class="text-center">GRT-USD</h2>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
+        @else
+        <div class="alert alert-info">
+            <div class="text-center">No products to display.</div>
+        </div>
+        @endif
     </div>
 </div>
 @endsection
