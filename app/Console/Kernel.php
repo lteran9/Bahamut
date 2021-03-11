@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new DailyReports);
+        $schedule->job(new DailyReports)->timezone('America/Phoenix')->hourlyAt('0');
     }
 
     /**

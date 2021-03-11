@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container my-5">
-    <h1>{{$product ?? 'n/a'}}</h1>
+    <h1>{{$product ?? 'N/A'}}</h1>
     <hr />
     <div class="card">
         <div class="card-body">
