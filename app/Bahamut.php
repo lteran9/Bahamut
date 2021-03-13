@@ -10,7 +10,11 @@ use App\Models\Product;
 use Coinbase\Pro\Client;
 use Illuminate\Support\Str;
 use Coinbase\Pro\Requests\Headers;
+use Illuminate\Support\Facades\Crypt;
 
+/**
+ * This class takes care of synicing data between Coinbase and Bahamut.
+ */
 class Bahamut
 {
     private $coinbaseAPI;
@@ -20,37 +24,31 @@ class Bahamut
         $this->coinbaseAPI = $client;
     }
 
+    /**
+     * Get all available profiles for the main account.
+     */
     function getProfiles()
     {
         $coinbaseProfiles = new \Coinbase\Pro\Profiles\Profiles($this->coinbaseAPI);
         $coinbaseProfiles = $coinbaseProfiles->get();
 
-        // if (count($coinbaseProfiles) > 0) {
-        //    foreach ($coinbaseProfiles as $profile) {
-        //       $dbProfile = Portfolio::find($profile->id);
-        //       if (!isset($dbProfile)) {
-        //          Portfolio::create([
-        //             'id' => (string) Str::uuid(),
-        //             'coinbase_id' => $profile->id,
-        //             'name' => $profile->name,
-        //             'active' => $profile->active,
-        //             'is_default' => $profile->is_default,
-        //             'coinbase_created_at' => date('Y-m-d H:i:s', strtotime($profile->created_at))
-        //          ]);
-        //       }
-        //    }
-        // }
-
         return $coinbaseProfiles;
     }
 
+    /**
+     * Get the accounts for the profile public key.
+     */
     function getAccounts()
     {
-        $coinbaseAccounts = new \Coinbase\Pro\CoinbaseAccounts\CoinbaseAccounts($this->coinbaseAPI);
-        $coinbaseAccounts = $coinbaseAccounts->get();
-        return $coinbaseAccounts;
+        $accounts = new \Coinbase\Pro\Accounts\Accounts($this->coinbaseAPI);
+        $accounts = $accounts->get();
+
+        return $accounts;
     }
 
+    /**
+     *
+     */
     function getCoins()
     {
         $coinbaseProducts = new \Coinbase\Pro\MarketData\Products\Products($this->coinbaseAPI);
@@ -80,6 +78,9 @@ class Bahamut
         return $coinbaseProducts;
     }
 
+    /**
+     *
+     */
     function getCurrency()
     {
         $currency = new \Coinbase\Pro\MarketData\Currencies\Currencies($this->coinbaseAPI);
@@ -88,6 +89,9 @@ class Bahamut
         return $currency;
     }
 
+    /**
+     *Get 24-Hour stats for product.
+     */
     function getStats(string $product)
     {
         if (strlen($product) > 0) {
@@ -100,6 +104,9 @@ class Bahamut
         return null;
     }
 
+    /**
+     * Get  trade history for product during the specified time period.
+     */
     function getTradeHistory($product, $start, $end, $granularity)
     {
         if (isset($product) && isset($start) && isset($end) && isset($granularity)) {
@@ -118,6 +125,9 @@ class Bahamut
         return null;
     }
 
+    /**
+     *
+     */
     function getProductBook(string $product)
     {
         if (isset($product)) {
@@ -130,11 +140,24 @@ class Bahamut
         return null;
     }
 
-    function updateAPIKeys(ApiKey $keys)
+    /**
+     *
+     */
+    function updateAPIKeys(ApiKey $keys): bool
     {
-        $newHeaders = new Headers($keys->public, $keys->secret, $keys->passphrase);
+        if (isset($keys)) {
+            $newHeaders = new Headers(
+                Crypt::decryptString($keys->public_key),
+                Crypt::decryptString($keys->secret_key),
+                Crypt::decryptString($keys->passphrase)
+            );
 
-        $this->coinbaseAPI->updateHeaders($newHeaders);
+            $this->coinbaseAPI->updateHeaders($newHeaders);
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -162,6 +185,9 @@ class Bahamut
 
         return 0;
     }
+
+
+    // <LOCAL> //
 
     /**
      * @return float

@@ -9,19 +9,19 @@
             @if (isset($stats))
             <div class="row">
                 <div class="col">
-                    <dl>
+                    <dl class="mb-0">
+                        <dt>Close</dt>
+                        <dd>${{number_format($stats['last'], 2)}}</dd>
                         <dt>Open</dt>
                         <dd>${{number_format($stats['open'], 2)}}</dd>
                         <dt>High</dt>
                         <dd>${{number_format($stats['high'], 2)}}</dd>
                         <dt>Low</dt>
                         <dd>${{number_format($stats['low'], 2)}}</dd>
-                        <dt>Last</dt>
-                        <dd>${{number_format($stats['last'], 2)}}</dd>
                         <dt>Volume</dt>
-                        <dd>{{number_format($stats['volume'], 6)}} x ${{$stats['last']}} = ${{number_format($stats['volume']*$stats['last'], 2)}}</dd>
+                        <dd>{{number_format($stats['volume'], 6)}} x ${{number_format($stats['last'], 2)}} = ${{number_format($stats['volume']*$stats['last'], 2)}}</dd>
                         <dt>Volume 30 Day</dt>
-                        <dd>{{number_format($stats['volume_30day'], 6)}} x ${{$stats['last']}} = ${{number_format($stats['volume_30day']*$stats['last'], 2)}}</dd>
+                        <dd>{{number_format($stats['volume_30day'], 6)}} x ${{number_format($stats['last'], 2)}} = ${{number_format($stats['volume_30day']*$stats['last'], 2)}}</dd>
                     </dl>
                 </div>
             </div>
@@ -39,8 +39,7 @@
             @endif
         </div>
     </div>
-
-
+    <br/>
     <div class="row">
         <div class="col">
             @include('shared._back')

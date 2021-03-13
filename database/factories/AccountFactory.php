@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Deposit;
+use App\Account;
 use Faker\Generator as Faker;
 
-$factory->define(Deposit::class, function (Faker $faker) {
+$factory->define(Account::class, function (Faker $faker) {
     return [
         //
     ];

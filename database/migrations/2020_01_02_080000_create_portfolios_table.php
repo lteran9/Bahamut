@@ -6,34 +6,34 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePortfoliosTable extends Migration
 {
-   /**
-    * Run the migrations.
-    *
-    * @return void
-    */
-   public function up()
-   {
-      Schema::create('portfolios', function (Blueprint $table) {
-         $table->uuid('id');
-         
-         $table->string('name');
-         $table->boolean('active')->active('true');
-         $table->boolean('is_default');
-         $table->dateTime('coinbase_created_at');
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('portfolios', function (Blueprint $table) {
+            $table->uuid('id');
 
-         $table->timestamps();
-         
-         $table->primary('id');
-      });
-   }
+            $table->string('name');
+            $table->boolean('is_default');
+            $table->boolean('active')->default(true);
+            $table->dateTime('coinbase_created_at');
 
-   /**
-    * Reverse the migrations.
-    *
-    * @return void
-    */
-   public function down()
-   {
-      Schema::dropIfExists('portfolios');
-   }
+            $table->timestamps();
+
+            $table->primary('id');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('portfolios');
+    }
 }

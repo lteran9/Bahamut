@@ -14,17 +14,17 @@ class CreateApiKeysTable extends Migration
     public function up()
     {
         Schema::create('api_keys', function (Blueprint $table) {
-            $table->uuid('id');
-
             $table->uuid('portfolio_id');
-            $table->string('secret');
-            $table->string('public');
-            $table->string('passphrase');
+            $table->text('secret_key');
+            $table->text('public_key');
+            $table->text('passphrase');
+            $table->boolean('view')->default(false);
+            $table->boolean('trade')->default(false);
+            $table->boolean('transfer')->default(false);
 
-            $table->boolean('active')->default(true);
             $table->timestamps();
 
-            $table->primary('id');
+            $table->primary('portfolio_id');
             $table->foreign('portfolio_id')->references('id')->on('portfolios');
         });
     }

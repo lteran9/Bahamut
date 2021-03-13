@@ -17,7 +17,7 @@
    @if (isset($portfolios) && count($portfolios) > 0)
    <div class="container">
       @foreach($portfolios as $portfolio)
-      <a href="{{route('portfolios.find', ['id' => $portfolio->id])}}" class="card mb-4" style="color:inherit;text-decoration:none;">
+      <a href="{{route('portfolios.accounts', ['id' => $portfolio->id])}}" class="card mb-4" style="color:inherit;text-decoration:none;">
          <div class="card-body">
             <div class="row">
                <div class="col-md-6">
@@ -39,7 +39,7 @@
    @else
    <div class="alert alert-info">
       <div class="text-center">
-         No portfolios to display.
+         No portfolios to display. Please click above to add a portfolio.
       </div>
    </div>
    @endif
