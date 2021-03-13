@@ -1,12 +1,28 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\ProductTicker;
-use Faker\Generator as Faker;
+use App\Models\ProducTicker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(ProductTicker::class, function (Faker $faker) {
-    return [
-        //
-    ];
-});
+class ProducTickerFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = ProducTicker::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            //
+        ];
+    }
+}
