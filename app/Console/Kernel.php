@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Exception;
 use App\Jobs\DailyReports;
+use App\Jobs\Heartbeat;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Shared\Log\Error;
@@ -27,6 +28,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->job(new Heartbeat)->everyMinute();
         $schedule->job(new DailyReports)->timezone('America/Phoenix')->hourlyAt('0');
     }
 

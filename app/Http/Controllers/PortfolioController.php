@@ -31,7 +31,7 @@ class PortfolioController extends Controller
         $product = 'BTC-USD';
 
         try {
-            $ticker = $this->system->getTicker($product);
+            $ticker = $this->system->getProductTicker($product);
 
             if (isset($ticker)) {
                 ProductTicker::create([

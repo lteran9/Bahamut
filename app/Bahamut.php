@@ -137,7 +137,10 @@ class Bahamut
         $this->coinbaseAPI->updateHeaders($newHeaders);
     }
 
-    function getTicker($product)
+    /**
+     * Snapshot information about the last trade (tick), best bid/ask and 24h volume.
+     */
+    function getProductTicker($product)
     {
         $tickerRequest = new \Coinbase\Pro\MarketData\Products\Ticker($this->coinbaseAPI);
         $tickerRequest->product_id = $product;
@@ -152,7 +155,7 @@ class Bahamut
      */
     function getPrice($product): float
     {
-        $ticker = $this->getTicker($product);
+        $ticker = $this->getProductTicker($product);
         if (isset($ticker)) {
             return $ticker['price'];
         }
