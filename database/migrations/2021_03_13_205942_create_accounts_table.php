@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHaveTable extends Migration
+class CreateAccountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,9 @@ class CreateHaveTable extends Migration
      */
     public function up()
     {
-        Schema::create('have', function (Blueprint $table) {
+        Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->uuid('portfolio_id');
-            $table->uuid('wallet_id');
-            $table->integer('ordinal')->nullable();
             $table->timestamps();
-
-            $table->foreign('portfolio_id')->references('id')->on('portfolios');
-            $table->foreign('wallet_id')->references('id')->on('wallets');
         });
     }
 
@@ -32,6 +26,6 @@ class CreateHaveTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('have');
+        Schema::dropIfExists('accounts');
     }
 }

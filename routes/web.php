@@ -39,11 +39,8 @@ Route::post('/products/history/search', 'ProductController@getHistory')->name('p
 Route::get('/portfolios', 'PortfolioController@list')->name('portfolios');
 Route::get('/portfolios/add', 'PortfolioController@add')->name('portfolios.add');
 Route::get('/portfolios/edit/{id}', 'PortfolioController@edit')->name('portfolios.edit');
-Route::get('/portfolios/find/{id}', 'PortfolioController@find')->name('portfolios.find');
-Route::get('/portfolios/accounts', 'PortfolioController@accounts')->name('portfolios.accounts');
+Route::get('/portfolios/{id}/accounts', 'PortfolioController@accounts')->where('id', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}')->name('portfolios.accounts');
 
 Route::post('/portfolios/create', 'PortfolioController@create')->name('portfolios.create');
 Route::post('/portfolios/update', 'PortfolioController@update')->name('portfolios.update');
 Route::post('/portfolios/sync', 'PortfolioController@synchronize')->name('portfolios.sync');
-
-Route::post('/wallets/deposit', 'WalletController@deposit')->name('wallets.deposit');

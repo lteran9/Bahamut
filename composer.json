@@ -14,7 +14,7 @@
         "guzzlehttp/guzzle": "^7.0",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
-        "terantech/shared": "dev-master"
+        "terantech/shared": "dev-local"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
