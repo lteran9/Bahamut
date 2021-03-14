@@ -40,19 +40,19 @@ class Heartbeat implements ShouldQueue
             $ticker = $bhm->getProductTicker($product);
 
             if (isset($ticker)) {
-                // ProductTicker::create([
-                //     'trade_id' => $ticker['trade_id'],
-                //     'product_id' => $product,
-                //     'price' => $ticker['price'],
-                //     'size' => $ticker['size'],
-                //     'bid' => $ticker['bid'],
-                //     'ask' => $ticker['ask'],
-                //     'volume' => $ticker['volume'],
-                //     'time' => date('Y-m-d H:i:s', strtotime($ticker['time']))
-                // ]);
+                ProductTicker::create([
+                    'trade_id' => $ticker['trade_id'],
+                    'product_id' => $product,
+                    'price' => $ticker['price'],
+                    'size' => $ticker['size'],
+                    'bid' => $ticker['bid'],
+                    'ask' => $ticker['ask'],
+                    'volume' => $ticker['volume'],
+                    'time' => date('Y-m-d H:i:s', strtotime($ticker['time']))
+                ]);
             }
         } catch (Exception $ex) {
-            // not reaching logged
+            // not reaching log
             Error::Log('0.0.0.0', 'Hearbeat@handle', $ex);
         }
     }

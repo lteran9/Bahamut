@@ -61,37 +61,6 @@ class ExchangeController extends Controller
         return view('exchange.coin');
     }
 
-    // [HttpPost, route('exchange/tick')]
-    public function tick(Request $request)
-    {
-        try {
-            $validator = Validator::make($request->all(), [
-                'trade_id' => 'required',
-                'epoch' => 'required',
-                'product_id' => 'required',
-                'size' => 'required',
-                'price' => 'required',
-                'side' => 'required',
-                'sequence' => 'required'
-            ]);
-
-            if (!$validator->fails()) {
-                CoinbaseTicker::create([
-                    'trade_id' => $request->input('trade_id'),
-                    'epoch' => $request->input('epoch'),
-                    'timestamp' => date('Y-m-d H:i:s', strtotime($request->input('epoch'))),
-                    'product_id' => $request->input('product_id'),
-                    'size' => $request->input('size'),
-                    'price' => $request->input('price'),
-                    'side' => $request->input('side'),
-                    'sequence' => $request->input('sequence')
-                ]);
-            }
-        } catch (Exception $ex) {
-            Error::Log($request->ip(), 'ExchangeController@tick', $ex);
-        }
-    }
-
     // [HttpPost, route('exchange.orders')]
     public function orders(Request $request)
     {

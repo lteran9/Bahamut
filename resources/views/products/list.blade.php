@@ -1,10 +1,11 @@
 @extends('layouts.app')
 @section('content')
-<div class="container my-5">
+<div class="container my-2"
+>
     <h1>Products</h1>
     <hr />
 
-    <div class="container mb-4">
+    <div class="mb-4">
         <div class="row">
             <div class="col">
                 @include('shared._back')
@@ -18,7 +19,7 @@
     </div>
 
     @if (isset($products) && count($products) > 0)
-    <div class="container bhm-container">
+    <div class="bhm-container">
         <div class="row">
             @foreach($products as $product)
             <div class="col-12 col-md-2" data-filter="{{$product->display_name}}">
