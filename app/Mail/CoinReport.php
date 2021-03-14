@@ -28,7 +28,7 @@ class CoinReport extends Mailable
     {
         $this->coins = array();
 
-        $favorites = Product::where('rank', '>', '0')->get();
+        $favorites = Product::where('rank', '>', 0)->get();
         foreach($favorites as $fav)
         {
             array_push($this->coins, new Coin($fav->id, $api));

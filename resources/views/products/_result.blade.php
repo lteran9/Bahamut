@@ -1,12 +1,12 @@
 @if (isset($history))
 <div class="accordion coin-history" id="accordionHistory">
-   <div class="card">
+   <div class="accordion-item">
       @include('products._line-chart')
    </div>
-   <div class="card">
+   <div class="accordion-item">
       @include('products._candlestick-chart')
    </div>
-   <div class="card">
+   <div class="accordion-item">
       @include('products._raw-data')
    </div>
 </div>

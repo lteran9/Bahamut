@@ -138,20 +138,6 @@ var exchange = (function () {
             return update.type === 'ticker' && update.price > 0;
         }
 
-        function ajaxSend(data) {
-            $.ajax({
-                url: '/exchange/tick',
-                method: 'post',
-                data: data,
-                error: function () {
-                    console.log('error sending data');
-                },
-                complete: function () {
-                    //console.log('message sent');
-                }
-            });
-        }
-
         var ticker = JSON.parse(msg);
 
         ticker.rawtime = ticker.time;

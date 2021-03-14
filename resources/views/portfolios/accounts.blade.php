@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
-<div class="container my-5">
+<div class="container my-2"
+>
     <h1>{{$portfolio->name}}</h1>
     <h2>Accounts</h2>
     <hr />

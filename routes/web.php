@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::get('/currency', 'CurrencyController@currency')->name('currency');
 
@@ -25,12 +25,11 @@ Route::get('/examples', 'OrderController@example');
 Route::get('/exchange', 'ExchangeController@index')->name('exchange');
 Route::get('/exchange/{coin}', 'ExchangeController@coin')->name('exchange.coin');
 
-Route::post('/exchange/tick', 'ExchangeController@tick')->name('exchange.tick');
 Route::post('/exchange/orders', 'ExchangeController@orders')->name('exchange.orders');
 
 Route::get('/products', 'ProductController@list')->name('products');
-Route::get('/products/history/{id}', 'ProductController@history')->name('products.history');
-Route::get('/products/book/{id}', 'ProductController@orderBook')->name('products.order-book');
+Route::get('/products/{id}/history', 'ProductController@history')->name('products.history');
+Route::get('/products/{id}/book', 'ProductController@orderBook')->name('products.order-book');
 Route::get('/products/{id}/stats', 'ProductController@stats')->name('products.stats');
 Route::get('/products/email', 'ProductController@email')->name('products.mail');
 
