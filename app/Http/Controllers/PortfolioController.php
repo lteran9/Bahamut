@@ -13,7 +13,9 @@ use App\Models\Portfolio;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ProductTicker;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class PortfolioController extends Controller
@@ -28,24 +30,8 @@ class PortfolioController extends Controller
     // [HttpGet, route('porftolios')]
     public function list(Request $request)
     {
-        $product = 'BTC-USD';
-
         try {
-            $ticker = $this->system->getProductTicker($product);
-
-            if (isset($ticker)) {
-                ProductTicker::create([
-                    'trade_id' => $ticker['trade_id'],
-                    'product_id' => $product,
-                    'price' => $ticker['price'],
-                    'size' => $ticker['size'],
-                    'bid' => $ticker['bid'],
-                    'ask' => $ticker['ask'],
-                    'volume' => $ticker['volume'],
-                    'time' => date('Y-m-d H:i:s', strtotime($ticker['time']))
-                ]);
-            }
-
+            //
             $portfolios = Portfolio::all();
 
             return view('portfolios.list', compact('portfolios'));
@@ -60,9 +46,14 @@ class PortfolioController extends Controller
     public function add(Request $request)
     {
         try {
-            $portfolios = $this->system->getProfiles();
+            $localPortfolios = Portfolio::all()->pluck('id');
+            $coinbasePortfolios = $this->system->getProfiles();
 
-            return view('portfolios.add', compact('portfolios'));
+            $coinbasePortfolios = $coinbasePortfolios->filter(function ($value, $key) use ($localPortfolios) {
+                return $localPortfolios->contains($value->id) == false;
+            })->all();
+
+            return view('portfolios.add', compact('coinbasePortfolios'));
         } catch (Exception $ex) {
             Error::Log($request->ip(), 'PortfolioController@add', $ex);
         }
@@ -84,24 +75,24 @@ class PortfolioController extends Controller
         return abort(500);
     }
 
-    // [HttpGet, route('portfolios.find')]
-    public function find($id, Request $request)
+    // [HttpGet, route('portfolios.accounts')]
+    public function accounts($id, Request $request)
     {
         try {
-            $wallets = DB::table('wallets')
-                ->join('have', 'wallets.id', '=', 'have.wallet_id')
-                ->orderBy('have.ordinal')
-                ->get();
             $portfolio = Portfolio::find($id);
-
             if (isset($portfolio)) {
-                return view('portfolios.index', compact('portfolio', 'wallets'));
+                $api = ApiKey::where('portfolio_id', '=', $portfolio->id)->first();
+                $this->system->updateApiKeys($api);
+
+                $accounts = $this->system->getAccounts();
+
+                return view('portfolios.accounts', compact('portfolio', 'accounts'));
             }
         } catch (Exception $ex) {
-            Error::Log($request->ip(), 'PortfolioController@find', $ex);
+            Error::Log($request->ip(), 'PortfolioController@accounts', $ex);
         }
 
-        return view('portfolios.index');
+        return abort(500);
     }
 
     // [HttpPost, route('portfolios.create')]
@@ -110,9 +101,9 @@ class PortfolioController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'id' => 'required',
-                'secret-key' => 'required',
-                'public-key' => 'required',
-                'passphrase' => 'required',
+                'passphrase' => 'required|max:256',
+                'secret-key' => 'required|max:256',
+                'public-key' => 'required|max:256',
             ]);
 
             if ($validator->fails()) {
@@ -124,7 +115,7 @@ class PortfolioController extends Controller
 
             $dbCheck = Portfolio::find($request->input('id'));
             if (!isset($dbCheck) && isset($selected)) {
-                $portfolio = Portfolio::create([
+                Portfolio::create([
                     'id' => $selected->id,
                     'name' => $selected->name,
                     'active' => $selected->active,
@@ -132,47 +123,49 @@ class PortfolioController extends Controller
                     'coinbase_created_at' => date('Y-m-d H:i:s', strtotime($selected->created_at))
                 ]);
 
-                $api = ApiKey::create([
-                    'id' => Str::uuid(),
-                    'secret' => $request->input('secret-key'),
-                    'public' => $request->input('public-key'),
-                    'passphrase' => $request->input('passphrase'),
-                    'portfolio_id' => $selected->id
+                ApiKey::create([
+                    'portfolio_id' => $selected->id,
+                    'passphrase' => Crypt::encryptString($request->input('passphrase')),
+                    'secret_key' => Crypt::encryptString($request->input('secret-key')),
+                    'public_key' => Crypt::encryptString($request->input('public-key')),
+                    'transfer' => true,
+                    'trade' => true,
+                    'view' => true,
                 ]);
 
-                $this->system->updateAPIKeys($api);
+                // $this->system->updateAPIKeys($api);
 
-                $accounts = $this->system->getAccounts();
-                $ordinal = 1;
+                // $accounts = $this->system->getAccounts();
+                // $ordinal = 1;
 
-                foreach ($accounts as $account) {
-                    $dbCheck = Wallet::find($account->id);
-                    if (!isset($dbCheck)) {
-                        // Only concerned in USD wallets
-                        $bhmWallet = Product::where([
-                            ['base_currency', '=', $account->currency],
-                            ['quote_currency', '=', 'USD']
-                        ])->first();
+                // foreach ($accounts as $account) {
+                //     $dbCheck = Wallet::find($account->id);
+                //     if (!isset($dbCheck)) {
+                //         // Only concerned in USD wallets
+                //         $bhmWallet = Product::where([
+                //             ['base_currency', '=', $account->currency],
+                //             ['quote_currency', '=', 'USD']
+                //         ])->first();
 
-                        if (isset($bhmWallet)) {
-                            $wallet = Wallet::create([
-                                'id' => Str::uuid(),
-                                'coinbase_id' => $account->id,
-                                'name' => $account->name,
-                                'currency' => $account->currency,
-                            ]);
+                //         if (isset($bhmWallet)) {
+                //             $wallet = Wallet::create([
+                //                 'id' => Str::uuid(),
+                //                 'coinbase_id' => $account->id,
+                //                 'name' => $account->name,
+                //                 'currency' => $account->currency,
+                //             ]);
 
-                            Have::create([
-                                'portfolio_id' => $portfolio->id,
-                                'wallet_id' => $wallet->id,
-                                'ordinal' => $ordinal
-                            ]);
+                //             Have::create([
+                //                 'portfolio_id' => $portfolio->id,
+                //                 'wallet_id' => $wallet->id,
+                //                 'ordinal' => $ordinal
+                //             ]);
 
-                            // Increment by one
-                            $ordinal = $ordinal + 1;
-                        }
-                    }
-                }
+                //             // Increment by one
+                //             $ordinal = $ordinal + 1;
+                //         }
+                //     }
+                // }
             } else {
                 // Add Error
             }
