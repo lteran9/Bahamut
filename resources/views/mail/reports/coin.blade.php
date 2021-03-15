@@ -27,21 +27,21 @@ Stats Not Set
 @if (isset($coin->history[0]))
 <dl>
     <dt>7 Days Ago</dt>
-    <dd>${{number_format($coin->history[0][4], 2)}}</dd>
+    <dd>${{number_format($coin->history[0][4], 2)}} ({{number_format((1 - $coin->history[0][4] / $coin->stats['last']) * 100, 2)}}%)</dd>
 </dl>
 @endif
 
 @if (isset($coin->history[1]))
 <dl>
     <dt>28 Days Ago</dt>
-    <dd>${{number_format($coin->history[1][4], 2)}}</dd>
+    <dd>${{number_format($coin->history[1][4], 2)}} ({{number_format((1 - $coin->history[1][4] / $coin->stats['last']) * 100, 2)}}%)</dd>
 </dl>
 @endif
 
 @if (isset($coin->history[2]))
 <dl>
     <dt>90 Days Ago</dt>
-    <dd>${{number_format($coin->history[2][4], 2)}}</dd>
+    <dd>${{number_format($coin->history[2][4], 2)}} ({{number_format((1 - $coin->history[2][4] / $coin->stats['last']) * 100, 2)}}%)</dd>
 </dl>
 @endif
 
