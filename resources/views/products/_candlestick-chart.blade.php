@@ -5,6 +5,6 @@
         Candlestick Chart
     </button>
 </h2>
-<div id="candlestick-chart" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionHistory">
+<div id="candlestick-chart" class="accordion-collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionHistory">
     <div id="candlestickChart" style="width: 100%; height: 600px;"></div>
 </div>

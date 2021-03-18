@@ -12,4 +12,4 @@ const mix = require('laravel-mix');
  */
 
 mix
-    .sass('resources/sass/bootstrap.scss', 'public/css');
+    .sass('resources/sass/bahamut.scss', 'public/css');

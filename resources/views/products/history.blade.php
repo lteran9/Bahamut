@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="container my-2"
->
+<div class="container my-2">
     <h1>{{$id ?? 'N/A'}}</h1>
     <hr />
     <div class="card">
@@ -54,10 +53,4 @@
 @section('js')
 <script type="text/javascript" src="{{asset('js/ema.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/html/page-specific/history.js')}}"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-      if (coinHistory)
-         coinHistory.init();
-   });
-</script>
 @endsection

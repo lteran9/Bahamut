@@ -122,7 +122,7 @@ class ProductController extends Controller
                 });
 
                 $request->session()->put('from_date', $request->input('from-date'));
-
+                //return compact('history', 'closingPrices', 'candles');
                 return view('products._result', compact('history', 'closingPrices', 'candles'));
             }
         } catch (Exception $ex) {
@@ -135,7 +135,6 @@ class ProductController extends Controller
     // [HttpGet, route('products.mail')]
     public function email()
     {
-
         Mail::to('support@teran.tech')->send(new CoinReport(new Bahamut(new Client)));
     }
 }
