@@ -14,8 +14,16 @@ class CreateAccountsTable extends Migration
     public function up()
     {
         Schema::create('accounts', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id');
+            $table->uuid('portfolio_id');
+            $table->string('currency', 8);
+            $table->float('balance')->default(0);
+            $table->float('available')->default(0);
+            $table->boolean('trading_enabled');
             $table->timestamps();
+
+            $table->primary('id');
+            $table->foreign('portfolio_id')->references('id')->on('portfolios');
         });
     }
 
