@@ -15,7 +15,6 @@ class CreateFeesTable extends Migration
    {
       Schema::create('fees', function (Blueprint $table) {
          $table->id();
-
          $table->decimal('maker_rate');
          $table->decimal('taker_rate');
          $table->decimal('volume');
