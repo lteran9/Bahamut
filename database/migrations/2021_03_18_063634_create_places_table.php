@@ -20,6 +20,7 @@ class CreatePlacesTable extends Migration
             $table->timestamps();
 
             $table->primary(['order_id', 'portfolio_id']);
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
