@@ -10,7 +10,7 @@ var coinHistory = (function () {
         ema: new EMA('BTC-USD')
     }, lineChart = {}, candlestickChart = {};
 
-    function getData() {
+    function getLineChartData() {
         var priceData = document.getElementById('priceHistoryData'),
             dates = {
                 start: document.getElementById('from-date'),
@@ -61,7 +61,7 @@ var coinHistory = (function () {
 
     function loadCharts() {
         function line() {
-            var data = getData();
+            var data = getLineChartData();
 
             if (data.length) {
                 var dataPoints = [];
@@ -166,13 +166,19 @@ var coinHistory = (function () {
         candlestick();
     }
 
-    function init() {
+    function initPage() {
         loadCharts();
+
+        var data = getCandlestickData();
+        var broker = new Broker([]);
+        broker.loadData(data);
+
+        console.log(broker);
     }
 
     return {
         init: function () {
-            init();
+            initPage();
         },
         ema12: function () {
             if (shortAverage.display == false) {

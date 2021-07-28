@@ -53,4 +53,6 @@
 @section('js')
 <script type="text/javascript" src="{{asset('js/ema.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/html/page-specific/history.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/candlestick.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/broker.js')}}"></script>
 @endsection
