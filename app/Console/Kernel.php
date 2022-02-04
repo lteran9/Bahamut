@@ -7,7 +7,6 @@ use App\Jobs\DailyReports;
 use App\Jobs\Heartbeat;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Shared\Log\Error;
 
 class Kernel extends ConsoleKernel
 {
@@ -28,7 +27,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // Create a database record of crypto prices every minute
         $schedule->job(new Heartbeat)->everyMinute();
+        // Cryptocurrency analysis sent over email
         $schedule->job(new DailyReports)->timezone('America/Phoenix')->hourlyAt('0');
     }
 

@@ -4,18 +4,10 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Bahamut;
-use App\Pivots\Have;
-use Shared\Log\Error;
-use App\Models\Wallet;
 use App\Models\ApiKey;
-use App\Models\Product;
 use App\Models\Portfolio;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\ProductTicker;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class PortfolioController extends Controller
@@ -36,7 +28,7 @@ class PortfolioController extends Controller
 
             return view('portfolios.list', compact('portfolios'));
         } catch (Exception $ex) {
-            Error::Log($request->ip(), 'PortfolioController@list', $ex);
+            // Log Exception
         }
 
         return abort(500);
@@ -55,7 +47,7 @@ class PortfolioController extends Controller
 
             return view('portfolios.add', compact('coinbasePortfolios'));
         } catch (Exception $ex) {
-            Error::Log($request->ip(), 'PortfolioController@add', $ex);
+            // Log Exception
         }
 
         return abort(500);
@@ -69,7 +61,7 @@ class PortfolioController extends Controller
 
             return view('portfolios.edit', compact('portfolio'));
         } catch (Exception $ex) {
-            Error::Log($request->ip(), 'PortfolioController@edit', $ex);
+            // Log Exception
         }
 
         return abort(500);
@@ -89,7 +81,7 @@ class PortfolioController extends Controller
                 return view('portfolios.accounts', compact('portfolio', 'accounts'));
             }
         } catch (Exception $ex) {
-            Error::Log($request->ip(), 'PortfolioController@accounts', $ex);
+            // Log Exception
         }
 
         return abort(500);
@@ -170,7 +162,7 @@ class PortfolioController extends Controller
                 // Add Error
             }
         } catch (Exception $ex) {
-            Error::Log($request->ip(), 'PortfolioController@create', $ex);
+            // Log Exception
         }
 
         return redirect()->route('portfolios');

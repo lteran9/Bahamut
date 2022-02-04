@@ -33,12 +33,6 @@
             "dont-discover": []
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/lteran9/Shared.git"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "App\\": "app/",

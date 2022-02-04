@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Bahamut;
+use App\Models\CoinbaseTicker;
 use App\Models\Order;
-use Shared\Log\Error;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use App\Models\CoinbaseTicker;
 use Illuminate\Support\Facades\Validator;
 
 class ExchangeController extends Controller
@@ -36,7 +35,7 @@ class ExchangeController extends Controller
 
             return view('exchange.index', compact('favorites'));
         } catch (Exception $ex) {
-            Error::Log($request->ip(), 'ExchangeController@index', $ex);
+            // Log Exception
         }
 
         return view('exchange.index');
@@ -55,7 +54,7 @@ class ExchangeController extends Controller
             //return compact('balance');
             return view('exchange.coin', compact('coin', 'orders', 'balance'));
         } catch (Exception $ex) {
-            Error::Log($request->ip(), 'ExchangeController@coin', $ex);
+            // Log Exception
         }
 
         return view('exchange.coin');
@@ -90,7 +89,7 @@ class ExchangeController extends Controller
 
             throw new Exception('Unable to complete coin purhcase: ' . $request->input('product'));
         } catch (Exception $ex) {
-            Error::Log($request->ip(), 'ExchangeController@orders', $ex);
+            // Log Exception
         }
 
         return back()->withErrors(['' => 'Unable to complete purchase.'], $request->input('side', 'buy'));

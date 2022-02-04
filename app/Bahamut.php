@@ -3,7 +3,6 @@
 namespace App;
 
 use Exception;
-use Shared\Log\Error;
 use App\Models\ApiKey;
 use App\Models\Order;
 use App\Models\Product;

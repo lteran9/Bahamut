@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Bahamut;
 use App\Mail\CoinReport;
-use Shared\Log\Error;
 use App\Models\Product;
 use Coinbase\Pro\Client;
 use Illuminate\Http\Request;
@@ -32,7 +31,7 @@ class ProductController extends Controller
             //return compact('coinbaseProducts');
             return view('products.list', compact('products'));
         } catch (Exception $ex) {
-            Error::Log($request->ip(), 'ProductController@list', $ex);
+            // Log Exception
         }
 
         return abort(500);
@@ -55,7 +54,7 @@ class ProductController extends Controller
 
             return view('products.order-book', compact('product', 'orders'));
         } catch (Exception $ex) {
-            Error::Log($request->ip(), 'ProductController@orderBook', $ex);
+            // Log Exception
         }
 
         return abort(500);
@@ -74,7 +73,7 @@ class ProductController extends Controller
 
             return redirect()->route('products');
         } catch (Exception $ex) {
-            Error::Log($request->ip(), 'ProductController@stats', $ex);
+            // Log Exception
         }
 
         return abort(500);
@@ -126,7 +125,7 @@ class ProductController extends Controller
                 return view('products._result', compact('history', 'closingPrices', 'candles'));
             }
         } catch (Exception $ex) {
-            Error::Log($request->ip(), 'ProductController@getHistory', $ex);
+            // Log Exception
         }
 
         return ['Error' => 'Missing a parameter'];

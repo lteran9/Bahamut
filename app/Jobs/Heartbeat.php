@@ -10,7 +10,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Shared\Log\Error;
 
 class Heartbeat implements ShouldQueue
 {
@@ -52,8 +51,7 @@ class Heartbeat implements ShouldQueue
                 ]);
             }
         } catch (Exception $ex) {
-            // not reaching log
-            Error::Log('0.0.0.0', 'Hearbeat@handle', $ex);
+            // Log Exception
         }
     }
 }

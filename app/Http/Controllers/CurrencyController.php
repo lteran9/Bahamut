@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Bahamut;
 use Illuminate\Http\Request;
-use Shared\Log\Error;
 
 class CurrencyController extends Controller
 {
@@ -24,7 +23,7 @@ class CurrencyController extends Controller
 
             return view('currency.index', compact('currencies'));
         } catch (Exception $ex) {
-            Error::Log($request->ip(), 'CurrencyController@currency', $ex);
+            // Log Exception
         }
     }
 }

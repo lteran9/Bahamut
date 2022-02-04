@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\Order;
-use Shared\Log\Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,7 +23,7 @@ class OrderController extends Controller
 
             Order::create([]);
         } catch (Exception $ex) {
-            Error::Log($request->ip(), 'OrderController@place', $ex);
+            // Log Exception
         }
 
         return [
