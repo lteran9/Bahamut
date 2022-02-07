@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Bahamut;
 use App\Mail\CoinReport;
 use Coinbase\Pro\Client;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -33,6 +34,10 @@ class DailyReports implements ShouldQueue
      */
     public function handle(Bahamut $bhm)
     {
-        Mail::to('support@teran.tech')->send(new CoinReport($bhm));
+        try {
+            Mail::to('support@teran.tech')->send(new CoinReport($bhm));
+        } catch (Exception $ex) {
+            // Log Error
+        }
     }
 }

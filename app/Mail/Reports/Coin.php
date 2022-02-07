@@ -2,30 +2,24 @@
 
 namespace App\Mail\Reports;
 
-use Exception;
-use App\Bahamut;
-
 class Coin
 {
     /**
-     * Coin Name
-     *  - btc-usd
-     *  - eth-usd
-     *  - ltc-usd
+     * @var string
      */
     public $id;
 
     /**
-     *
+     * @var \Illuminate\Support\Collection
      */
     public $stats;
 
     /**
-     *
+     * @var \Illuminate\Support\Collection
      */
     public $history;
 
-    public function __construct($id, Bahamut $api)
+    public function __construct($id, \App\Bahamut $api)
     {
         $this->id = $id;
         $this->stats = collect([]);
