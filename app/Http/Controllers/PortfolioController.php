@@ -12,18 +12,21 @@ use Illuminate\Support\Facades\Validator;
 
 class PortfolioController extends Controller
 {
-    private $system;
+    /**
+     * @var \App\Bahamut
+     */
+    private $api;
 
     function __construct(Bahamut $bhm)
     {
-        $this->system = $bhm;
+        $this->api = $bhm;
     }
 
     // [HttpGet, route('porftolios')]
     public function list(Request $request)
     {
         try {
-            //
+            // Load trading portfolios
             $portfolios = Portfolio::all();
 
             return view('portfolios.list', compact('portfolios'));
@@ -31,7 +34,7 @@ class PortfolioController extends Controller
             // Log Exception
         }
 
-        return abort(500);
+        return view('portfolios.list');
     }
 
     // [HttpGet, route('porfolios.add')]
@@ -39,7 +42,7 @@ class PortfolioController extends Controller
     {
         try {
             $localPortfolios = Portfolio::all()->pluck('id');
-            $coinbasePortfolios = $this->system->getProfiles();
+            $coinbasePortfolios = $this->api->getProfiles();
 
             $coinbasePortfolios = $coinbasePortfolios->filter(function ($value, $key) use ($localPortfolios) {
                 return $localPortfolios->contains($value->id) == false;
@@ -50,7 +53,7 @@ class PortfolioController extends Controller
             // Log Exception
         }
 
-        return abort(500);
+        return view('portfolios.add');
     }
 
     // [HttpGet, route('porfolios.edit')]
@@ -64,7 +67,7 @@ class PortfolioController extends Controller
             // Log Exception
         }
 
-        return abort(500);
+        return view('portfolios.edit');
     }
 
     // [HttpGet, route('portfolios.accounts')]
@@ -74,9 +77,9 @@ class PortfolioController extends Controller
             $portfolio = Portfolio::find($id);
             if (isset($portfolio)) {
                 $api = ApiKey::where('portfolio_id', '=', $portfolio->id)->first();
-                $this->system->updateApiKeys($api);
+                $this->api->updateApiKeys($api);
 
-                $accounts = $this->system->getAccounts();
+                $accounts = $this->api->getAccounts();
 
                 return view('portfolios.accounts', compact('portfolio', 'accounts'));
             }
@@ -84,7 +87,7 @@ class PortfolioController extends Controller
             // Log Exception
         }
 
-        return abort(500);
+        return view('portfolios.accounts');
     }
 
     // [HttpPost, route('portfolios.create')]
@@ -102,7 +105,7 @@ class PortfolioController extends Controller
                 return back()->withErrors($validator->errors())->withInput();
             }
 
-            $portfolios = $this->system->getProfiles();
+            $portfolios = $this->api->getProfiles();
             $selected = $portfolios->where('id', '=', $request->input('id'))->first();
 
             $dbCheck = Portfolio::find($request->input('id'));
@@ -125,9 +128,9 @@ class PortfolioController extends Controller
                     'view' => true,
                 ]);
 
-                // $this->system->updateAPIKeys($api);
+                // $this->api->updateAPIKeys($api);
 
-                // $accounts = $this->system->getAccounts();
+                // $accounts = $this->api->getAccounts();
                 // $ordinal = 1;
 
                 // foreach ($accounts as $account) {
@@ -171,6 +174,6 @@ class PortfolioController extends Controller
     // [HttpPost, route('portfolios.update')]
     public function update(Request $request)
     {
-        //
+        // TODO
     }
 }

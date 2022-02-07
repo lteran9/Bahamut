@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class ExchangeController extends Controller
 {
     /**
-     * @var App\Bahamut
+     * @var \App\Bahamut
      */
     private $api;
 

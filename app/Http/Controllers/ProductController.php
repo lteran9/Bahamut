@@ -13,28 +13,30 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    private $system;
+    /**
+     * @var \App\Bahamut
+     */
+    private $api;
 
     function __construct(Bahamut $bhm)
     {
-        $this->system = $bhm;
+        $this->api = $bhm;
     }
 
     // [HttpGet, route('products')]
     public function list(Request $request)
     {
         try {
-            $coins = $this->system->getCoins();
+            $coins = $this->api->getCoins();
 
             $products = Product::all();
 
-            //return compact('coinbaseProducts');
             return view('products.list', compact('products'));
         } catch (Exception $ex) {
             // Log Exception
         }
 
-        return abort(500);
+        return view('products.list');
     }
 
     // [HttpGet, route('products.history')]
@@ -50,33 +52,29 @@ class ProductController extends Controller
     {
         try {
             $product = $id;
-            $orders = $this->system->getProductBook($id);
+            $orders = $this->api->getProductBook($id);
 
             return view('products.order-book', compact('product', 'orders'));
         } catch (Exception $ex) {
             // Log Exception
         }
 
-        return abort(500);
+        return view('products.order-book');
     }
 
     // [HttpGet, route('products.stats')]
     public function stats($id, Request $request)
     {
         try {
-            if (strlen($id) > 0) {
-                $product = $id;
-                $stats = $this->system->getStats($id);
+            $product = $id;
+            $stats = $this->api->getStats($id);
 
-                return view('products.stats', compact('stats', 'product'));
-            }
-
-            return redirect()->route('products');
+            return view('products.stats', compact('stats', 'product'));
         } catch (Exception $ex) {
             // Log Exception
         }
 
-        return abort(500);
+        return view('products.stats');
     }
 
     // [HttpPost, route('products.history.search')]
@@ -100,7 +98,7 @@ class ProductController extends Controller
 
                 $start = $request->input('from-date') . 'T00:00:00';
                 $end = $request->input('from-date') . 'T23:59:59';
-                $history = $this->system->getTradeHistory($product, $start, $end, $granularity);
+                $history = $this->api->getTradeHistory($product, $start, $end, $granularity);
 
                 $closingPrices = $history->map(function ($record) {
                     return (object) [
@@ -134,6 +132,6 @@ class ProductController extends Controller
     // [HttpGet, route('products.mail')]
     public function email()
     {
-        Mail::to('support@teran.tech')->send(new CoinReport(new Bahamut(new Client)));
+        Mail::to('support@teran.tech')->send(new CoinReport($this->api));
     }
 }

@@ -30,9 +30,4 @@ class OrderController extends Controller
             'success' => 'Order placed successfully.'
         ];
     }
-
-    public function example()
-    {
-        return view('example');
-    }
 }
