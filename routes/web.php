@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function (Bahamut $bhm) {
-    return view('welcome');
-})->name('home');
+Route::get('/', 'HomeController@home')->name('home');
 
 Route::get('/currency', 'CurrencyController@currency')->name('currency');
 
@@ -39,6 +37,7 @@ Route::post('/products/history/search', 'ProductController@getHistory')->name('p
 Route::get('/portfolios', 'PortfolioController@list')->name('portfolios');
 Route::get('/portfolios/add', 'PortfolioController@add')->name('portfolios.add');
 Route::get('/portfolios/edit/{id}', 'PortfolioController@edit')->name('portfolios.edit');
+// Using RegEx to validate id is a UUID
 Route::get('/portfolios/{id}/accounts', 'PortfolioController@accounts')->where('id', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}')->name('portfolios.accounts');
 
 Route::post('/portfolios/create', 'PortfolioController@create')->name('portfolios.create');
