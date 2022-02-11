@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Bahamut;
+use App\Http\Sessions\PortfolioSession;
 use App\Models\ApiKey;
 use App\Models\Portfolio;
 use Illuminate\Http\Request;
@@ -28,8 +29,14 @@ class PortfolioController extends Controller
         try {
             // Load trading portfolios
             $portfolios = Portfolio::all();
+            $coinbasePortfolios = $this->api->getProfiles();
 
-            return view('portfolios.list', compact('portfolios'));
+            // Set in session
+            $session = PortfolioSession::Get($request->session());
+            $session->coinbaseProfiles = $coinbasePortfolios;
+            $session->bahamutProfiles = $portfolios;
+
+            return view('portfolios.list', compact('portfolios', 'coinbasePortfolios'));
         } catch (Exception $ex) {
             // Log Exception
         }
@@ -38,17 +45,15 @@ class PortfolioController extends Controller
     }
 
     // [HttpGet, route('porfolios.add')]
-    public function add(Request $request)
+    public function add($id, Request $request)
     {
         try {
-            $localPortfolios = Portfolio::all()->pluck('id');
-            $coinbasePortfolios = $this->api->getProfiles();
+            $session = PortfolioSession::Get($request->session());
+            if (isset($session->coinbaseProfiles) && isset($session->bahamutProfiles)) {
+                $coinbasePortfolio = $session->coinbaseProfiles->where('id', '=', $id)->first();
 
-            $coinbasePortfolios = $coinbasePortfolios->filter(function ($value, $key) use ($localPortfolios) {
-                return $localPortfolios->contains($value->id) == false;
-            })->all();
-
-            return view('portfolios.add', compact('coinbasePortfolios'));
+                return view('portfolios.add', compact('coinbasePortfolio'));
+            }
         } catch (Exception $ex) {
             // Log Exception
         }
@@ -118,7 +123,7 @@ class PortfolioController extends Controller
                     'coinbase_created_at' => date('Y-m-d H:i:s', strtotime($selected->created_at))
                 ]);
 
-                ApiKey::create([
+                $keys = ApiKey::create([
                     'portfolio_id' => $selected->id,
                     'passphrase' => Crypt::encryptString($request->input('passphrase')),
                     'secret_key' => Crypt::encryptString($request->input('secret-key')),
@@ -128,7 +133,7 @@ class PortfolioController extends Controller
                     'view' => true,
                 ]);
 
-                // $this->api->updateAPIKeys($api);
+                $this->api->updateAPIKeys($keys);
 
                 // $accounts = $this->api->getAccounts();
                 // $ordinal = 1;

@@ -7,6 +7,7 @@ use App\Models\ApiKey;
 use App\Models\Order;
 use App\Models\Product;
 use Coinbase\Pro\Client;
+use Coinbase\Pro\Contracts\ICoinbasePro;
 use Illuminate\Support\Str;
 use Coinbase\Pro\Requests\Headers;
 use Illuminate\Support\Facades\Crypt;
@@ -44,7 +45,7 @@ class Bahamut
      */
     function getAccounts()
     {
-        $accounts = new \Coinbase\Pro\Accounts\Accounts($this->coinbaseAPI);
+        $accounts = new \Coinbase\Pro\Accounts\TradingAccounts($this->coinbaseAPI);
         $accounts = $accounts->get();
 
         return $accounts;
@@ -145,7 +146,8 @@ class Bahamut
     }
 
     /**
-     *
+     * This method will update the Header settings for all outgoing requests. You should call
+     * this only when you change between portfolios.
      */
     function updateAPIKeys(ApiKey $keys): bool
     {

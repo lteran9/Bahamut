@@ -5,6 +5,9 @@ namespace App\Http\Sessions;
 use Exception;
 use Illuminate\Session\Store;
 
+/**
+ * A base class to handle repetitive logic when it comes to session management.
+ */
 class BahamutSession
 {
     /**

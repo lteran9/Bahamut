@@ -1,10 +1,12 @@
 /*
  * @author lteran9
  *
- *
+ * @description Styles and components for Bahamut; injecting Bootstrap via NPM
  */
 @import '~bootstrap/scss/bootstrap';
+// Default Overrides
 @import "custom/elements";
+// Coin
 @import "custom/coin";
 
 @keyframes fade {

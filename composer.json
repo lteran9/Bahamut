@@ -1,6 +1,6 @@
 {
-    "name": "lteran9/Bahamut",
-    "type": "Crpto-trader State Machine",
+    "name": "lteran9/bahamut",
+    "type": "webapplication",
     "description": "An application that communicates with Coinbase to apply actions given by conditions for a stateful machine.",
     "keywords": [
         "crypto",

@@ -29,8 +29,7 @@ class CoinReport extends Mailable
         $this->coins = array();
 
         $favorites = Product::where('rank', '>', 0)->get();
-        foreach($favorites as $fav)
-        {
+        foreach ($favorites as $fav) {
             array_push($this->coins, new Coin($fav->id, $api));
             // Prevent a 429 response from service
             sleep(1);

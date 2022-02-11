@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Portfolio extends Model
 {
-   /**
-    * Indicates if the IDs are auto-incrementing.
-    *
-    * @var bool
-    */
-   public $incrementing = false;
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
 
-   protected $guarded = [];
-   protected $casts = [
-      'id' => 'string'
-   ];
+    protected $guarded = [];
+    protected $casts = [
+        'id' => 'string'
+    ];
 }
