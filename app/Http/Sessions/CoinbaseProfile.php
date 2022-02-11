@@ -6,7 +6,9 @@ class CoinbaseProfile implements BahamutSession
 {
 
     /**
-     * @var uuid
+     * UUID
+     *
+     * @var string
      */
     public $id;
 
@@ -15,10 +17,16 @@ class CoinbaseProfile implements BahamutSession
         $this->id = '';
     }
 
-    // Static
+    // Static //
 
+    /**
+     * Specify unique session name.
+     */
     public static $sessionName = 'BahamutSession.CoinbaseProfile';
 
+    /**
+     * Overwrite parent function.
+     */
     public static function Build(): BahamutSession
     {
         return new CoinbaseProfile;

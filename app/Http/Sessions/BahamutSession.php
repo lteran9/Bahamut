@@ -7,9 +7,19 @@ use Illuminate\Session\Store;
 
 class BahamutSession
 {
+    /**
+     * Should override this name locally.
+     *
+     * @var string
+     */
     public static $sessionName = 'ESession';
 
-    public static function Get(Store $store)
+    /**
+     * Return the object in session. If not in session create's a new object and puts in session.
+     *
+     * @return \App\Http\Sessions\BahamutSession
+     */
+    public static function Get(Store $store): BahamutSession
     {
         if ($store->get(static::$sessionName) == null) {
             BahamutSession::Put($store, static::Build());
@@ -18,21 +28,35 @@ class BahamutSession
         return $store->get(static::$sessionName);
     }
 
-    public static function Put(Store $store, ?BahamutSession $session)
+    /**
+     * Put an object in session.
+     */
+    public static function Put(Store $store, ?BahamutSession $session): void
     {
         $store->put($session::$sessionName, $session);
     }
 
-    public static function Destroy(Store $store)
+    /**
+     * Destroy the object from session by creating a new instance of the same object.
+     */
+    public static function Destroy(Store $store): void
     {
         BahamutSession::Put($store, static::Build());
     }
 
-    public static function DestroyAll(Store $store)
+    /**
+     * Destroys all sessions managed by Bahamut.
+     */
+    public static function DestroyAll(Store $store): void
     {
         // Delete all sessions
     }
 
+    /**
+     *
+     *
+     * @return \App\Http\Sessions\BahamutSession
+     */
     public static function Build(): BahamutSession
     {
         return static::Build();
