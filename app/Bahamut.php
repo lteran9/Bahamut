@@ -16,6 +16,11 @@ use Illuminate\Support\Facades\Crypt;
  */
 class Bahamut
 {
+    /**
+     * Reference to the Coinbase interface class.
+     *
+     * @var \Coinbase\Pro\Client
+     */
     private $coinbaseAPI;
 
     function __construct(Client $client)

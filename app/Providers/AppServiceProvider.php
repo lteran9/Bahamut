@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\App\Bahamut::class, function ($app) {
             // Create a reference to the Coinbase API
             $api = new \Coinbase\Pro\Client();
-            // Initialize our API wrapper
+            // Initialize our API wrapper (which does more things than that)
             return new \App\Bahamut($api);
         });
     }
