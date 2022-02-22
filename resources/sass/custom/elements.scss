@@ -1,21 +1,36 @@
+@font-face {
+    font-family: 'NunitoVariableFont';
+    src: url('../../fonts/NunitoVariableFont.ttf');
+    font-weight: 125 950;
+    font-stretch: 75% 125%;
+    font-style: normal;
+}
+
+body {
+    font-family: 'NunitoVariableFont', 'sans-serif';
+    font-weight: 200;
+    height: 100vh;
+    margin: 0;
+}
+
 a {
-   text-decoration: none;
+    text-decoration: none;
 }
 
 b {
-   font-weight: bold;
+    font-weight: bold;
 }
 
 label {
-   width: 100%;
-   margin-bottom: 0.285rem;
+    width: 100%;
+    margin-bottom: 0.285rem;
 }
 
 legend {
-   border-bottom: 1px solid #ccc;
-   margin-bottom: 1.375rem;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1.375rem;
 }
 
 dl {
-   padding: 0.5rem;
+    padding: 0.5rem;
 }

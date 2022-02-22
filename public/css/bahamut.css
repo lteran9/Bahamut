@@ -2,7 +2,7 @@
 /*
  * @author lteran9
  *
- *
+ * @description Styles and components for Bahamut; injecting Bootstrap via NPM
  */
 /*!
  * Bootstrap v5.1.3 (https://getbootstrap.com/)
@@ -11286,6 +11286,20 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+@font-face {
+  font-family: "NunitoVariableFont";
+  src: url(/fonts/NunitoVariableFont.ttf?e832734fe3e30d1edb430054bfdac638);
+  font-weight: 125 950;
+  font-stretch: 75% 125%;
+  font-style: normal;
+}
+body {
+  font-family: "NunitoVariableFont", "sans-serif";
+  font-weight: 200;
+  height: 100vh;
+  margin: 0;
+}
+
 a {
   text-decoration: none;
 }
