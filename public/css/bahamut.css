@@ -11426,6 +11426,10 @@ feed-view [id^=volume-] {
   font-weight: bold;
 }
 
+.navbar-nav {
+  width: 100%;
+}
+
 /*
  * Shared
  */
@@ -11511,24 +11515,18 @@ feed-view [id^=volume-] {
   color: #111;
 }
 
-a {
-  text-decoration: none;
+.ml-auto {
+  margin-left: auto !important;
 }
 
-b {
-  font-weight: bold;
+.text-right {
+  text-align: right;
 }
 
-label {
-  width: 100%;
-  margin-bottom: 0.285rem;
+.text-left {
+  text-align: left;
 }
 
-legend {
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 1.375rem;
-}
-
-dl {
-  padding: 0.5rem;
+.text-center {
+  text-align: center;
 }
